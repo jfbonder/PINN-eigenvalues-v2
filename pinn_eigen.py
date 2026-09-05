@@ -518,7 +518,8 @@ def plot_loss_curve(
     exact_eigenvalues: Optional[List[float]] = None,
     ylim: Optional[float] = None,
     title: str = "Loss curve",
-) -> None:
+    return_fig: bool = False,
+):
     """
     Plot the discrete loss curve Λ̄(E) and optionally the theoretical
     upper bound min_k (E_k − E)².
@@ -550,6 +551,8 @@ def plot_loss_curve(
     ax.grid(False)
     plt.tight_layout()
     plt.show()
+    if return_fig:
+        return fig
 
 
 def _plot_2d(
@@ -557,7 +560,8 @@ def _plot_2d(
     Y: torch.Tensor,
     U: np.ndarray,
     E_val: float,
-) -> None:
+    return_fig: bool = False,
+):
     """Internal: side-by-side contour + 3-D surface for a 2-D eigenfunction."""
     from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 
@@ -581,6 +585,8 @@ def _plot_2d(
 
     plt.tight_layout()
     plt.show()
+    if return_fig:
+        return fig
 
 
 def plot_eigenfunction_disk(
@@ -588,7 +594,8 @@ def plot_eigenfunction_disk(
     E_val: float,
     radius: float = 1.0,
     grid_size: int = 200,
-) -> None:
+    return_fig: bool = False,
+):
     """Plot the eigenfunction on a 2-D disk."""
     lin = torch.linspace(-radius, radius, grid_size)
     X, Y = torch.meshgrid(lin, lin, indexing="ij")
@@ -601,7 +608,7 @@ def plot_eigenfunction_disk(
     U = np.full(X.shape, np.nan)
     U_flat = U.flatten()
     U_flat[inside.nonzero(as_tuple=False).squeeze()] = u
-    _plot_2d(X, Y, U_flat.reshape(X.shape), E_val)
+    return _plot_2d(X, Y, U_flat.reshape(X.shape), E_val, return_fig=return_fig)
 
 
 def plot_eigenfunction_square(
@@ -610,7 +617,8 @@ def plot_eigenfunction_square(
     x0: float = 0.0,
     x1: float = 1.0,
     grid_size: int = 200,
-) -> None:
+    return_fig: bool = False,
+):
     """Plot the eigenfunction on a 2-D square [x0, x1]²."""
     lin = torch.linspace(x0, x1, grid_size)
     X, Y = torch.meshgrid(lin, lin, indexing="ij")
@@ -619,14 +627,15 @@ def plot_eigenfunction_square(
     with torch.no_grad():
         u = model(XY).squeeze().numpy()
 
-    _plot_2d(X, Y, u.reshape(grid_size, grid_size), E_val)
+    return _plot_2d(X, Y, u.reshape(grid_size, grid_size), E_val, return_fig=return_fig)
 
 
 def plot_eigenfunction_triangle(
     model: nn.Module,
     E_val: float,
     grid_size: int = 200,
-) -> None:
+    return_fig: bool = False,
+):
     """Plot the eigenfunction on the triangle (0,0),(1,0),(0,1)."""
     lin = torch.linspace(0, 1, grid_size)
     X, Y = torch.meshgrid(lin, lin, indexing="ij")
@@ -639,4 +648,221 @@ def plot_eigenfunction_triangle(
     U = np.full(X.shape, np.nan)
     U_flat = U.flatten()
     U_flat[inside.nonzero(as_tuple=False).squeeze()] = u
-    _plot_2d(X, Y, U_flat.reshape(X.shape), E_val)
+    return _plot_2d(X, Y, U_flat.reshape(X.shape), E_val, return_fig=return_fig)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  Report generation
+# ═══════════════════════════════════════════════════════════════════════════════
+
+import base64
+import io
+import time
+from pathlib import Path
+
+
+def _fig_to_base64(fig) -> str:
+    """Convert a matplotlib figure to a base64-encoded PNG string."""
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", dpi=150, bbox_inches="tight")
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode("utf-8")
+
+
+def generate_report(
+    config: dict,
+    E_values: np.ndarray,
+    residuals: List[float],
+    eigenvalues: List[Tuple[float, float]],
+    figures: list,
+    base_dir: str = "/content/PINN-eigenvalues-v2/results",
+) -> str:
+    """
+    Generate a self-contained HTML report for one experiment and save it.
+
+    Parameters
+    ----------
+    config : dict
+        Experiment configuration with the following keys:
+
+        Required:
+          name          : str    folder/report name (e.g. 'example_01_disk_harmonic')
+          operator      : str    'Laplacian' or 'p-Laplacian'
+          domain        : str    human-readable domain description
+          potential     : str    human-readable potential description
+          E_min, E_max  : float  search interval bounds
+          n_steps       : int    number of E grid points
+
+        Optional (shown as '—' if missing):
+          p             : float  exponent for p-Laplacian (default 2.0)
+          mu            : float or str  penalty weight
+          n_epochs      : int
+          n_samples     : int
+          lr            : float  learning rate
+          patience      : int    early stopping patience
+          reset_every   : int
+          seed          : int    random seed
+          hidden_size   : int    neurons per hidden layer
+          n_hidden      : int    number of hidden layers
+          activation    : str    activation function name
+          elapsed_time  : float  total training time in seconds
+          exact_eigenvalues : list of float  known exact values for error computation
+
+    E_values : np.ndarray
+        Grid of E values used in the sweep.
+    residuals : list of float
+        Loss values from sweep().
+    eigenvalues : list of (E_approx, residual)
+        Output of refine().
+    figures : list of matplotlib Figure objects
+        First element must be the loss curve figure;
+        subsequent elements are eigenfunction figures (one per eigenvalue).
+    base_dir : str
+        Parent directory for results. A subfolder named config['name'] is created.
+
+    Returns
+    -------
+    str : path to the generated report.html
+    """
+    out_dir = Path(base_dir) / config["name"]
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # ── Figures → base64 ──────────────────────────────────────────────────────
+    fig_tags = [
+        f'<img src="data:image/png;base64,{_fig_to_base64(fig)}" '
+        f'style="max-width:100%; margin:10px 0; display:block;">'
+        for fig in figures
+    ]
+
+    # ── Eigenvalue table ──────────────────────────────────────────────────────
+    exact = config.get("exact_eigenvalues")
+    rows = ""
+    for k, (E, res) in enumerate(eigenvalues, 1):
+        if exact and k <= len(exact):
+            rel_err = abs(E - exact[k - 1]) / abs(exact[k - 1]) * 100
+            exact_cell = f"{exact[k-1]:.6f}"
+            err_cell   = f"{rel_err:.4f} %"
+        else:
+            exact_cell = "—"
+            err_cell   = "—"
+        rows += (
+            f"<tr><td>{k}</td><td>{E:.6f}</td>"
+            f"<td>{exact_cell}</td><td>{err_cell}</td>"
+            f"<td>{res:.2e}</td></tr>\n"
+        )
+
+    # ── Formatting helpers ────────────────────────────────────────────────────
+    p   = config.get("p", 2.0)
+    op  = config.get("operator", "Laplacian")
+    op_str = (
+        f"p-Laplacian &nbsp;(p&nbsp;=&nbsp;{p})"
+        if op == "p-Laplacian"
+        else "Laplacian"
+    )
+
+    elapsed = config.get("elapsed_time")
+    elapsed_str = f"{elapsed / 60:.1f} min" if elapsed else "—"
+
+    def cfg(key, default="—"):
+        return config.get(key, default)
+
+    arch_str = (
+        f"{cfg('n_hidden')} hidden layers &times; "
+        f"{cfg('hidden_size')} neurons, "
+        f"activation: {cfg('activation', 'tanh')}"
+    )
+
+    title = config["name"].replace("_", " ").title()
+
+    # ── HTML ──────────────────────────────────────────────────────────────────
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{title}</title>
+  <style>
+    body  {{ font-family: Georgia, serif; max-width: 960px;
+             margin: 40px auto; padding: 0 24px; color: #222; line-height: 1.6; }}
+    h1    {{ border-bottom: 2px solid #555; padding-bottom: 8px; }}
+    h2    {{ margin-top: 40px; color: #444; border-left: 4px solid #aaa;
+             padding-left: 10px; }}
+    table {{ border-collapse: collapse; width: 100%; margin-top: 12px; font-size: 0.95em; }}
+    th    {{ background: #efefef; padding: 8px 14px; text-align: left;
+             border: 1px solid #ccc; }}
+    td    {{ padding: 7px 14px; border: 1px solid #ddd; }}
+    tr:nth-child(even) {{ background: #fafafa; }}
+    .label {{ font-weight: bold; color: #555; width: 160px; }}
+    .grid  {{ display: grid; grid-template-columns: 1fr 1fr; }}
+    .meta  {{ color: #888; font-size: 0.88em; margin-top: 4px; }}
+  </style>
+</head>
+<body>
+
+<h1>{title}</h1>
+<p class="meta">
+  Generated by <code>pinn_eigen.py</code> &mdash;
+  A PINNs approach for the computation of eigenvalues in elliptic problems
+  (Fern&aacute;ndez Bonder &amp; Salort, arXiv:2507.03126)
+</p>
+
+<h2>Configuration</h2>
+<table>
+  <tr>
+    <td class="label">Operator</td><td>{op_str}</td>
+    <td class="label">Domain</td><td>{cfg('domain')}</td>
+  </tr>
+  <tr>
+    <td class="label">Potential</td><td>{cfg('potential')}</td>
+    <td class="label">Random seed</td><td>{cfg('seed', 0)}</td>
+  </tr>
+  <tr>
+    <td class="label">E interval</td>
+    <td>[{cfg('E_min')},&nbsp;{cfg('E_max')}]</td>
+    <td class="label">Grid steps</td><td>{cfg('n_steps')}</td>
+  </tr>
+  <tr>
+    <td class="label">Network</td><td colspan="3">{arch_str}</td>
+  </tr>
+  <tr>
+    <td class="label">&#956; (penalty)</td><td>{cfg('mu')}</td>
+    <td class="label">Reset every</td><td>{cfg('reset_every')}</td>
+  </tr>
+  <tr>
+    <td class="label">Max epochs</td><td>{cfg('n_epochs')}</td>
+    <td class="label">Samples / epoch</td><td>{cfg('n_samples')}</td>
+  </tr>
+  <tr>
+    <td class="label">Learning rate</td><td>{cfg('lr')}</td>
+    <td class="label">ES patience</td><td>{cfg('patience')}</td>
+  </tr>
+  <tr>
+    <td class="label">Elapsed time</td><td>{elapsed_str}</td>
+    <td class="label"></td><td></td>
+  </tr>
+</table>
+
+<h2>Eigenvalues Found</h2>
+<table>
+  <tr>
+    <th>#</th>
+    <th>Computed E</th>
+    <th>Exact E</th>
+    <th>Relative error</th>
+    <th>Residual</th>
+  </tr>
+  {rows}
+</table>
+
+<h2>Loss Curve &#923;&#772;(E)</h2>
+{fig_tags[0] if fig_tags else '<p>No figure available.</p>'}
+
+<h2>Eigenfunctions</h2>
+{''.join(fig_tags[1:]) if len(fig_tags) > 1 else '<p>No figures available.</p>'}
+
+</body>
+</html>"""
+
+    report_path = out_dir / "report.html"
+    report_path.write_text(html, encoding="utf-8")
+    print(f"✓ Report saved → {report_path}")
+    return str(report_path)
