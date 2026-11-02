@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper below."
+title: "PINN-eigenvalues-v2: code for A PINNs approach for the computation of eigenvalues in elliptic problems"
+type: software
+authors:
+  - family-names: "Fernández Bonder"
+    given-names: "Julián"
+  - family-names: "Salort"
+    given-names: "Ariel"
+license: MIT
+repository-code: "https://github.com/jfbonder/PINN-eigenvalues-v2"
+preferred-citation:
+  type: article
+  title: "A PINNs approach for the computation of eigenvalues in elliptic problems"
+  authors:
+    - family-names: "Fernández Bonder"
+      given-names: "Julián"
+    - family-names: "Salort"
+      given-names: "Ariel"
+  year: 2025
+  notes: "arXiv:2507.03126"
+  url: "https://arxiv.org/abs/2507.03126"

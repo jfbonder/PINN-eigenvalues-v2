@@ -54,3 +54,24 @@ numpy
 scipy
 matplotlib
 ```
+
+## Citation
+
+If you use this code, please cite the paper:
+
+```bibtex
+@misc{FernandezBonderSalort2025PINN,
+  author        = {Fern{\'a}ndez Bonder, Juli{\'a}n and Salort, Ariel},
+  title         = {A {PINNs} approach for the computation of eigenvalues in elliptic problems},
+  year          = {2025},
+  eprint        = {2507.03126},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2507.03126}
+}
+```
+
+GitHub's "Cite this repository" button uses [`CITATION.cff`](CITATION.cff).
+
+## License
+
+[MIT](LICENSE).
