@@ -9,3 +9,8 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# experiment artifacts
+*.pt
+*.tmp
+experiments/*/ckpt/
