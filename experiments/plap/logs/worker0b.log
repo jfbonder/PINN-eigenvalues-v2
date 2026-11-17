@@ -15,3 +15,17 @@
 [disk22_coarse2_P1] E= 38.0000 Lam=1.0037e+01 mass=0.9634 Lam_n=1.0454e+01 E_ls=34.8316 RQ=34.9036 core=0.09 ep=1500 t=222s
 [disk22_coarse2_P1] E= 39.0000 Lam=1.6657e+01 mass=0.9491 Lam_n=1.7633e+01 E_ls=34.8269 RQ=34.9774 core=0.08 ep=1500 t=204s
 [disk22_coarse2_P1] E= 40.0000 Lam=2.3312e+01 mass=0.9362 Lam_n=2.5049e+01 E_ls=35.5698 RQ=35.0768 core=0.07 ep=1500 t=216s
+[disk22_coarse2_P1] E= 41.0000 Lam=8.1621e+00 mass=0.9738 Lam_n=8.4019e+00 E_ls=41.1766 RQ=41.3188 core=0.20 ep=1500 t=221s
+[disk22_coarse2_P1] E= 42.0000 Lam=6.6235e+00 mass=0.9760 Lam_n=6.8015e+00 E_ls=41.5118 RQ=41.8272 core=0.28 ep=1500 t=206s
+[disk22_coarse2_P1] E= 43.0000 Lam=6.1395e+00 mass=0.9865 Lam_n=6.2313e+00 E_ls=41.9957 RQ=41.7659 core=0.33 ep=1500 t=206s
+[disk22_coarse2_P1] E= 44.0000 Lam=8.3551e+00 mass=0.9778 Lam_n=8.5621e+00 E_ls=42.0514 RQ=42.1659 core=0.25 ep=1500 t=239s
+[disk22_coarse2_P1] E= 45.0000 Lam=1.2474e+01 mass=0.9732 Lam_n=1.2849e+01 E_ls=42.1473 RQ=41.6532 core=0.18 ep=1500 t=248s
+[disk22_coarse2_P1] E= 46.0000 Lam=1.7986e+01 mass=0.9403 Lam_n=1.9235e+01 E_ls=42.2937 RQ=42.3594 core=0.14 ep=1500 t=218s
+[disk22_coarse2_P1] E= 47.0000 Lam=2.4725e+01 mass=0.9285 Lam_n=2.6810e+01 E_ls=42.6664 RQ=42.5154 core=0.10 ep=1500 t=222s
+[disk22_coarse2_P1] E= 48.0000 Lam=3.2207e+01 mass=0.9046 Lam_n=3.5931e+01 E_ls=43.3066 RQ=43.2291 core=0.09 ep=1500 t=227s
+[disk22_coarse2_P1] E= 49.0000 Lam=3.8773e+01 mass=0.8832 Lam_n=4.4397e+01 E_ls=44.1925 RQ=43.7233 core=0.07 ep=1500 t=203s
+[disk22_coarse2_P1] E= 50.0000 Lam=4.5957e+01 mass=0.8639 Lam_n=5.3910e+01 E_ls=44.8692 RQ=44.4355 core=0.02 ep=1500 t=217s
+[disk22_coarse2_P1] E= 51.0000 Lam=2.5453e+01 mass=0.9170 Lam_n=2.7975e+01 E_ls=56.0217 RQ=56.3498 core=0.02 ep=1500 t=213s
+[disk22_coarse2_P1] E= 52.0000 Lam=1.7595e+01 mass=0.9491 Lam_n=1.8626e+01 E_ls=56.0651 RQ=56.0414 core=0.03 ep=1500 t=220s
+[disk22_coarse2_P1] E= 53.0000 Lam=1.1123e+01 mass=0.9767 Lam_n=1.1412e+01 E_ls=56.0978 RQ=55.8950 core=0.05 ep=1500 t=279s
+[disk22_coarse2_P1] E= 54.0000 Lam=6.0041e+00 mass=0.9747 Lam_n=6.1745e+00 E_ls=56.0970 RQ=56.4917 core=0.10 ep=1500 t=241s

@@ -1,0 +1,14 @@
+double_well s1 c=9.58 E=  8.080 res=2.466e+00 r2=2.348e+00 rho_var=9.5453 rho_res=9.5787 ep=1550 t=274s
+double_well s1 c=9.58 E=  8.580 res=1.295e+00 r2=1.550e+00 rho_var=9.5574 rho_res=9.5924 ep=1145 t=256s
+double_well s1 c=9.58 E=  9.080 res=2.918e-01 r2=2.963e-01 rho_var=9.5449 rho_res=9.5775 ep=1003 t=226s
+double_well s1 c=9.58 E=  9.580 res=6.921e-02 r2=5.042e-02 rho_var=9.5457 rho_res=9.5782 ep=554 t=115s
+double_well s1 c=9.58 E= 10.080 res=3.135e-01 r2=3.643e-01 rho_var=9.5483 rho_res=9.5799 ep=1027 t=205s
+double_well s1 c=9.58 E= 10.580 res=1.095e+00 r2=1.064e+00 rho_var=9.5443 rho_res=9.5770 ep=814 t=153s
+double_well s1 c=9.58 E= 11.080 res=2.324e+00 r2=2.297e+00 rho_var=9.5444 rho_res=9.5769 ep=742 t=139s
+double_well s1 c=19.86 E= 18.360 res=2.082e+00 r2=2.160e+00 rho_var=19.7043 rho_res=19.7974 ep=2000 t=368s
+double_well s1 c=19.86 E= 18.860 res=8.749e-01 r2=8.487e-01 rho_var=19.6750 rho_res=19.7582 ep=1863 t=331s
+double_well s1 c=19.86 E= 19.360 res=2.059e-01 r2=1.890e-01 rho_var=19.6739 rho_res=19.7554 ep=489 t=97s
+double_well s1 c=19.86 E= 19.860 res=8.899e-02 r2=7.435e-02 rho_var=19.6713 rho_res=19.7547 ep=390 t=76s
+double_well s1 c=19.86 E= 20.360 res=4.886e-01 r2=5.623e-01 rho_var=19.6785 rho_res=19.7623 ep=402 t=91s
+double_well s1 c=19.86 E= 20.860 res=1.025e+00 r2=1.108e+00 rho_var=19.8543 rho_res=19.8980 ep=2000 t=477s
+double_well s1 c=19.86 E= 21.360 res=2.149e+00 r2=2.133e+00 rho_var=19.9472 rho_res=19.9529 ep=746 t=141s

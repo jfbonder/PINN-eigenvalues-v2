@@ -130,7 +130,7 @@ def main():
                 square=exact_square(), triangle=exact_triangle(),
                 harm_w1=radial_harmonic(1.0), harm_w10=radial_harmonic(10.0),
                 harm_w1_orig=radial_harmonic(1.0, 1.0), harm_w10_orig=radial_harmonic(10.0, 1.0))
-    emax = dict(disk_free=60, ball_free=75, annulus=60, square=120, triangle=120, harm_w1=55, harm_w10=55,
+    emax = dict(disk_free=60, ball_free=75, annulus=60, square=120, triangle=120, harm_w1=55, harm_w10=70,
                 harm_w1_orig=55, harm_w10_orig=70, double_well=75, four_well=75)
     for case in ["disk_free", "ball_free", "annulus", "square", "triangle", "harm_w1", "harm_w10",
                  "harm_w1_orig", "harm_w10_orig", "double_well", "four_well"]:

@@ -250,3 +250,25 @@ Terminated
 [mucost_scan_broad_mu450_s1] E=25.000 mu=450 res=2.658e+01 mass=0.957 r=5.269e+00 ep=317 t=37s
 [mucost_scan_broad_mu450_s1] E=30.000 mu=450 res=9.324e+01 mass=0.884 r=1.027e+01 ep=316 t=39s
 [mucost_scan_broad_mu450_s1] E=35.000 mu=450 res=1.654e+02 mass=0.774 r=1.462e+01 ep=1564 t=216s
+[mucost_scan_broad_mu450_s1] E=40.000 mu=450 res=7.925e+01 mass=0.901 r=9.377e+00 ep=1424 t=210s
+[mucost_scan_broad_mu450_s1] E=45.000 mu=450 res=1.856e+01 mass=0.968 r=4.378e+00 ep=639 t=81s
+[mucost_scan_broad_mu450_s1] E=50.000 mu=450 res=5.414e-01 mass=0.998 r=7.365e-01 ep=729 t=97s
+[mucost_scan_broad_mu450_s1] E=55.000 mu=450 res=3.122e+01 mass=0.958 r=5.710e+00 ep=650 t=89s
+[mucost_scan_broad_mu450_s2] E=15.000 mu=450 res=2.198e+01 mass=0.977 r=4.742e+00 ep=1197 t=181s
+[mucost_scan_broad_mu450_s2] E=20.000 mu=450 res=5.064e-01 mass=0.977 r=7.197e-01 ep=363 t=63s
+[mucost_scan_broad_mu450_s2] E=25.000 mu=450 res=2.702e+01 mass=0.972 r=5.273e+00 ep=428 t=62s
+[mucost_scan_broad_mu450_s2] E=30.000 mu=450 res=9.406e+01 mass=0.892 r=1.027e+01 ep=865 t=142s
+[mucost_scan_broad_mu450_s2] E=35.000 mu=450 res=1.662e+02 mass=0.763 r=1.476e+01 ep=1813 t=244s
+[mucost_scan_broad_mu450_s2] E=40.000 mu=450 res=7.964e+01 mass=0.905 r=9.380e+00 ep=1310 t=163s
+[mucost_scan_broad_mu450_s2] E=45.000 mu=450 res=1.870e+01 mass=0.973 r=4.384e+00 ep=527 t=69s
+[mucost_scan_broad_mu450_s2] E=50.000 mu=450 res=5.407e-01 mass=0.996 r=7.367e-01 ep=402 t=54s
+[mucost_scan_broad_mu450_s2] E=55.000 mu=450 res=3.137e+01 mass=0.974 r=5.674e+00 ep=397 t=57s
+=== 22:48:17 RQ seed 1
+[mucost_rq_s1_e3000] k=1 E=19.7528 exact=19.7392 relerr=6.89e-04 ep=582 t=25s ov=0.00e+00
+[mucost_rq_s1_e3000] k=2 E=50.6899 exact=49.3480 relerr=2.72e-02 ep=595 t=23s ov=4.78e-02
+[mucost_rq_s1_e3000] k=3 E=49.8984 exact=49.3480 relerr=1.12e-02 ep=476 t=18s ov=6.23e-02
+[mucost_rq_s1_e3000] k=4 E=79.1080 exact=78.9568 relerr=1.91e-03 ep=1294 t=56s ov=3.24e-02
+[mucost_rq_s1_e3000] k=5 E=99.4130 exact=98.6960 relerr=7.26e-03 ep=602 t=34s ov=6.51e-02
+[mucost_rq_s1_e3000] k=6 E=99.0469 exact=98.6960 relerr=3.56e-03 ep=1328 t=85s ov=1.24e-02
+total wall 240.96439200100212
+=== 22:52:50 DONE

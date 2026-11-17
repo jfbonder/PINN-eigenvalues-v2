@@ -1,0 +1,15 @@
+=== 22:52:57 paper-protocol sweep (notebook Ex.2: linspace(0,105,80), mu=500, 5000 ep, reset 25)
+[mucost_t1_sweep] E=0.000 mu=500 res=2.370e+02 mass=0.608 r=1.974e+01 ep=625 t=84s
+[mucost_t1_sweep] E=1.329 mu=500 res=2.200e+02 mass=0.649 r=1.841e+01 ep=822 t=114s
+[mucost_t1_sweep] E=2.658 mu=500 res=2.071e+02 mass=0.709 r=1.709e+01 ep=766 t=105s
+[mucost_t1_sweep] E=3.987 mu=500 res=1.857e+02 mass=0.748 r=1.575e+01 ep=546 t=73s
+[mucost_t1_sweep] E=5.316 mu=500 res=1.666e+02 mass=0.801 r=1.443e+01 ep=670 t=94s
+[mucost_t1_sweep] E=6.646 mu=500 res=1.437e+02 mass=0.838 r=1.309e+01 ep=694 t=94s
+[mucost_t1_sweep] E=7.975 mu=500 res=1.168e+02 mass=0.844 r=1.177e+01 ep=423 t=50s
+[mucost_t1_sweep] E=9.304 mu=500 res=9.799e+01 mass=0.899 r=1.044e+01 ep=859 t=150s
+[mucost_t1_sweep] E=10.633 mu=500 res=7.775e+01 mass=0.937 r=9.109e+00 ep=358 t=64s
+[mucost_t1_sweep] E=11.962 mu=500 res=5.690e+01 mass=0.940 r=7.780e+00 ep=544 t=91s
+[mucost_t1_sweep] E=13.291 mu=500 res=3.934e+01 mass=0.945 r=6.451e+00 ep=426 t=71s
+[mucost_t1_sweep] E=14.620 mu=500 res=2.533e+01 mass=0.963 r=5.128e+00 ep=596 t=86s
+[mucost_t1_sweep] E=15.949 mu=500 res=1.438e+01 mass=0.999 r=3.793e+00 ep=505 t=71s
+[mucost_t1_sweep] E=17.278 mu=500 res=6.080e+00 mass=0.998 r=2.469e+00 ep=541 t=69s
