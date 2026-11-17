@@ -1,0 +1,40 @@
+{
+ "name": "smoke_pdisk",
+ "timestamp": "2026-11-17T18:56:13+00:00",
+ "host": {
+  "hostname": "vm",
+  "threads": 2,
+  "torch": "2.15.0+cu132",
+  "python": "3.13.18",
+  "cpu_count": 4
+ },
+ "config": {
+  "p": 2.2,
+  "E": 12.0,
+  "hidden": 64,
+  "n_epochs": 600,
+  "n_samples": 2000,
+  "mu": 100.0
+ },
+ "records": [
+  {
+   "E": 12.0,
+   "mu": 100.0,
+   "loss_res": 22.59458351135254,
+   "norm_err": 0.018627693876624107,
+   "wall_time": 9.947415816000102,
+   "epochs_run": 600,
+   "total_loss": 24.457353591918945,
+   "best_loss": 21.28667640686035,
+   "eval_loss_res": 23.17421653156979,
+   "eval_norm_err": 0.008445475725005334,
+   "eval_mass": 0.908100730552385,
+   "r": 4.982054214331322,
+   "r_p": 5.106719077878817
+  }
+ ],
+ "eigenvalues": [],
+ "timings": {
+  "total_s": 10.041139596999983
+ }
+}

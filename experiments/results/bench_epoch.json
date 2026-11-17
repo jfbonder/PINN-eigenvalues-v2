@@ -1,0 +1,28 @@
+{
+ "name": "bench_epoch",
+ "timestamp": "2026-11-17T18:57:21+00:00",
+ "host": {
+  "hostname": "vm",
+  "threads": 4,
+  "torch": "2.15.0+cu132",
+  "python": "3.13.18",
+  "cpu_count": 4
+ },
+ "config": {
+  "hidden": 128,
+  "n_hidden": 3,
+  "n_samples": 5000
+ },
+ "records": [],
+ "eigenvalues": [],
+ "timings": {
+  "2D_disk_lap_threads2": 97.69492119999843,
+  "2D_disk_p2.2_threads2": 94.10755778333169,
+  "3D_ball_lap_threads2": 89.39491376666713,
+  "4D_ball_lap_threads2": 135.77732216666996,
+  "2D_disk_lap_threads4": 54.28198631666419,
+  "2D_disk_p2.2_threads4": 47.51953855000011,
+  "3D_ball_lap_threads4": 76.87967103333146,
+  "4D_ball_lap_threads4": 111.47782644999704
+ }
+}

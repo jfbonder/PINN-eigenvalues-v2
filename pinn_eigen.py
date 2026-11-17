@@ -6,7 +6,8 @@ in elliptic problems" (Fernández Bonder & Salort).
 
 Provides:
   - EigenFunctionNN : neural network with automatic BC enforcement
-  - loss_fn         : PINN loss (linear and p-Laplacian)
+  - loss_fn         : PINN loss (linear and p-Laplacian), evaluate_residual
+  - set_threads, vol_ball / VOL_* : threads and domain measures
   - train_one       : train for a single E value
   - sweep           : scan a range of E values with warm initialization
   - refine          : detect and refine local minima of the loss curve
@@ -21,6 +22,8 @@ Provides:
 from __future__ import annotations
 
 from typing import Callable, List, Optional, Tuple
+
+import time
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -121,8 +124,64 @@ def _p_laplacian(u: torch.Tensor, x: torch.Tensor, p: float) -> torch.Tensor:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+#  Threads / domain measures
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def set_threads(n: int) -> int:
+    """Set the number of intra-op CPU threads used by torch; returns the new value."""
+    torch.set_num_threads(int(n))
+    return torch.get_num_threads()
+
+
+def vol_ball(dim: int, radius: float = 1.0) -> float:
+    """Lebesgue measure of the d-dimensional ball of given radius."""
+    from math import gamma, pi
+    return pi ** (dim / 2) / gamma(dim / 2 + 1) * radius ** dim
+
+
+VOL_DISK = float(np.pi)                 # unit disk
+VOL_SQUARE = 1.0                        # [0,1]^2
+VOL_SQUARE_2X2 = 4.0                    # [0,2]^2
+VOL_TRIANGLE = 0.5                      # (0,0),(1,0),(0,1)
+VOL_BALL_3D = 4.0 * np.pi / 3.0         # unit ball in R^3
+VOL_BALL_4D = np.pi ** 2 / 2.0          # unit ball in R^4
+
+
+def vol_annulus(r_inner: float, r_outer: float) -> float:
+    """Area of the 2-D annulus."""
+    return float(np.pi * (r_outer ** 2 - r_inner ** 2))
+
+
+def vol_square(x0: float = 0.0, x1: float = 1.0) -> float:
+    """Area of [x0, x1]^2."""
+    return float((x1 - x0) ** 2)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 #  Loss function
 # ═══════════════════════════════════════════════════════════════════════════════
+
+def _loss_terms(model, x, E_val, V_fn, p, legacy_plap):
+    """Return (u, pointwise PDE residual, pointwise normalization density)."""
+    x = x.requires_grad_(True)
+    u = model(x)
+    V = V_fn(x).detach()
+
+    if p == 2.0:
+        Lu = _laplacian(u, x)
+        res = Lu - V * u + E_val * u
+        dens = u ** 2
+    elif legacy_plap:
+        Lu = _p_laplacian(u, x, p)
+        res = Lu - V * u + E_val * u            # old (non-homogeneous) version
+        dens = u ** 2
+    else:
+        Lu = _p_laplacian(u, x, p)
+        pw = u.abs().clamp_min(1e-12) ** (p - 2.0) * u   # |u|^{p-2} u
+        res = Lu - V * pw + E_val * pw
+        dens = u.abs() ** p
+    return u, res, dens
+
 
 def loss_fn(
     model: nn.Module,
@@ -131,47 +190,79 @@ def loss_fn(
     V_fn: Callable[[torch.Tensor], torch.Tensor],
     mu: float,
     p: float = 2.0,
+    legacy_plap: bool = False,
+    vol: float = 1.0,
 ) -> Tuple[torch.Tensor, float, float]:
     """
     PINN loss for the eigenvalue problem
-        -Δ_p u + V(x) u = E u    (p=2: standard Laplacian)
-    or for the p-Laplacian (p≠2):
-        -div(|∇u|^{p-2} ∇u) = E u    (V=0 assumed)
+        -Δ_p u + V(x)|u|^{p-2}u = E |u|^{p-2} u    (p=2: -Δu + Vu = Eu)
 
-    The total loss is:
-        L = ‖PDE residual‖²_{L²} + μ · (‖u‖²_{L²} - 1)²
+    Total loss (Monte-Carlo estimate of the integrals, *vol* = |Ω|):
+        L = vol·mean( (Δ_p u − V|u|^{p-2}u + E|u|^{p-2}u)² )
+            + μ · (vol·mean(|u|^p) − 1)²
 
-    Parameters
-    ----------
-    model : EigenFunctionNN
-    x : Tensor of shape [N, d]  (collocation points, no grad needed beforehand)
-    E_val : float
-    V_fn : Callable, potential function V : Tensor[N,d] → Tensor[N,1]
-    mu : float, penalty weight for the normalization term
-    p : float, exponent (p=2 → Laplacian; p≠2 → p-Laplacian)
+    For p = 2 this is the usual  ∫(Δu−Vu+Eu)² + μ(∫u²−1)².
+    With the default vol=1.0 the integrals are replaced by sample means
+    (behaviour of earlier versions).
+
+    legacy_plap=True restores the old p≠2 behaviour (residual with E·u instead of
+    E|u|^{p-2}u and normalization with mean(u²)); only used to reproduce old runs.
 
     Returns
     -------
     loss : Tensor (total, used for .backward())
     residual : float (PDE term, detached)
-    norm_err : float (normalization term, detached)
+    norm_err : float (normalization term (vol·mean|u|^p − 1)², detached)
     """
-    x = x.requires_grad_(True)
-    u = model(x)
-    V = V_fn(x).detach()
-
-    if p == 2.0:
-        Lu = _laplacian(u, x)
-        pde_residual = Lu - V * u + E_val * u
-    else:
-        Lu = _p_laplacian(u, x, p)
-        pde_residual = Lu - V * u + E_val * u   # linearised: |u|^{p-2}u ≈ u near p=2
-
-    loss_res  = (pde_residual ** 2).mean()
-    loss_norm = ((u ** 2).mean() - 1.0) ** 2
-    total     = loss_res + mu * loss_norm
-
+    u, res, dens = _loss_terms(model, x, E_val, V_fn, p, legacy_plap)
+    loss_res = vol * (res ** 2).mean()
+    loss_norm = (vol * dens.mean() - 1.0) ** 2
+    total = loss_res + mu * loss_norm
     return total, loss_res.item(), loss_norm.item()
+
+
+def evaluate_residual(
+    model: nn.Module,
+    sampler: Callable[[int], torch.Tensor],
+    E_val: float,
+    V_fn: Callable[[torch.Tensor], torch.Tensor],
+    p: float = 2.0,
+    n_samples: int = 20000,
+    legacy_plap: bool = False,
+    vol: float = 1.0,
+    chunk: int = 5000,
+) -> dict:
+    """
+    Evaluate a trained model on a FRESH independent MC sample.
+
+    Returns dict with
+      loss_res   : vol·mean(res²)            (Λ residual term, an integral if vol given)
+      norm_err   : (vol·mean|u|^p − 1)²
+      mass       : vol·mean(|u|^p)
+      r          : sqrt( mean(res²) / mean(u²) )   (Weinstein-type residual, p=2 meaning)
+      r_p        : sqrt( mean(res²) / mean(|u|^{2(p-1)}) )  (equals r for p=2)
+    """
+    s_res = s_u2 = s_dens = s_up = 0.0
+    n_tot = 0
+    left = n_samples
+    while left > 0:
+        n = min(chunk, left)
+        left -= n
+        x = sampler(n)
+        u, res, dens = _loss_terms(model, x, E_val, V_fn, p, legacy_plap)
+        s_res += (res.detach() ** 2).sum().item()
+        s_u2 += (u.detach() ** 2).sum().item()
+        s_dens += dens.detach().sum().item()
+        s_up += (u.detach().abs() ** (2 * (p - 1))).sum().item()
+        n_tot += n
+    m_res, m_u2, m_dens, m_up = s_res / n_tot, s_u2 / n_tot, s_dens / n_tot, s_up / n_tot
+    return dict(
+        loss_res=vol * m_res,
+        norm_err=(vol * m_dens - 1.0) ** 2,
+        mass=vol * m_dens,
+        r=float(np.sqrt(m_res / max(m_u2, 1e-300))),
+        r_p=float(np.sqrt(m_res / max(m_up, 1e-300))),
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -190,34 +281,60 @@ def train_one(
     p: float = 2.0,
     patience: int = 300,
     tol: float = 1e-5,
-) -> Tuple[float, float]:
+    seed: Optional[int] = None,
+    lr_scheduler: Optional[Callable] = None,
+    legacy_plap: bool = False,
+    vol: float = 1.0,
+    return_info: bool = False,
+):
     """
-    Train *model* for a fixed eigenvalue parameter *E_val*.
+    Train *model* for a fixed eigenvalue parameter *E_val* (Adam, fresh batch per epoch).
+
+    seed         : if given, torch.manual_seed(seed) before training.
+    lr_scheduler : optional callable  optimizer -> torch scheduler (stepped every epoch),
+                   e.g. lambda opt: torch.optim.lr_scheduler.ExponentialLR(opt, 0.999).
+    return_info  : if True, return (residual, norm_err, info) with
+                   info = dict(wall_time, epochs_run, total_loss, best_loss).
 
     Returns
     -------
-    residual : float  — final PDE residual
-    norm_err : float  — final normalization error
+    (residual, norm_err)  — final-epoch PDE term and normalization term (floats)
     """
+    if seed is not None:
+        torch.manual_seed(seed)
+    t0 = time.perf_counter()
     optimizer = optim.Adam(model.parameters(), lr=lr)
+    scheduler = lr_scheduler(optimizer) if lr_scheduler is not None else None
     best_loss = float("inf")
     no_improve = 0
+    epochs_run = 0
+    total = float("nan")
+    res = norm = float("nan")
 
     for _ in range(n_epochs):
         x = sampler(n_samples)
         optimizer.zero_grad()
-        loss, res, norm = loss_fn(model, x, E_val, V_fn, mu, p)
+        loss, res, norm = loss_fn(model, x, E_val, V_fn, mu, p,
+                                  legacy_plap=legacy_plap, vol=vol)
         loss.backward()
         optimizer.step()
+        if scheduler is not None:
+            scheduler.step()
+        epochs_run += 1
 
-        if loss.item() < best_loss - tol:
-            best_loss  = loss.item()
+        total = loss.item()
+        if total < best_loss - tol:
+            best_loss = total
             no_improve = 0
         else:
             no_improve += 1
         if no_improve > patience:
             break
 
+    if return_info:
+        info = dict(wall_time=time.perf_counter() - t0, epochs_run=epochs_run,
+                    total_loss=total, best_loss=best_loss)
+        return res, norm, info
     return res, norm
 
 
@@ -230,47 +347,53 @@ def sweep(
     p: float = 2.0,
     reset_every: int = 50,
     verbose: bool = True,
+    seed: Optional[int] = None,
+    return_records: bool = False,
+    evaluate: Optional[bool] = None,
+    eval_samples: int = 20000,
+    legacy_plap: bool = False,
+    vol: float = 1.0,
+    mu_fn: Optional[Callable[[float], float]] = None,
     **train_kwargs,
-) -> Tuple[List[float], List[nn.Module]]:
+):
     """
     Scan *E_values*, training the network at each point.
 
     Uses *warm initialization*: for most steps, the weights from the previous
-    E value are reused as the starting point (speeds up convergence). Every
-    *reset_every* steps the network is re-initialized from scratch (avoids
-    getting stuck in a local minimum).
+    E value are reused as the starting point. Every *reset_every* steps the
+    network is re-initialized from scratch.
 
-    Parameters
-    ----------
-    model_factory : Callable[[], nn.Module]
-        Returns a freshly initialized EigenFunctionNN.
-    E_values : np.ndarray
-        Grid of E values to scan.
-    sampler : Callable[[int], Tensor]
-        Returns n collocation points inside Ω.
-    V_fn : Callable
-        Potential V(x).
-    mu : float
-        Normalization penalty weight. Tip: use mu ∝ E² for high eigenvalues.
-    p : float
-        Exponent (p=2 → Laplacian).
-    reset_every : int
-        Reset weights every this many steps.
-    verbose : bool
-    **train_kwargs
-        Forwarded to train_one (e.g. n_epochs, lr, n_samples, patience).
+    Parameters (new ones)
+    ---------------------
+    seed : int, optional — torch.manual_seed(seed) once at the start of the sweep.
+    return_records : bool — also return a list of per-E dict records with keys
+        E, mu, wall_time, epochs_run, total_loss, loss_res (training, last epoch),
+        norm_err (training), and — evaluated on a fresh independent sample of
+        *eval_samples* points after training — eval_loss_res, eval_norm_err,
+        eval_mass, r = sqrt(res/mean(u²)), r_p.
+    evaluate : bool, optional — force/disable fresh-sample evaluation
+        (default: same as return_records).
+    mu_fn : callable E -> μ, overrides *mu* (e.g. μ ∝ E²).
+    legacy_plap, vol : see loss_fn.
+    **train_kwargs forwarded to train_one (n_epochs, lr, n_samples, patience, lr_scheduler...).
 
     Returns
     -------
-    residuals : List[float]
-    trained_models : List[nn.Module]
+    residuals, trained_models                  (default, as before)
+    residuals, trained_models, records         (if return_records=True)
     """
+    if seed is not None:
+        torch.manual_seed(seed)
+        np.random.seed(seed)
+    if evaluate is None:
+        evaluate = return_records
+
     residuals: list[float] = []
     trained_models: list[nn.Module] = []
+    records: list[dict] = []
     model = model_factory()
 
     for i, E in enumerate(E_values):
-        # Warm initialization (or periodic reset)
         if i > 0 and i % reset_every != 0:
             new_model = model_factory()
             new_model.load_state_dict(model.state_dict())
@@ -278,13 +401,28 @@ def sweep(
         else:
             model = model_factory()
 
-        res, norm_err = train_one(model, E, sampler, V_fn, mu=mu, p=p, **train_kwargs)
+        mu_E = mu_fn(float(E)) if mu_fn is not None else mu
+        res, norm_err, info = train_one(model, E, sampler, V_fn, mu=mu_E, p=p,
+                                        legacy_plap=legacy_plap, vol=vol,
+                                        return_info=True, **train_kwargs)
         residuals.append(res)
         trained_models.append(model)
 
-        if verbose:
-            print(f"  E={E:8.3f}  residual={res:.4e}  norm_err={norm_err:.2e}")
+        rec = dict(E=float(E), mu=float(mu_E), loss_res=res, norm_err=norm_err, **info)
+        if evaluate:
+            ev = evaluate_residual(model, sampler, E, V_fn, p=p, n_samples=eval_samples,
+                                   legacy_plap=legacy_plap, vol=vol)
+            rec.update({("eval_" + k if k in ("loss_res", "norm_err", "mass") else k): v
+                        for k, v in ev.items()})
+        records.append(rec)
 
+        if verbose:
+            extra = f"  r={rec['r']:.3e}" if evaluate else ""
+            print(f"  E={E:8.3f}  residual={res:.4e}  norm_err={norm_err:.2e}"
+                  f"  t={info['wall_time']:.1f}s{extra}", flush=True)
+
+    if return_records:
+        return residuals, trained_models, records
     return residuals, trained_models
 
 
@@ -297,20 +435,13 @@ def refine(
     threshold: float,
     n_samples: int = 10_000,
     p: float = 2.0,
+    legacy_plap: bool = False,
+    vol: float = 1.0,
 ) -> Tuple[List[Tuple[float, float]], List[int]]:
     """
     Detect local minima of the loss curve below *threshold* and refine each
     one with a scalar optimization (scipy.minimize_scalar) using the already-
     trained model weights as a fixed function approximator.
-
-    Parameters
-    ----------
-    trained_models, E_values, residuals : from sweep()
-    threshold : float
-        Only minima with loss < threshold are considered eigenvalue candidates.
-    n_samples : int
-        Collocation points used for the refinement objective.
-    p : float
 
     Returns
     -------
@@ -333,7 +464,8 @@ def refine(
 
         def objective(E: float) -> float:
             x = sampler(n_samples)
-            _, res, _ = loss_fn(model, x, E, V_fn, mu=0.0, p=p)
+            _, res, _ = loss_fn(model, x, E, V_fn, mu=0.0, p=p,
+                                legacy_plap=legacy_plap, vol=vol)
             return res
 
         result = minimize_scalar(
