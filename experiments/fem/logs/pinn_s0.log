@@ -5,3 +5,4 @@ double_well s0 c=9.58 E=  9.580 res=8.186e-02 r2=7.882e-02 rho_var=9.5616 rho_re
 double_well s0 c=9.58 E= 10.080 res=3.037e-01 r2=3.141e-01 rho_var=9.5605 rho_res=9.5784 ep=410 t=84s
 double_well s0 c=9.58 E= 10.580 res=1.026e+00 r2=1.084e+00 rho_var=9.5627 rho_res=9.5784 ep=502 t=132s
 double_well s0 c=9.58 E= 11.080 res=2.397e+00 r2=2.436e+00 rho_var=9.5711 rho_res=9.5828 ep=505 t=115s
+double_well s0 c=19.86 E= 18.360 res=2.191e+00 r2=2.274e+00 rho_var=19.6263 rho_res=19.7997 ep=2000 t=412s
