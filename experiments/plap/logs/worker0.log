@@ -30,3 +30,4 @@
 [disk22_coarse_P0] E=  9.0000 Lam=6.3264e+00 mass=1.0307 Lam_n=6.1209e+00 E_ls=6.5652 RQ=6.5310 core=0.13 ep=480 t=61s
 [disk22_coarse_P0] E= 10.0000 Lam=1.0591e+01 mass=0.9222 Lam_n=1.1569e+01 E_ls=6.5633 RQ=6.5405 core=0.11 ep=607 t=87s
 [disk22_coarse_P0] E= 11.0000 Lam=1.8017e+01 mass=0.9398 Lam_n=1.9280e+01 E_ls=6.6783 RQ=6.6209 core=0.10 ep=651 t=100s
+[disk22_coarse_P0] E= 12.0000 Lam=2.4585e+01 mass=0.9429 Lam_n=2.6214e+01 E_ls=9.5079 RQ=9.4059 core=0.01 ep=854 t=139s
