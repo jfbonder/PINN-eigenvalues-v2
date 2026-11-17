@@ -249,3 +249,4 @@ Terminated
 [mucost_scan_broad_mu450_s1] E=20.000 mu=450 res=1.168e-01 mass=1.010 r=3.399e-01 ep=620 t=91s
 [mucost_scan_broad_mu450_s1] E=25.000 mu=450 res=2.658e+01 mass=0.957 r=5.269e+00 ep=317 t=37s
 [mucost_scan_broad_mu450_s1] E=30.000 mu=450 res=9.324e+01 mass=0.884 r=1.027e+01 ep=316 t=39s
+[mucost_scan_broad_mu450_s1] E=35.000 mu=450 res=1.654e+02 mass=0.774 r=1.462e+01 ep=1564 t=216s

@@ -79,3 +79,4 @@ harm_w10 s0 c=62.58 E= 61.080 res=2.760e+00 r2=2.771e+00 rho_var=62.5872 rho_res
 harm_w10 s0 c=62.58 E= 61.580 res=1.194e+00 r2=1.186e+00 rho_var=62.5932 rho_res=62.5787 ep=1527 t=195s
 harm_w10 s0 c=62.58 E= 62.080 res=4.824e-01 r2=4.199e-01 rho_var=62.5948 rho_res=62.5789 ep=1595 t=218s
 harm_w10 s0 c=62.58 E= 62.580 res=9.386e-02 r2=8.446e-02 rho_var=62.5945 rho_res=62.5792 ep=1602 t=221s
+harm_w10 s0 c=62.58 E= 63.080 res=3.162e-01 r2=3.110e-01 rho_var=62.5938 rho_res=62.5798 ep=994 t=142s
