@@ -7,7 +7,7 @@ fresh MC batch each epoch; per-case mu, n_epochs, n_samples as in FBS_PINN_noteb
 Records per E (saved incrementally in experiments/results/fem_pinn_<case>_s<seed>.json):
   loss_res (last training batch), eval_* on fresh 20000 pts, r2 = mean(res^2)/mean(u^2) (normalised Lambda),
   rho_var = (mean|grad u|^2 + V u^2)/mean u^2 and rho_res = -mean(u (Lap u - V u))/mean(u^2) on a fixed
-  100000-pt sample (Rayleigh quotients of the trained net).
+  sample (1e5 pts for the first double-well run, 4e5 pts afterwards) (Rayleigh quotients of the trained net).
 """
 import argparse, json, time, os, sys
 from functools import partial
@@ -30,7 +30,7 @@ CASES = {
                       mu=200.0, n_epochs=2000, n_samples=5000),
 }
 
-def rayleigh(model, sampler, V_fn, n=100000, chunk=10000, seed=12345):
+def rayleigh(model, sampler, V_fn, n=400000, chunk=10000, seed=12345):
     g = torch.Generator().manual_seed(seed)
     st = torch.get_rng_state(); torch.manual_seed(seed)
     s_u2 = s_g = s_vu = s_ulu = 0.0; tot = 0
@@ -83,6 +83,8 @@ def main():
                        eval_loss_res=ev["loss_res"], eval_mass=ev["mass"], r=ev["r"], r2=ev["r"] ** 2,
                        rho_var=rv, rho_res=rr, mean_u2=m2, wall=time.perf_counter() - t0)
             w["records"].append(rec)
+            os.makedirs(C.RESULTS_DIR / 'fem_pinn_models', exist_ok=True)
+            torch.save(model.state_dict(), C.RESULTS_DIR / 'fem_pinn_models' / f"{a.case}{a.tag}_s{a.seed}_E{E:.3f}.pt")
             json.dump(data, open(path, "w"), indent=1)
             print(f"{a.case} s{a.seed} c={c} E={E:7.3f} res={res:.3e} r2={rec['r2']:.3e} rho_var={rv:.4f} rho_res={rr:.4f} "
                   f"ep={info['epochs_run']} t={rec['wall']:.0f}s", flush=True)

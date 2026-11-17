@@ -17,3 +17,13 @@ Terminated
 [mucost_t1_11] E=17.500 mu=3000 res=5.242e+00 mass=1.008 r=2.280e+00 ep=774 t=109s
 [mucost_t1_11] E=19.500 mu=3000 res=2.828e-01 mass=0.999 r=5.322e-01 ep=680 t=94s
 [mucost_t1_11] E=21.500 mu=3000 res=3.664e+00 mass=1.027 r=1.889e+00 ep=372 t=57s
+[mucost_t1_11] E=23.500 mu=3000 res=1.417e+01 mass=0.998 r=3.768e+00 ep=763 t=135s
+[mucost_t1_12] E=44.500 mu=3000 res=2.451e+01 mass=0.983 r=4.994e+00 ep=3000 t=509s
+[mucost_t1_12] E=46.500 mu=3000 res=8.939e+00 mass=1.002 r=2.988e+00 ep=1094 t=154s
+[mucost_t1_12] E=48.500 mu=3000 res=1.429e+00 mass=0.981 r=1.207e+00 ep=1043 t=150s
+[mucost_t1_12] E=50.500 mu=3000 res=2.665e+00 mass=0.992 r=1.639e+00 ep=452 t=63s
+[mucost_t1_12] E=52.500 mu=3000 res=1.061e+01 mass=1.009 r=3.244e+00 ep=379 t=54s
+[mucost_t1_22] E=74.500 mu=3000 res=6.033e+02 mass=0.921 r=2.560e+01 ep=1031 t=152s
+[mucost_t1_22] E=76.500 mu=3000 res=6.513e+02 mass=0.854 r=2.762e+01 ep=613 t=81s
+[mucost_t1_22] E=78.500 mu=3000 res=7.209e+02 mass=0.829 r=2.950e+01 ep=488 t=76s
+[mucost_t1_22] E=80.500 mu=3000 res=8.255e+02 mass=0.832 r=3.149e+01 ep=956 t=149s
