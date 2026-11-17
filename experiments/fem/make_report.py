@@ -76,8 +76,92 @@ def fig_windows(case, title):
     fig.suptitle(title + " (red dashed: FEM eigenvalues)", fontsize=10); fig.tight_layout()
     fig.savefig(FIG / f"pinn_vs_fem_{case}.png", dpi=150); plt.close(fig)
 
+
+# ------------------------------------------------------------------ PINN vs FEM rows
+CASE_LABEL = {"double_well": "double well (3-D)", "four_well": "four well (3-D)", "harm_w10": r"harmonic $\omega=10$ (2-D)"}
+
+def pinn_rows():
+    rows = []
+    for case in ["double_well", "four_well", "harm_w10"]:
+        summ, res = PA.load_all(case)
+        if not res: continue
+        keys = sorted({k for s in res.values() for k, w in s["windows"].items() if w}, key=float)
+        for k in keys:
+            ws = [res[s]["windows"][k] for s in sorted(res) if k in res[s]["windows"] and res[s]["windows"][k]]
+            ws = [w for w in ws if w["n"] >= 7]
+            if not ws: continue
+            rho = np.array([w["rho_res_at_min"] for w in ws]); par = np.array([w["E_par_r2"] for w in ws])
+            parl = np.array([w["E_par_loss"] for w in ws]); nodem = np.array([w["node_min_loss"] for w in ws])
+            fem_in = [r for r in summ if min(ws[0]["E"]) - 0.5 <= r["E"] <= max(ws[0]["E"]) + 0.5]
+            est = float(np.mean(rho)); ref = min(fem_in, key=lambda r: abs(r["E"] - est))
+            near = [r for r in fem_in if abs(r["E"] - ref["E"]) < 0.75]
+            rows.append(dict(case=case, center=float(k), nseeds=len(ws), ref=ref["E"], ref_err=ref["err"], ref_mult=ref["mult"],
+                             n_near=len(near), near=[(r["E"], r["mult"]) for r in near],
+                             rho=rho.tolist(), par=par.tolist(), parl=parl.tolist(), nodem=nodem.tolist(),
+                             t_E=float(np.mean([w["time_per_E"] for w in ws])), t_win=float(np.mean([w["time_total"] for w in ws])),
+                             minr2=float(np.mean([w["min_r2"] for w in ws]))))
+    return rows
+
+def rel(a, b): return (a - b) / b
+
+def pinn_markdown(rows):
+    L = ["| case | window centre | FEM ref (mult) | #FEM eigenvalues within 0.75 | PINN Rayleigh quotient (mean over seeds [min,max]) | rel.err | parabola on normalised loss | rel.err | parabola on recorded loss (paper-style) | rel.err | min of Lambda | time/E-point |", "|" + "---|" * 12]
+    for r in rows:
+        f = lambda a: f"{np.nanmean(a):.4f} [{np.nanmin(a):.4f},{np.nanmax(a):.4f}]"
+        L.append(f"| {r['case']} | {r['center']:.2f} | {r['ref']:.4f}±{r['ref_err']:.0e} ({r['ref_mult']}) | {r['n_near']} | {f(r['rho'])} | {100*rel(np.nanmean(r['rho']), r['ref']):+.3f}% | "
+                 f"{f(r['par'])} | {100*rel(np.nanmean(r['par']), r['ref']):+.2f}% | {f(r['parl'])} | {100*rel(np.nanmean(r['parl']), r['ref']):+.2f}% | {r['minr2']:.3f} | {r['t_E']:.0f} s |")
+    return "\n".join(L)
+
+def pinn_tex(rows):
+    L = [r"\begin{tabular}{llrrrrrr}", r"\toprule",
+         r"example & window & FEM & mult. & $\rho$ (PINN) & rel.\ err.\ (\%) & parab.\ fit & rel.\ err.\ (\%) \\", r"\midrule"]
+    last = None
+    for r in rows:
+        if last and r["case"] != last: L.append(r"\midrule")
+        last = r["case"]
+        rho = np.nanmean(r["rho"]); par = np.nanmean(r["par"])
+        sd = np.nanstd(r["rho"]) if len(r["rho"]) > 1 else float("nan")
+        flag = r"$^\dagger$" if r["n_near"] > 1 else ""
+        L.append(f"{CASE_LABEL[r['case']]} & ${r['center']-1.5:.1f}$--${r['center']+1.5:.1f}$ & {r['ref']:.3f}{flag} & {r['ref_mult']} & {rho:.3f} & {100*rel(rho, r['ref']):+.2f} & {par:.2f} & {100*rel(par, r['ref']):+.2f} \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    return "\n".join(L)
+
+def fem_tex(S):
+    def block(case, title, ncol=1):
+        rows = S[case]["rows"]
+        return rows
+    L = [r"\begin{tabular}{rrrrrr}", r"\toprule", r"\multicolumn{2}{c}{double well} & \multicolumn{2}{c}{four well} & \multicolumn{2}{c}{free ball (exact)} \\",
+         r"$E$ & mult. & $E$ & mult. & $E$ & mult. \\", r"\midrule"]
+    # list in order of the double-well, four-well, free-ball rows up to E<=40 and ground/shell clusters
+    dw = [r for r in S["double_well"]["rows"] if r["E"] < 75]; fw = [r for r in S["four_well"]["rows"] if r["E"] < 75]; fb = [r for r in S["ball_free"]["rows"]]
+    n = max(len(dw), len(fw), len(fb))
+    cell = lambda rows, i: (f"{rows[i]['E']:.3f}", str(rows[i]["mult"])) if i < len(rows) else ("", "")
+    for i in range(n):
+        a, b, c = cell(dw, i), cell(fw, i), cell(fb, i)
+        L.append(f"{a[0]} & {a[1]} & {b[0]} & {b[1]} & {c[0]} & {c[1]} \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    return "\n".join(L)
+
+def valid_tex(S):
+    L = [r"\begin{tabular}{lrrrrr}", r"\toprule", r"problem & mult. & exact/reference & FEM (extrap.) & abs.\ err. & est.\ err. \\", r"\midrule"]
+    spec = [("disk_free", "unit disk", 4), ("annulus", r"annulus $0.5<|x|<1$", 4), ("ball_free", "unit ball", 4), ("square", "unit square", 4), ("triangle", "triangle", 2),
+            ("harm_w1", r"harmonic disk $\omega=1$", 4), ("harm_w10", r"harmonic disk $\omega=10$", 4)]
+    for c, lab, n in spec:
+        for j, r in enumerate(S[c]["rows"][:n]):
+            L.append(f"{lab if j==0 else ''} & {r['exact_mult']} & {r['exact']:.6f} & {r['E']:.6f} & {abs(r['E']-r['exact']):.1e} & {r['err']:.1e} \\\\")
+        L.append(r"\addlinespace")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    return "\n".join(L)
+
 if __name__ == "__main__":
     fig_spectra(); fig_convergence()
     for c, t in [("double_well", "Double well, 3-D ball"), ("four_well", "Four-well bump, 3-D ball"), ("harm_w10", r"Harmonic disk, $\omega=10$")]:
         fig_windows(c, t)
-    print("figures done")
+    rows = pinn_rows()
+    json.dump(rows, open(RES / "fem_pinn_summary.json", "w"), indent=1)
+    print(pinn_markdown(rows))
+    open(HERE / "tables.tex", "w").write(
+        "% generated by experiments/fem/make_report.py (booktabs; \\dagger: other FEM eigenvalues within 0.75 of the reference, i.e. unresolved cluster)\n"
+        "% ---- Table: independent FEM validation\n" + valid_tex(S) + "\n\n% ---- Table: FEM reference eigenvalues\n" + fem_tex(S) +
+        "\n\n% ---- Table: PINN vs FEM\n" + pinn_tex(rows) + "\n")
+    print("done")

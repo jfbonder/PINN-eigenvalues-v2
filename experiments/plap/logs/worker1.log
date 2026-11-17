@@ -2,3 +2,9 @@
 [square22_coarse_P1] E=  4.0000 Lam=2.3905e+00 mass=1.0031 Lam_n=2.3824e+00 E_ls=5.4849 RQ=5.4672 core=0.01 ep=1500 t=218s
 [square22_coarse_P1] E=  5.0000 Lam=4.0024e-01 mass=1.0106 Lam_n=3.9566e-01 E_ls=5.4903 RQ=5.4414 core=0.07 ep=1500 t=252s
 [square22_coarse_P1] E=  6.0000 Lam=3.8438e-01 mass=1.0212 Lam_n=3.7566e-01 E_ls=5.4928 RQ=5.4690 core=0.28 ep=1500 t=217s
+[square22_coarse_P1] E=  7.0000 Lam=2.2267e+00 mass=0.9977 Lam_n=2.2324e+00 E_ls=5.5036 RQ=5.4182 core=0.10 ep=1500 t=228s
+[square22_coarse_P1] E=  8.0000 Lam=5.8950e+00 mass=0.9887 Lam_n=5.9687e+00 E_ls=5.5125 RQ=5.4213 core=0.06 ep=1500 t=229s
+[square22_coarse_P1] E=  9.0000 Lam=1.1134e+01 mass=0.9588 Lam_n=1.1656e+01 E_ls=5.5130 RQ=5.5348 core=0.05 ep=1500 t=203s
+[square22_coarse_P1] E= 10.0000 Lam=1.6193e+01 mass=0.9619 Lam_n=1.6893e+01 E_ls=7.7491 RQ=7.5154 core=0.00 ep=1500 t=235s
+[square22_coarse_P1] E= 11.0000 Lam=1.6152e+01 mass=0.9560 Lam_n=1.6965e+01 E_ls=15.0772 RQ=15.1144 core=0.00 ep=1500 t=205s
+[square22_coarse_P1] E= 12.0000 Lam=9.6176e+00 mass=0.9768 Lam_n=9.8673e+00 E_ls=15.1336 RQ=15.1035 core=0.00 ep=1500 t=220s
