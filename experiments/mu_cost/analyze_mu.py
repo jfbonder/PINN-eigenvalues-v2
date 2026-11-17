@@ -44,7 +44,8 @@ for mu in mus:
         quot = res / np.maximum(mass, 1e-12)   # normalised quotient Lambda(u,E)
         rho = np.array([r["rq_lap"] for r in R]); rg = np.array([r["rq_grad"] for r in R])
         cl = np.array([closed(e, mu) for e in E])
-        collapsed = mass < 0.5
+        collapsed = mass < 0.1
+        pm = np.array([max(0.0, 1 - dd(e) ** 2 / (2 * mu)) for e in E]); pred_collapsed = int((pm < 0.1).sum()); mass_rms = float(np.sqrt(np.mean((mass - pm) ** 2)))
         def locmin(y):
             return [i for i in range(1, len(y) - 1) if y[i] < y[i - 1] and y[i] < y[i + 1]]
         mins_rec = locmin(res)   # recorded curve (what sweep() thresholds)
@@ -61,7 +62,20 @@ for mu in mus:
         out.append(dict(mu=mu, seed=s, mu_over_D2=mu / D2, Ehat=Ehat, relerr=err, n_collapsed=int(collapsed.sum()),
                         min_mass=float(mass.min()), mass_at_49=float(mass[np.argmin(abs(E - 50))]),
                         minima_recorded=[float(E[i]) for i in mins_rec], minima_quotient=[float(E[i]) for i in mins_q],
-                        misfit=mis, time_h=sum(r["wall_time"] for r in R) / 3600))
+                        misfit=mis, pred_collapsed=pred_collapsed, mass_rms=mass_rms, res_misfit=float(np.max(np.abs(res - np.array([dd(e)**2*max(0.0,1-dd(e)**2/(2*mu)) for e in E])))), time_h=sum(r["wall_time"] for r in R) / 3600))
 L.dump_json(L.HERE / "mu_summary.json", dict(D2=D2, rows=out))
 print("D^2 =", D2)
 for o in out: print({k: (round(v, 4) if isinstance(v, float) else v) for k, v in o.items()})
+
+fig, axs = plt.subplots(3, 3, figsize=(11, 8), sharex=True, sharey=True)
+for ax, mu in zip(axs.flat, mus):
+    ax.plot(Ef, [max(0.0, 1 - dd(E) ** 2 / (2 * mu)) for E in Ef], "k-", lw=1.2, label=r"predicted $1-d^2/2\mu$ (floor 0)")
+    for s_, c in ((0, "C0"), (1, "C3")):
+        dat = load(f"mucost_mu{mu}_s{s_}")
+        if dat and dat["records"]:
+            ax.plot([r["E"] for r in dat["records"]], [r["mass"] for r in dat["records"]], "o", color=c, ms=4, label=f"mean u^2, seed {s_}")
+    ax.set_title(rf"$\mu={mu}$")
+    if mu == mus[0]: ax.legend(fontsize=6)
+for ax in axs[-1]: ax.set_xlabel("E")
+fig.suptitle("Norm of the trained network vs. predicted norm (collapse u=0 when d^2 >= 2 mu)")
+fig.tight_layout(); fig.savefig(L.HERE / "figures/mu_mass.png", dpi=130)

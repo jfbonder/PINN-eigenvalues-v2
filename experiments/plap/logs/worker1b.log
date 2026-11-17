@@ -1,0 +1,16 @@
+[square22_coarse_P1] E= 14.0000 Lam=1.5254e+00 mass=1.0069 Lam_n=1.5139e+00 E_ls=15.1441 RQ=14.9614 core=0.00 ep=1500 t=214s
+[square22_coarse_P1] E= 15.0000 Lam=2.2664e-01 mass=0.9866 Lam_n=2.2999e-01 E_ls=15.1436 RQ=15.2957 core=0.10 ep=1500 t=217s
+[square22_coarse_P1] E= 16.0000 Lam=9.3710e-01 mass=1.0024 Lam_n=9.3467e-01 E_ls=15.1477 RQ=15.2150 core=0.13 ep=1500 t=229s
+[square22_coarse_P1] E= 17.0000 Lam=3.2608e+00 mass=0.9883 Lam_n=3.3029e+00 E_ls=15.2371 RQ=15.2833 core=0.11 ep=1500 t=224s
+[square22_coarse_P1] E= 18.0000 Lam=7.0277e+00 mass=0.9847 Lam_n=7.1465e+00 E_ls=15.3079 RQ=15.1485 core=0.07 ep=1500 t=196s
+[square22_coarse_P1] E= 19.0000 Lam=1.2630e+01 mass=0.9584 Lam_n=1.3229e+01 E_ls=15.3050 RQ=15.2775 core=0.06 ep=1500 t=241s
+[square22_coarse_P1] E= 20.0000 Lam=1.6642e+01 mass=0.9442 Lam_n=1.7717e+01 E_ls=18.1363 RQ=18.1499 core=0.01 ep=1500 t=215s
+[square22_coarse2_P1] E= 19.0000 Lam=2.3153e+01 mass=0.9234 Lam_n=2.5256e+01 E_ls=15.4481 RQ=15.4128 core=0.01 ep=1500 t=216s
+[square22_coarse2_P1] E= 20.0000 Lam=2.1441e+01 mass=0.9644 Lam_n=2.2306e+01 E_ls=15.4576 RQ=15.2660 core=0.07 ep=1500 t=221s
+[square22_coarse2_P1] E= 21.0000 Lam=1.7474e+01 mass=0.9392 Lam_n=1.8711e+01 E_ls=21.2756 RQ=21.4362 core=0.03 ep=1500 t=222s
+[square22_coarse2_P1] E= 22.0000 Lam=1.0692e+01 mass=0.9612 Lam_n=1.1164e+01 E_ls=25.2341 RQ=25.4722 core=0.02 ep=1500 t=226s
+[square22_coarse2_P1] E= 23.0000 Lam=5.9096e+00 mass=0.9913 Lam_n=5.9663e+00 E_ls=25.2399 RQ=25.0423 core=0.05 ep=1500 t=213s
+[square22_coarse2_P1] E= 24.0000 Lam=2.5000e+00 mass=0.9867 Lam_n=2.5368e+00 E_ls=25.2417 RQ=25.4180 core=0.14 ep=1500 t=224s
+[square22_coarse2_P1] E= 25.0000 Lam=1.1241e+00 mass=0.9952 Lam_n=1.1300e+00 E_ls=25.2371 RQ=25.4231 core=0.48 ep=1500 t=195s
+[square22_coarse2_P1] E= 26.0000 Lam=1.6554e+00 mass=1.0059 Lam_n=1.6449e+00 E_ls=25.2445 RQ=25.0032 core=0.51 ep=1500 t=205s
+[square22_coarse2_P1] E= 27.0000 Lam=3.8208e+00 mass=0.9780 Lam_n=3.9148e+00 E_ls=25.2434 RQ=25.5514 core=0.26 ep=1500 t=213s
