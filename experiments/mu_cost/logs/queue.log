@@ -1,0 +1,19 @@
+=== 19:14:12 item5 RQ seed0
+[mucost_rq_s0_e3000] k=1 E=19.7610 exact=19.7392 relerr=1.10e-03 ep=660 t=32s ov=0.00e+00
+[mucost_rq_s0_e3000] k=2 E=50.8110 exact=49.3480 relerr=2.96e-02 ep=676 t=38s ov=1.24e-02
+[mucost_rq_s0_e3000] k=3 E=49.7535 exact=49.3480 relerr=8.22e-03 ep=749 t=47s ov=4.69e-02
+[mucost_rq_s0_e3000] k=4 E=79.2557 exact=78.9568 relerr=3.79e-03 ep=1139 t=64s ov=2.15e-02
+[mucost_rq_s0_e3000] k=5 E=98.8559 exact=98.6960 relerr=1.62e-03 ep=1132 t=72s ov=4.43e-02
+[mucost_rq_s0_e3000] k=6 E=98.7706 exact=98.6960 relerr=7.56e-04 ep=984 t=65s ov=5.43e-02
+total wall 317.3865517860004
+=== 19:20:07 item5/2 broad scan s0
+[mucost_scan_broad_mu450_s0] E=15.000 mu=450 res=2.202e+01 mass=0.979 r=4.742e+00 ep=943 t=141s
+[mucost_scan_broad_mu450_s0] E=20.000 mu=450 res=9.087e-02 mass=0.999 r=3.016e-01 ep=934 t=129s
+[mucost_scan_broad_mu450_s0] E=25.000 mu=450 res=2.675e+01 mass=0.965 r=5.265e+00 ep=675 t=82s
+[mucost_scan_broad_mu450_s0] E=30.000 mu=450 res=9.439e+01 mass=0.896 r=1.026e+01 ep=497 t=66s
+Terminated
+=== 19:30:54 item4 rows
+[mucost_t1_11] E=15.500 mu=3000 res=1.820e+01 mass=1.009 r=4.248e+00 ep=1768 t=301s
+[mucost_t1_11] E=17.500 mu=3000 res=5.242e+00 mass=1.008 r=2.280e+00 ep=774 t=109s
+[mucost_t1_11] E=19.500 mu=3000 res=2.828e-01 mass=0.999 r=5.322e-01 ep=680 t=94s
+[mucost_t1_11] E=21.500 mu=3000 res=3.664e+00 mass=1.027 r=1.889e+00 ep=372 t=57s

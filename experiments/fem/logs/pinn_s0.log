@@ -1,0 +1,7 @@
+double_well s0 c=9.58 E=  8.080 res=2.509e+00 r2=2.387e+00 rho_var=9.5612 rho_res=9.5792 ep=1289 t=324s
+double_well s0 c=9.58 E=  8.580 res=1.116e+00 r2=1.089e+00 rho_var=9.5595 rho_res=9.5791 ep=1744 t=357s
+double_well s0 c=9.58 E=  9.080 res=5.515e-01 r2=3.414e-01 rho_var=9.5637 rho_res=9.5796 ep=810 t=151s
+double_well s0 c=9.58 E=  9.580 res=8.186e-02 r2=7.882e-02 rho_var=9.5616 rho_res=9.5783 ep=1238 t=234s
+double_well s0 c=9.58 E= 10.080 res=3.037e-01 r2=3.141e-01 rho_var=9.5605 rho_res=9.5784 ep=410 t=84s
+double_well s0 c=9.58 E= 10.580 res=1.026e+00 r2=1.084e+00 rho_var=9.5627 rho_res=9.5784 ep=502 t=132s
+double_well s0 c=9.58 E= 11.080 res=2.397e+00 r2=2.436e+00 rho_var=9.5711 rho_res=9.5828 ep=505 t=115s

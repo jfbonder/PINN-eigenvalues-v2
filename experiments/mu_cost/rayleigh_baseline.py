@@ -15,12 +15,13 @@ ap.add_argument("--epochs", type=int, default=3000)
 ap.add_argument("--beta", type=float, default=200.0)
 ap.add_argument("--hidden", type=int, default=128)
 ap.add_argument("--tag", type=str, default=None)
+ap.add_argument("--patience", type=int, default=300)
 a = ap.parse_args()
 torch.set_num_threads(1)
-tag = a.tag or f"mucost_rq_s{a.seed}_e{a.epochs}"
+tag = a.tag or (f"mucost_rq_s{a.seed}_e{a.epochs}" + ("" if a.patience == 300 else f"_p{a.patience}"))
 path = L.RES / f"{tag}.json"
 data = L.load_json(path, dict(tag=tag, config=dict(seed=a.seed, K=a.K, epochs=a.epochs, beta=a.beta, hidden=a.hidden,
-                    n_samples=5000, lr=1e-3, patience=300, tol=1e-5, threads=1), records=[]))
+                    n_samples=5000, lr=1e-3, patience=a.patience, tol=1e-5, threads=1), records=[]))
 exact = L.exact_eigs(a.K)
 models = []
 for rec in data["records"]:
@@ -54,7 +55,7 @@ for k in range(len(models), a.K):
         lv = loss.item()
         if lv < best - 1e-5: best, noimp = lv, 0
         else: noimp += 1
-        if noimp > 300: break
+        if noimp > a.patience: break
     wall = time.perf_counter() - t0
     model.eval()
     q_mc = L.quotients(model, n=200_000)

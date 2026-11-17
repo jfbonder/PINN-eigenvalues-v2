@@ -10,21 +10,17 @@ from experiments.fem import fem_lib as F
 RES = Path(__file__).resolve().parent.parent / "results"
 
 def annulus2(nref, r_in=0.5, r_out=1.0):
+    """Quadratic (isoparametric) mesh of the annulus: boundary edge midpoints projected onto the circles."""
     m1 = F.mesh_annulus(nref, r_in, r_out)
     m = MeshTri2.from_mesh(m1)
     p = m.p.copy()
-    # project midpoints of boundary edges onto the circles
-    bf = m1.boundary_facets()
     nv = m1.p.shape[1]
-    # locate edge midpoint dofs: find dofs of m located at midpoints of boundary facets
-    for f in bf:
+    for f in m1.boundary_facets():
         a, b = m1.facets[:, f]
         mid = 0.5 * (m1.p[:, a] + m1.p[:, b])
-        r = np.hypot(*mid)
         R = r_in if abs(np.hypot(*m1.p[:, a]) - r_in) < 1e-9 else r_out
-        j = np.argmin(((p - mid[:, None]) ** 2).sum(0))
-        p[:, j] = mid / r * R
-    return MeshTri2(p, m1.t) if False else MeshTri2(p, m.t, m._boundaries, m._subdomains) if hasattr(m, "_boundaries") else MeshTri2(p, m.t)
+        p[:, nv + f] = mid / np.hypot(*mid) * R
+    return MeshTri2(p, m.t)
 
 # case: name -> dict(mesh=builder, V=potential, levels, k, degree)
 CASES = {

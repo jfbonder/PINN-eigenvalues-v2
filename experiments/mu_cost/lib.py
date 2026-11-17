@@ -135,6 +135,15 @@ def run_chain(tag, E_list, mu, seed, hidden=128, n_epochs=3000, n_samples=5000, 
         if extra_quot:
             q = quotients(model, n=100_000)
             rec.update(q)
+        if tag.startswith(("mucost_t1_", "mucost_scan_broad")):
+            # item 3: three refinement estimators at this node (+ node checkpoint for later re-analysis)
+            h = float(E_list[1] - E_list[0]) if len(E_list) > 1 else 1.0
+            t1 = time.perf_counter()
+            qg = quotients(model, grid=300)
+            rec.update(rq_lap_grid=qg["rq_lap"], rq_grad_grid=qg["rq_grad"])
+            eo, fo = refine_old(model, float(E) - h, float(E) + h)
+            rec.update(ref_old_E=eo, ref_old_res=fo, refine_time=time.perf_counter() - t1)
+            torch.save(model.state_dict(), CK / f"{tag}_node{i}.pt")
         data["records"].append(rec)
         torch.save(model.state_dict(), ck)
         dump_json(path, data)
