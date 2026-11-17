@@ -115,6 +115,8 @@ def run_job(job, verbose=True):
         model.load_state_dict(torch.load(ck))
     elif done > 0:
         recs, done = [], 0
+    elif job.get("init_ckpt") and os.path.exists(job["init_ckpt"]):
+        model.load_state_dict(torch.load(job["init_ckpt"]))      # warm start from the coarse-scan network
     reset_every = job.get("reset_every", 10 ** 9)
     for i, E in enumerate(Es):
         if i < done:

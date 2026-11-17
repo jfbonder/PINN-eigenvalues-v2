@@ -144,3 +144,7 @@ Terminated
 [mucost_mu1000_s1] E=56.000 mu=1000 res=4.332e+01 mass=0.961 r=6.715e+00 ep=425 t=17s
 [mucost_mu1000_s1] E=58.000 mu=1000 res=7.305e+01 mass=0.972 r=8.668e+00 ep=677 t=24s
 [mucost_mu1000_s1] E=60.000 mu=1000 res=1.076e+02 mass=0.943 r=1.069e+01 ep=337 t=12s
+[mucost_mu100_s1] E=40.000 mu=100 res=4.895e+01 mass=0.558 r=9.365e+00 ep=1617 t=53s
+[mucost_mu100_s1] E=42.000 mu=100 res=3.908e+01 mass=0.718 r=7.376e+00 ep=546 t=15s
+[mucost_mu100_s1] E=44.000 mu=100 res=2.512e+01 mass=0.868 r=5.380e+00 ep=659 t=19s
+[mucost_mu100_s1] E=46.000 mu=100 res=1.056e+01 mass=0.933 r=3.363e+00 ep=419 t=12s

@@ -8,3 +8,4 @@
 [square22_coarse_P1] E= 10.0000 Lam=1.6193e+01 mass=0.9619 Lam_n=1.6893e+01 E_ls=7.7491 RQ=7.5154 core=0.00 ep=1500 t=235s
 [square22_coarse_P1] E= 11.0000 Lam=1.6152e+01 mass=0.9560 Lam_n=1.6965e+01 E_ls=15.0772 RQ=15.1144 core=0.00 ep=1500 t=205s
 [square22_coarse_P1] E= 12.0000 Lam=9.6176e+00 mass=0.9768 Lam_n=9.8673e+00 E_ls=15.1336 RQ=15.1035 core=0.00 ep=1500 t=220s
+[square22_coarse_P1] E= 13.0000 Lam=4.6704e+00 mass=0.9958 Lam_n=4.6922e+00 E_ls=15.1267 RQ=15.2215 core=0.00 ep=1500 t=219s

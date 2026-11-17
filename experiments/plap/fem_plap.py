@@ -45,6 +45,10 @@ def grid_points(n, kind):
         x = np.linspace(0, 2, 2 * n + 1); X, Y = np.meshgrid(x, x)
     elif kind == "rect":
         x = np.linspace(0, 1, n + 1); y = np.linspace(0, 2, 2 * n + 1); X, Y = np.meshgrid(x, y)
+    elif kind == "strip3":
+        x = np.linspace(0, 2 / 3, n + 1); y = np.linspace(0, 2, 3 * n + 1); X, Y = np.meshgrid(x, y)
+    elif kind == "unit":
+        x = np.linspace(0, 1, n + 1); X, Y = np.meshgrid(x, x)
     elif kind == "tri":
         x = np.linspace(0, 2, 2 * n + 1); X, Y = np.meshgrid(x, x); k = Y <= X + 1e-12; X, Y = X[k], Y[k]
     return np.c_[X.ravel(), Y.ravel()]
@@ -65,6 +69,13 @@ DOM = {
                   lambda x, y: (x < 1e-12) | (x > 1 - 1e-12) | (y < 1e-12) | (y > 2 - 1e-12), None),
     "tri_diag":  (lambda n: grid_points(n, "tri"),
                   lambda x, y: (y < 1e-12) | (x > 2 - 1e-12) | (np.abs(x - y) < 1e-12), None),
+    "strip3":    (lambda n: grid_points(n, "strip3"),
+                  lambda x, y: (x < 1e-12) | (x > 2 / 3 - 1e-12) | (y < 1e-12) | (y > 2 - 1e-12), None),
+    "unit_square": (lambda n: grid_points(n, "unit"),
+                    lambda x, y: (x < 1e-12) | (x > 1 - 1e-12) | (y < 1e-12) | (y > 1 - 1e-12), None),
+    **{f"sector_pi/{m}": (lambda n, m=m: sector_points(n, 0, np.pi / m),
+                          lambda x, y, m=m: (x * x + y * y > 1 - 1e-9) | (y < 1e-12)
+                          | (np.abs(x * np.sin(np.pi / m) - y * np.cos(np.pi / m)) < 1e-9), None) for m in (2, 3, 4)},
     # axisymmetric: coordinates (rho, z) = (x, y), weight rho, natural condition on rho = 0
     "ball3_axi":     (lambda n: sector_points(n, -np.pi / 2, np.pi / 2), lambda x, y: x * x + y * y > 1 - 1e-9, "rho"),
     "halfball3_axi": (lambda n: sector_points(n, 0, np.pi / 2),
@@ -163,7 +174,8 @@ def main():
     ns = [n for n in (20, 40, 80, 160, 320) if n <= a.nmax]
     cases = [("disk", 2.0), ("disk", 2.2), ("halfdisk", 2.0), ("halfdisk", 2.2), ("square2", 2.2), ("rect1x2", 2.2),
              ("tri_diag", 2.2), ("ball3_axi", 2.5), ("halfball3_axi", 2.0), ("halfball3_axi", 2.5),
-             ("disk", 1.5), ("disk", 3.0), ("disk", 4.0)]
+             ("sector_pi/2", 2.0), ("sector_pi/2", 2.2), ("sector_pi/3", 2.2), ("sector_pi/4", 2.2),
+             ("strip3", 2.2), ("unit_square", 2.2), ("disk", 1.5), ("disk", 3.0), ("disk", 4.0)]
     path = os.path.join(os.path.dirname(__file__), "..", "results", "plap_fem_refs.json")
     out = json.load(open(path)) if os.path.exists(path) else {}
     for name, p in cases:

@@ -50,3 +50,5 @@ four_well s0 c=33.23 E= 34.730 res=4.329e+00 r2=3.577e+00 rho_var=33.2633 rho_re
 four_well s0 c=39.47 E= 37.970 res=7.771e+00 r2=6.498e+00 rho_var=39.3481 rho_res=39.3024 ep=2000 t=166s
 four_well s0 c=39.47 E= 38.470 res=1.740e+00 r2=1.971e+00 rho_var=39.5011 rho_res=39.4432 ep=1254 t=112s
 four_well s0 c=39.47 E= 38.970 res=1.052e+00 r2=9.848e-01 rho_var=39.5162 rho_res=39.4578 ep=636 t=54s
+four_well s0 c=39.47 E= 39.470 res=1.328e+00 r2=2.283e+00 rho_var=39.5053 rho_res=39.4526 ep=710 t=55s
+four_well s0 c=39.47 E= 39.970 res=1.394e+00 r2=1.502e+00 rho_var=39.5181 rho_res=39.4598 ep=438 t=40s

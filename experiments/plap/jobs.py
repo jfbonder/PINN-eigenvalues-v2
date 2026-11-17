@@ -20,12 +20,24 @@ def J(name, domain, p, E, proto, **kw):
 
 
 G3 = [6.0, 6.5, 7.0]
+KEEP = dict(keep_models=True)
+LOC = dict(h=0.5, npts=3)
+# higher eigenvalues (authors' request): extended windows, then a local 3-point scan at EVERY detected minimum,
+# warm-started from the coarse-scan network of the nearest grid point.
+HI_A = [
+    J("disk22_coarse2_P1", "disk", 2.2, np.arange(24, 58.01, 1.0), P1, **KEEP),
+    dict(J("disk22_loc", "disk", 2.2, [], P1), local_all_from=["disk22_coarse_P1", "disk22_coarse2_P1"], **LOC),
+]
+HI_B = [
+    J("square22_coarse2_P1", "square2", 2.2, np.arange(19, 37.01, 1.0), P1, **KEEP),
+    dict(J("square22_loc", "square2", 2.2, [], P1), local_all_from=["square22_coarse_P1", "square22_coarse2_P1"], **LOC),
+]
 A = [   # worker 0
     J("disk22_coarse_P1", "disk", 2.2, np.arange(3, 25.01, 1.0), P1),
+    *HI_A,
     J("disk22_coarse_P0", "disk", 2.2, np.arange(3, 25.01, 1.0), P0),
     J("disk22_legacy_P0", "disk", 2.2, np.arange(5.5, 8.01, 0.25), P0, legacy=True, mu=4000.0),
     J("disk22_legacy_P1", "disk", 2.2, np.arange(6.0, 8.01, 0.5), P1, legacy=True, mu=4000.0),
-    dict(J("disk22_E2_local", "disk", 2.2, [], P1, epochs0=3000), local_from="disk22_coarse_P1", k=1, h=0.5, npts=3),
     J("conv_P0_s0", "disk", 2.2, G3, P0, seed=0),
     J("conv_P0_s1", "disk", 2.2, G3, P0, seed=1),
     J("conv_P0_s2", "disk", 2.2, G3, P0, seed=2),
@@ -41,7 +53,8 @@ A = [   # worker 0
     J("disk_p4_w256d4", "disk", 4.0, [14.0, 15.0, 16.0], P1, width=256, depth=4),
 ]
 B = [   # worker 1
-    J("square22_coarse_P1", "square2", 2.2, np.arange(3, 20.01, 1.0), P1),
+    J("square22_coarse_P1", "square2", 2.2, np.arange(3, 20.01, 1.0), P1, **KEEP),
+    *HI_B,
     J("conv_base_s0", "disk", 2.2, [5.5, 6.0, 6.5, 7.0, 7.5], P1, seed=0),
     J("conv_base_s1", "disk", 2.2, G3, P1, seed=1),
     J("conv_base_s2", "disk", 2.2, G3, P1, seed=2),
@@ -51,8 +64,6 @@ B = [   # worker 1
     dict(J("ball25_E1_local", "ball3", 2.5, [], P1), local_from="ball25_coarse_P1", k=0, h=1.0, npts=3),
     dict(J("ball25_E2_local", "ball3", 2.5, [], P1, epochs0=3000), local_from="ball25_coarse_P1", k=1, h=1.0, npts=3),
     J("ball25_legacy_P1", "ball3", 2.5, [16.0, 17.0, 18.0, 19.0], P1, legacy=True, mu=4000.0),
-    dict(J("square22_E1_local", "square2", 2.2, [], P1), local_from="square22_coarse_P1", k=0, h=0.5, npts=3),
-    dict(J("square22_E2_local", "square2", 2.2, [], P1, epochs0=3000), local_from="square22_coarse_P1", k=1, h=0.5, npts=3),
     J("conv_w256d4", "disk", 2.2, G3, P1, width=256, depth=4),
     J("disk_p3", "disk", 3.0, [8.5, 9.25, 10.0, 10.75, 11.5], P1),
     J("disk_p4", "disk", 4.0, [13.0, 14.0, 15.0, 16.0, 17.0], P1),
