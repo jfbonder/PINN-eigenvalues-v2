@@ -5,6 +5,7 @@ Variants (job["variant"]):
   mixed    : network outputs (u, sigma);  int (div sigma + E w)^2 + lam int |sigma - |grad u|^{p-2} grad u|^2 + mu(...)^2
   wdown    : int omega (Delta_p u + E w)^2 + ...,  omega = |grad u|^2/(|grad u|^2 + kappa^2)   (down-weights critical points)
   wdiv     : int [(Delta_p u + E w)/(|grad u|^2+kappa^2)^{(p-2)/2}]^2 + ...              (literal "divide by the degenerate factor")
+  feat     : (option of any variant) extra network input |x - c|^{p/(p-1)}, c = 0 ("fixed") or trainable ("learn")
   + options: N (MC points), imp (importance sampling: fraction of points drawn uniformly in the disk of radius imp_r around 0,
              with the exact importance weights), mu, epochs, seed.
 Protocol P1 everywhere: Adam, lr 1e-3 -> 1e-5 cosine, fixed number of epochs per node, warm start along the grid.
@@ -31,9 +32,14 @@ VOL = float(np.pi)
 
 
 class Net(nn.Module):
-    def __init__(self, n_out, width=128, depth=3):
+    def __init__(self, n_out, width=128, depth=3, feat=None, q=1.4):
         super().__init__()
-        L = [nn.Linear(2, width), nn.Tanh()]
+        # feat: singular input feature rho = |x - c|^q, q = p/(p-1) (the exact local profile of an eigenfunction at a
+        # nondegenerate extremum); c fixed at the origin ("fixed") or trainable ("learn").
+        self.feat = feat; self.q = q
+        if feat:
+            self.c = nn.Parameter(torch.zeros(1, 2), requires_grad=(feat == "learn"))
+        L = [nn.Linear(3 if feat else 2, width), nn.Tanh()]
         for _ in range(depth - 1):
             L += [nn.Linear(width, width), nn.Tanh()]
         L.append(nn.Linear(width, n_out))
@@ -43,13 +49,18 @@ class Net(nn.Module):
                 nn.init.xavier_uniform_(m.weight, gain=nn.init.calculate_gain("tanh")); nn.init.zeros_(m.bias)
 
     def forward(self, x):
-        o = self.net(x)
+        if self.feat:
+            rho = ((x - self.c).pow(2).sum(1, keepdim=True) + 1e-12) ** (self.q / 2)
+            o = self.net(torch.cat([x, rho], 1))
+        else:
+            o = self.net(x)
         B = 1.0 - (x ** 2).sum(1, keepdim=True)
         return B * o[:, 0:1], o[:, 1:]            # u (Dirichlet), sigma (free; empty unless mixed)
 
 
 def make_model(job):
-    return Net(3 if job["variant"] == "mixed" else 1, job.get("width", 128), job.get("depth", 3))
+    p = float(job["p"])
+    return Net(3 if job["variant"] == "mixed" else 1, job.get("width", 128), job.get("depth", 3), job.get("feat"), p / (p - 1))
 
 
 def sample(n, job):

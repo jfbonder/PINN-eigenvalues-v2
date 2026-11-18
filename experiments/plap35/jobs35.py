@@ -35,4 +35,7 @@ B = [J("mixed_s0", "mixed", G5, lam=100.0, keep_models=True), J("mixed_s1", "mix
      J("mixed_fine_P1", "mixed", FINE, lam=100.0),
      J("mixed_P0_s0", "mixed", G5, lam=100.0, proto="P0", epochs=2000),
      J("mixed_E2", "mixed", "E2", lam=100.0, epochs0=3000, keep_models=True)]
-QUEUES = {"A": A, "B": B}
+C = [J("feat0_s0", "base", G5, feat="fixed", keep_models=True), J("featc_s0", "base", G5, feat="learn"),
+     J("feat0_s1", "base", G5, feat="fixed", seed=1), J("feat0_s2", "base", G5, feat="fixed", seed=2),
+     J("feat0_fine", "base", FINE, feat="fixed")]
+QUEUES = {"A": A, "B": B, "C": C}
