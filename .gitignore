@@ -14,3 +14,8 @@ __pycache__/
 *.pt
 *.tmp
 experiments/*/ckpt/
+experiments/report_L_p35/*.aux
+experiments/report_L_p35/*.log
+experiments/report_L_p35/*.fls
+experiments/report_L_p35/*.fdb_latexmk
+experiments/report_L_p35/*.out

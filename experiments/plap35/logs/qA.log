@@ -56,3 +56,5 @@
 [base_E2] E= 67.000 loss_var=2.137e+03 Lam_strong=2.137e+03 mass=0.009 E_var=38.3067 E_strong=38.3067 core=0.00 t=197s
 [base_E2] E= 69.000 loss_var=8.812e+02 Lam_strong=8.812e+02 mass=0.060 E_var=62.5187 E_strong=62.5187 core=0.06 t=197s
 [base_E2] E= 71.000 loss_var=1.763e+03 Lam_strong=1.763e+03 mass=0.013 E_var=50.0796 E_strong=50.0796 core=0.01 t=210s
+[base_E2] E= 73.000 loss_var=1.899e+02 Lam_strong=1.899e+02 mass=0.476 E_var=69.3082 E_strong=69.3082 core=0.23 t=212s
+QUEUE DONE
