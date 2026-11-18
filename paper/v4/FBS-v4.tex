@@ -1618,7 +1618,8 @@ $d\le11$.
 
 \section{Convergence study for the \texorpdfstring{$p$}{p}-Laplacian}\label{app.conv}
 \begin{revblock}
-\begin{table}[tbp]
+Tables~\ref{tab.plap.conv} and~\ref{tab.plap.conv2} collect the convergence studies for the first and second eigenvalues of the $p$-Laplacian discussed in Section~\ref{sec.nolin}.
+\begin{table}[H]
 \centering\small
 \color{blue}
 \caption{Convergence study for the first eigenvalue of the $p$-Laplacian, $p=2.2$, in the unit disk ($E_1=6.53174$). Each row changes one setting of the baseline ($3\times128$, $N=5000$, 1500 epochs with learning-rate decay, $\mu=200$, $h=0.5$); the loss is sampled at $E=6.0,6.5,7.0$ on $4\cdot10^4$ fresh points. P0: constant learning rate $10^{-3}$ with early stopping. Single runs (seed 0) except where the seed is given.}
@@ -1648,7 +1649,7 @@ $h=0.125$ & -- & 0.116 & -- & -- (monotone) & 6.5337 ($+0.03$)\\
 \end{tabular}
 \end{table}
 
-\begin{table}[tbp]
+\begin{table}[H]
 \centering\small
 \color{blue}
 \caption{Convergence study for the second eigenvalue of the $p$-Laplacian, $p=2.2$, in the unit disk (reference $18.3929$: finite elements on the half disk; $18.395$ in \cite{HJ11}). Nodes $E=18.0,18.5,19.0$; $E_{\rm PINN}$ from the network trained at $E=18.5$; single runs (seed 0) except the three baseline seeds.}
@@ -1683,8 +1684,6 @@ approved the final version of the manuscript.
 
 \noindent\textbf{Acknowledgement:} JFB thanks Pablo Groisman for encouraging him to teach a course on
 the Mathematical Foundations of Deep Learning in the fall semester of 2025, which inspired this work.
-This work was partially supported by grants UBACYT Prog.\ 2018 20020170100445BA and ANPCyT PICT
-2019-00985.
 
 \noindent\textbf{Data availability statement:} No external data were used. The Python code, the scripts
 of all the experiments reported here and their raw results are openly accessible at
