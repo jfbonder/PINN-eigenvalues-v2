@@ -2,3 +2,7 @@ k1 W s0 E= 9.20 rho_res=9.4117 rho_var=9.2814 r=0.504 mass=1.001 bdry=2.0e-03 co
 k1 W s0 E= 9.30 rho_res=9.4720 rho_var=9.3956 r=0.472 mass=0.993 bdry=1.7e-03 corner=0.46 t=131s
 k1 W s0 E= 9.40 rho_res=9.4690 rho_var=9.3852 r=0.431 mass=1.010 bdry=1.6e-03 corner=0.52 t=127s
 k1 W s0 E= 9.50 rho_res=9.5540 rho_var=9.5486 r=0.411 mass=0.991 bdry=1.4e-03 corner=0.53 t=134s
+k1 W s0 E= 9.60 rho_res=9.6452 rho_var=9.7278 r=0.406 mass=0.983 bdry=1.4e-03 corner=0.52 t=124s
+k1 W s0 E= 9.70 rho_res=9.5971 rho_var=9.6265 r=0.398 mass=0.992 bdry=1.2e-03 corner=0.51 t=116s
+k1 W s0 E= 9.80 rho_res=9.5865 rho_var=9.6024 r=0.431 mass=1.003 bdry=1.1e-03 corner=0.43 t=119s
+k1 W s0 E= 9.90 rho_res=9.7231 rho_var=9.8750 r=0.415 mass=0.975 bdry=1.4e-03 corner=0.45 t=116s
