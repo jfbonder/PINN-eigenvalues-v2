@@ -29,7 +29,7 @@ out.append(r"""% ---------------------------------------------------------------
 def modes(dom, caption, label, hc):
     rows = [e for e in S["main"] if e["dom"] == dom]
     t = [r"\begin{table}[ht]", r"\centering", r"\begin{tabular}{clccccc}", r"\toprule",
-         r"$k$ & Symmetry of the eigenfunction [reference] & $E_{\rm ref}$ & $E_{\rm PINN}$ & rel.\ err.\ (\%) & $E_{\rm curve}$ ($h=%s$) & $\bar\Lambda_p^{1/2}$ \\" % hc,
+         r"$k$ & Symmetry of the eigenfunction [reference] & $E_{\rm ref}$ & $E_{\rm PINN}$ & rel.\ err.\ (\%) & $E_{\rm curve}$ ($h=HC$) & $\bar\Lambda_p^{1/2}$ \\".replace("HC", hc),
          r"\midrule"]
     for e in rows:
         t.append(f"{e['k']} & {SYM.get(e['ref_type'], e['ref_type'])} & {e['ref']:.4f} & {e['E_ls']:.4f} & {pc(e['err_E_ls'])} & "
@@ -49,13 +49,13 @@ t = [r"\begin{table}[ht]", r"\centering", r"\begin{tabular}{lcccccc}", r"\toprul
      r"Setting & $\bar\Lambda_p(6.0)$ & $\bar\Lambda_p(6.5)$ & $\bar\Lambda_p(7.0)$ & $E_{\rm curve}$ (err.\ \%) & $E_{\rm PINN}$ (err.\ \%) & time (min) \\", r"\midrule"]
 for e in S["convergence"]:
     L = dict(zip(e["E"], e["Lam_all"])); g = lambda x: f"{L[x]:.3f}" if x in L else "--"
-    d = e["desc"].replace("mu=", r"$\mu=$").replace("x", r"$\times$") if e["name"] != "conv_base_s0" else r"baseline: $3\times128$, $N=5000$, 1500 epochs, lr decay, $\mu=200$, $h=0.5$"
-    if "E-step" in e["desc"]: d = "$E$-step $h=%s$" % e["desc"].split("=")[1]
+    d = e["desc"].replace("mu=", r"$\mu=$").replace("2x", r"$2\times$").replace("4x", r"$4\times$") if e["name"] != "conv_base_s0" else r"baseline: $3\times128$, $N=5000$, 1500 epochs, lr decay, $\mu=200$, $h=0.5$"
+    if "E-step" in e["desc"]: d = "$E$-step $h=" + e["desc"].split("=")[1] + "$"
     t.append(f"{d} & {g(6.0)} & {e['Lam_65']:.3f} & {g(7.0)} & {e['E_vertex']:.3f} ({pc(e['err_vertex'])}) & {e['E_ls']:.4f} ({pc(e['err_ls'])}) & {e['wall_s']/60:.0f} \\\\")
 t += [r"\bottomrule", r"\end{tabular}",
-      r"\caption{Convergence study for the first eigenvalue of the $p$-Laplacian, $p=2.2$, in the unit disk ($E_1=%.5f$ by radial shooting). "
+      r"\caption{Convergence study for the first eigenvalue of the $p$-Laplacian, $p=2.2$, in the unit disk ($E_1=E1REF$ by radial shooting). "
       r"Each row changes one setting of the baseline; the loss curve is sampled at $E=6.0,6.5,7.0$ (fresh sample of $4\cdot10^4$ points). "
-      r"P0 is the protocol of the previous version (constant learning rate $10^{-3}$, early stopping).}" % S["refs"]["disk22_E1"],
+      r"P0 is the protocol of the previous version (constant learning rate $10^{-3}$, early stopping).}".replace("E1REF", "%.5f" % S["refs"]["disk22_E1"]),
       r"\label{tab.plap.conv}", r"\end{table}", ""]
 out += t
 # other p
