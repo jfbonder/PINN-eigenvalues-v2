@@ -233,3 +233,150 @@ python -m experiments.plap.run --worker 0 (and 1); python -m experiments.plap.an
 | 4.0 | disk_p4 | 1.0 | 14.6816 | 15.8859 | +8.20 | 14.8952 | +1.45 | 14.7695 | +0.60 | 6.262 | 0.66 |
 
 Total training wall time (sum over jobs, 1 thread each): 14.5 h
+
+---
+
+# Round 2 (referee check H, items 9 and 13; authors' request on the regularized operator)
+
+Code: jobs `r2_*` and `reg_*` in `jobs.py` (queues 2–4), `refs_reg.py`, `analyze_r2.py` → `tables_r2.md`, `tables_reg.md`,
+`results/plap_summary_r2.json`, `results/plap_refs_reg.json`; LaTeX appended to `tables.tex` (Tables `tab.plap.seeds`,
+`tab.plap.conv2`, `tab.plap.p.seeds`, `tab.plap.reg`). One process, 1 thread; ≈ 5.5 h of training in total. Same baseline settings as
+round 1 (3×128, N = 5000, μ = 200, P1). **Seeds: every round-1 number is seed 0** unless a seed is named; round 2 adds seeds 1 and 2.
+
+## R2.1 Seeds for the main p = 2.2 results (item 9)
+
+Local 3-node scans (h = 0.5), three seeds each (table (a) below).
+* Disk E_1: E_PINN = 6.5320, 6.5329, 6.5285 → mean 6.5311, spread 0.0044, max |err| 0.05 %.
+* Disk E_2: 18.4069, 18.3890, 18.3968 → mean 18.3976, spread 0.018, max |err| 0.08 %.
+* Square E_1: 5.4902, 5.4867, 5.4966 → mean 5.4912, spread 0.010, max |err| 0.15 %.
+* Square E_2: 15.1440, **15.2467**, 15.1396. Seeds 0 and 2 converge to the diagonal mode (15.1429; errors +0.01, −0.02 %), seed 1 to the
+  midline mode (15.2808; error −0.22 %). The two eigenvalues are 0.9 % apart and share one minimum of the loss curve, so *which* of them
+  is returned depends on the initialization; a mean over seeds is meaningless here and the table reports the error to the nearer one.
+* The loss-curve vertex is much less reproducible than E_PINN: disk E_2 +0.11/+0.30/+0.34 %, square E_1 +0.49/−0.11/**−1.64** %,
+  square E_2 15.16/15.51/15.42.
+
+## R2.2 Convergence for the second eigenvalue of the disk (item 9)
+
+Table (b). E_PINN (network trained at E = 18.5) stays within ±0.08 % for all six configurations (three seeds, the old protocol P0, a 2×64
+network, 5000 epochs); over the three nodes 18.0–19.0 it ranges over 18.367–18.408 (−0.14 to +0.08 %). The curve vertex is again the weak
+quantity and does **not** improve with effort: +0.11/+0.30/+0.34 % (seeds), +0.22 % (P0), +1.23 % (2×64), **+1.68 % (5000 epochs)** — longer
+training lowers the floor on one side of the eigenvalue more than on the other (Λ̄ = 1.09, 0.71, 0.75 at 18.0, 18.5, 19.0). The floor
+(≈ 0.85, core fraction 0.4) is ≈ 7 times that of E_1. So the conclusions drawn for E_1 carry over to E_2; the only difference is that P0
+happened to be harmless in this one run (single seed).
+
+## R2.3 p = 3 and p = 4: seeds and node dependence (item 9)
+
+Table (c). "Node dependence" = E_PINN of the networks trained at the three central nodes of the 5-node grid.
+* **p = 3** (h = 0.75): at the grid minimum (always the node E = 10.0) E_PINN = 9.801, 9.827, 9.814 (errors −0.31, −0.05, −0.18 %;
+  max 0.31 %). But E_PINN depends on the node: 9.756–9.911 over nodes 9.25–10.75 and three seeds (−0.77 to +0.81 %), i.e. it drifts by
+  ≈ 0.1 per unit of E. The curve vertex is 9.885/9.929/9.917 (+0.55 to +1.00 %).
+* **p = 4** (h = 1): the curve is flat (Λ̄ = 4.4–8.0 between E = 14 and 16), the grid minimum is at 16, 15, 15 for the three seeds,
+  E_PINN there = 14.895, 14.613, 14.533 (+1.45, −0.47, −1.02 %), node range 14.31–14.90 (−2.6 to +1.5 %), curve vertex +8.2, (+5.6), −0.95 %.
+  In addition **2 of the 15 trainings collapsed to u ≡ 0** (mass < 0.5: seed 1 at E = 14, seed 2 at E = 13; the +5.6 % vertex of seed 1 uses
+  the collapsed node and is meaningless), as did the 4×256 run of round 1.
+* For comparison, p = 2.2: E_PINN over nodes 6.0–7.0 and three seeds is 6.526–6.537 (−0.09 to +0.08 %).
+* **Honest conclusion:** the method is validated for p ∈ [2.2, 3] (2.5 in 3-D); at p = 3 the accuracy is ≈ 0.3 % at the grid minimum and
+  ≈ 0.8 % if the node is off by one grid step; p = 4 is marginal (1–2.5 %, flat curve, occasional collapse) and should not be presented as
+  a success; p = 1.5 fails without regularization (see R2.5). The statement "accuracy degrades from 0.05 % (p = 2.2) to 0.3 % (p = 3) and
+  1.5 % (p = 4)" should be replaced by these ranges.
+* Referee remark on the h-refinement row (h = 0.125 "+3.7 %"): correct — in that triple the loss is monotone (0.156, 0.116, 0.091), the
+  vertex 6.77 lies outside the stencil and is an extrapolation. The rows h = 0.25 and 0.125 are single-seed 3-node stencils; what they show
+  is that at h ≤ 0.25 the differences between nodes (0.02–0.07) are of the size of the floor fluctuations, so the curve no longer brackets
+  the minimum reliably; the number +3.7 % itself should not be quoted as an error estimate.
+
+## R2.4 Reconciling Remark 1 (wrong loss) and Sec. 5.3(1) (optimization noise) — item 13
+
+Suggested text (3–4 sentences):
+
+> The former values were affected by two independent defects, which should not be confused. The systematic one is the loss: the former
+> code solved −Δ_p u = E u with mean(u²) = 1, whose values are 6.935 and ≈ 19.70 for the first two modes of the disk and ≈ 17.6 in the ball
+> of R³ (frozen-network values of our re-runs: 6.93, 19.68–19.70, 17.62), against the true 6.532, 18.393 and 14.111; this is what explains
+> the former 19.44 (+5.7 %) and 17.45 (+24 %), which are far outside anything optimization noise produces with the correct loss
+> (at most 2.3 % in our runs). The random one is the former training protocol (constant learning rate, early stopping), which leaves
+> fluctuations of ±0.1–0.2 in the loss curve and makes the located minimum scatter inside a flat basin; this is why the former values
+> (6.679, 19.44, 17.45) do not sit exactly on the values of the wrong problem (6.935, 19.70, 17.6) either. With the corrected loss the
+> same protocol gives vertex errors of −0.17, +0.47 and +2.26 % over three seeds for E_1 of the disk; that one of these (6.6795) agrees
+> with the former 6.679 to three digits is a coincidence — the former number was produced by the former loss (as the original notebook
+> shows), and the other two seeds give 6.520 and 6.562.
+
+Accordingly, in Sec. 5.3(1) the phrase "the size of the errors of the former tables" should be weakened to "errors of up to 2 % of either
+sign even with the correct loss"; the former *bias* is due to the loss (Remark 1), the noise only adds scatter.
+New data behind this: `r2_disk22_legacyE2_P1` (legacy loss, P1, nodes 17–21: loss 8.59, 4.05, 1.66, 1.18, 2.73; frozen-network E =
+19.68–19.70 at every node; vertex 19.74).
+
+## R2.5 Regularized p-Laplacian (authors' request)
+
+Loss: ∫(div((|∇u|²+ε²)^{(p−2)/2}∇u) + E|u|^{p−2}u)² + μ(∫|u|^p − 1)², implemented in `core.train_one_reg` (pinn_eigen.py untouched),
+P1, coarse grid h = 0.5 on [2.5, 6] then a local 3-node scan h = 0.25 warm-started from the coarse network.
+
+* **Reference** (`refs_reg.py`): radial shooting with the flux r^{d−1}(u'²+ε²)^{(p−2)/2}u'. The regularized problem is **not homogeneous**:
+  the value of E for which a positive solution exists depends on the amplitude, hence on the normalization. With ∫|u|^p = 1 on the unit
+  disk: p = 1.5: E_ε = 3.9572 (ε = 0.3), 4.0099 (0.1), 4.0170 (0.03), 4.0177 (0.01) → E_1 = 4.0178 (shift −1.51, −0.20, −0.02, −0.00 %);
+  p = 4: 15.288 (ε = 0.3), 14.749 (0.1) vs 14.682 (+4.1, +0.46 %). A ±2 % error in the mass changes E_ε by ≤ 0.04 % (p = 1.5).
+* **p = 1.5: the regularization cures the failure, for all three ε** (table below). Unregularized: no minimum, Λ̄ = 24–58, E_PINN 5.3–7.8.
+  Regularized: a clean minimum at E ≈ 4 with Λ̄_min ≈ 0.10–0.12 (r ≈ 0.32, the level of p = 2.2), mass 1.001, and
+  E_PINN = 3.9480 / 3.9988 / 4.0054 for ε = 0.3 / 0.1 / 0.03, i.e. −0.23 / −0.28 / −0.29 % with respect to E_ε and
+  **−1.74 / −0.47 / −0.31 % with respect to the true E_1**. Curve vertex (coarse): 3.968 / 4.014 / 4.019 (+0.27 / +0.11 / +0.06 % vs E_ε).
+* **Trend as ε → 0:** the model error E_ε − E_1 decreases as predicted (−1.5 → −0.2 → −0.02 %), while the PINN error with respect to E_ε
+  stays at ≈ −0.25 % for all ε and the floor rises slightly (0.097 → 0.104 → 0.119). So for ε ≤ 0.1 the total error is dominated by the
+  PINN error, not by the regularization, and ε = 0.03 is no better than could be expected from ε = 0.1 beyond the 0.2 % model shift. We did
+  not go below ε = 0.03, so we do not know where between 0.03 and the 10⁻¹² safeguard the training breaks down.
+* E_PINN depends on the node: 3.943–3.957, 3.992–4.007, 3.999–4.015 over the local nodes 3.75–4.25 (≈ ±0.2 %), and it is below E_ε at the
+  grid minimum for every ε. The core fraction is ≈ 0.01, so here the residual is *not* concentrated at the critical point; we have not
+  identified the origin of this −0.25 % bias (a candidate is the term |u|^{p−2}u, which is not Lipschitz at u = 0, i.e. at the boundary,
+  when p < 2). Single seed.
+* **p = 4, ε = 0.1: no improvement** (as expected: for p > 2 the difficulty is the defect at the critical points, not a singularity of the
+  operator). Λ̄ = 6.1–8.7 between E = 14 and 17 (unregularized 6.3–8.9), core fraction 0.67–0.84, grid minimum at 16,
+  E_PINN = 14.946 (+1.33 % vs E_ε = 14.749, +1.80 % vs E_1), node range 14.38–14.95; essentially identical to the unregularized seed-0 run.
+* **Suggested statement for the paper:** for 1 < p < 2 the method works with the regularized operator (tested: p = 1.5, ε ∈ {0.3, 0.1, 0.03},
+  unit disk, first eigenvalue, one seed), with a total error of 0.3–0.5 % for ε ≤ 0.1, of which ≤ 0.2 % is the known regularization shift;
+  the computed number is an eigenvalue of the regularized problem under the normalization ∫|u|^p = 1, not of the p-Laplacian.
+
+## R2 tables (generated by `analyze_r2.py`)
+
+### Round 2 (a): three seeds, local windows, corrected loss, protocol P1 (p = 2.2)
+
+| case | ref | E_PINN per seed (0,1,2) | mean | spread (max-min) | err of mean % | max abs err % | E_curve per seed | Lam_min per seed |
+|---|---|---|---|---|---|---|---|---|
+| disk E1 | 6.5317 | 6.5320, 6.5329, 6.5285 | 6.5311 | 0.0044 | -0.01 | 0.05 | 6.543, 6.545, 6.544 | 0.131, 0.130, 0.125 |
+| disk E2 | 18.3929 | 18.4069, 18.3890, 18.3968 | 18.3976 | 0.0179 | +0.03 | 0.08 | 18.414, 18.447, 18.456 | 0.832, 0.890, 0.876 |
+| square E1 | 5.4950 | 5.4902, 5.4867, 5.4966 | 5.4912 | 0.0100 | -0.07 | 0.15 | 5.522, 5.489, 5.405 | 0.217, 0.235, 0.147 |
+| square E2 (two close eigenvalues 15.1429 diag / 15.2808 midline) | nearest | 15.1440→15.1429, 15.2467→15.2808, 15.1396→15.1429 | -- | -- | -- | 0.22 | 15.160, 15.507, 15.420 | 0.197, 0.959, 1.007 |
+
+### Round 2 (b): convergence for the SECOND eigenvalue of the disk, p = 2.2 (ref 18.3929; nodes 18.0, 18.5, 19.0)
+
+| setting | Lam(18.0) | Lam(18.5) | Lam(19.0) | core frac | E_curve | err % | E_PINN (node 18.5) | err % | E_PINN over the 3 nodes | wall min |
+|---|---|---|---|---|---|---|---|---|---|---|
+| baseline, seed 0 | 1.056 | 0.832 | 1.292 | 0.40 | 18.414 | +0.11 | 18.4069 | +0.08 | 18.3868–18.4069 | 14 |
+| baseline, seed 1 | 1.066 | 0.890 | 1.160 | 0.43 | 18.447 | +0.30 | 18.3890 | -0.02 | 18.3857–18.3933 | 13 |
+| baseline, seed 2 | 1.144 | 0.876 | 1.259 | 0.41 | 18.456 | +0.34 | 18.3968 | +0.02 | 18.3801–18.3968 | 14 |
+| P0 (constant lr, early stop) | 1.103 | 0.937 | 1.226 | 0.43 | 18.433 | +0.22 | 18.3867 | -0.03 | 18.3867–18.4084 | 7 |
+| network 2x64 | 1.576 | 1.123 | 1.284 | 0.43 | 18.619 | +1.23 | 18.3823 | -0.06 | 18.3823–18.4007 | 4 |
+| 5000 epochs | 1.087 | 0.712 | 0.753 | 0.48 | 18.701 | +1.68 | 18.3857 | -0.04 | 18.3668–18.3904 | 35 |
+
+### Round 2 (c): p = 3 and p = 4, unit disk, E1: three seeds and node dependence of E_PINN
+
+| p | seed | ref | nodes | Lam at nodes | E_PINN at nodes | grid-min node | E_PINN there (err %) | E_curve (err %) | node range of E_PINN, 3 central nodes (err %) |
+|---|---|---|---|---|---|---|---|---|---|
+| 3.0 | 0 | 9.8315 | [8.5, 9.25, 10.0, 10.75, 11.5] | 3.33, 0.87, 0.60, 1.11, 2.66 | 9.658, 9.775, 9.801, 9.910, 10.001 | 10.0 | 9.8012 (-0.31) | 9.885 (+0.55) | 9.775–9.910 (-0.57 to +0.80) |
+| 3.0 | 1 | 9.8315 | [8.5, 9.25, 10.0, 10.75, 11.5] | 2.69, 0.97, 0.57, 1.15, 2.84 | 9.633, 9.758, 9.827, 9.911, 9.981 | 10.0 | 9.8265 (-0.05) | 9.929 (+1.00) | 9.758–9.911 (-0.75 to +0.81) |
+| 3.0 | 2 | 9.8315 | [8.5, 9.25, 10.0, 10.75, 11.5] | 3.30, 0.98, 0.67, 1.15, 2.73 | 9.656, 9.756, 9.814, 9.889, 10.000 | 10.0 | 9.8142 (-0.18) | 9.917 (+0.87) | 9.756–9.889 (-0.77 to +0.58) |
+| 3.0 | all | | | | | | max abs err 0.31 % | | 9.756–9.911 (-0.77 to +0.81) |
+| 4.0 | 0 | 14.6816 | [13.0, 14.0, 15.0, 16.0, 17.0] | 37.46, 8.04, 7.94, 6.26, 8.93 | 13.540, 14.339, 14.454, 14.895, 15.156 | 16.0 | 14.8952 (+1.45) | 15.886 (+8.20) | 14.339–14.895 (-2.34 to +1.45) |
+| 4.0 | 1 | 14.6816 | [13.0, 14.0, 15.0, 16.0, 17.0] | 12.53, 1344014.72, 4.44, 5.21, 8.99 | 13.839, 406.516, 14.613, 14.900, 15.133 | 15.0 | 14.6130 (-0.47) | 15.500 (+5.57) | 14.613–14.900 (-0.47 to +1.48); COLLAPSED to u=0 at E=[14.0] |
+| 4.0 | 2 | 14.6816 | [13.0, 14.0, 15.0, 16.0, 17.0] | 16126.52, 6.12, 6.11, 6.54, 8.35 | 49.069, 14.306, 14.533, 14.801, 15.191 | 15.0 | 14.5326 (-1.02) | 14.543 (-0.95) | 14.306–14.801 (-2.56 to +0.81); COLLAPSED to u=0 at E=[13.0] |
+| 4.0 | all | | | | | | max abs err 1.45 % | | 14.306–14.900 (-2.56 to +1.48) |
+
+### Round 2 (d): legacy loss near the published second value of the disk (19.44; true 18.393)
+
+nodes [17.0, 18.0, 19.0, 20.0, 21.0], legacy loss [8.591, 4.054, 1.664, 1.175, 2.732], frozen-network E [19.675, 19.685, 19.7, 19.704, 19.702]; grid minimum 20.0, 3-pt vertex 19.739.
+
+### Regularised p-Laplacian, unit disk: div((|grad u|^2+eps^2)^{(p-2)/2} grad u) + E|u|^{p-2}u, normalisation int|u|^p = 1
+
+| p | eps | E_eps (shooting, mass 1) | E1 (eps=0) | coarse 3-pt vertex | local 3-pt vertex | E_PINN (grid-min node) | err vs E_eps % | err vs E1 % | E_PINN over local nodes | Lam_min | core frac | mass |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1.5 | 0 (1e-12 safeguard) | -- | 4.0178 | no minimum (Lam 24–58) | -- | 5.289 | -- | +31.63 | 5.29–7.84 | 24.2 | 0.36 | 0.955 |
+| 1.5 | 0.3 | 3.9572 | 4.0178 | 3.968 (+0.27 vs E_eps) | 3.987 | 3.9480 (node 4.0) | -0.23 | -1.74 | 3.943–3.957 | 0.097 | 0.01 | 1.001 |
+| 1.5 | 0.1 | 4.0099 | 4.0178 | 4.014 (+0.11 vs E_eps) | 4.020 | 3.9988 (node 4.0) | -0.28 | -0.47 | 3.992–4.007 | 0.104 | 0.00 | 1.001 |
+| 1.5 | 0.03 | 4.0170 | 4.0178 | 4.019 (+0.06 vs E_eps) | 4.018 | 4.0054 (node 4.0) | -0.29 | -0.31 | 3.999–4.015 | 0.119 | 0.01 | 1.001 |
+| 4.0 | 0.1 | 14.7490 | 14.6816 | 15.918 (+7.93 vs E_eps) | -- | 14.9459 (node 16.0) | +1.33 | +1.80 | 13.603–15.206 | 6.097 | 0.67 | 0.978 |

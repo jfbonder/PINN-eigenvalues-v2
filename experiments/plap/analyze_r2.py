@@ -118,3 +118,43 @@ if c is not None and len(c[0]) >= 3:
 json.dump(out, open(RES / "plap_summary_r2.json", "w"), indent=1)
 open(HERE / "tables_r2.md", "w").write("\n".join(md) + "\n"); open(HERE / "tables_r2.tex", "w").write("\n".join(tex) + "\n")
 print("\n".join(md))
+
+# ================= Regularised p-Laplacian =================
+rr = json.load(open(RES / "plap_refs_reg.json"))
+md2 = ["### Regularised p-Laplacian, unit disk: div((|grad u|^2+eps^2)^{(p-2)/2} grad u) + E|u|^{p-2}u, normalisation int|u|^p = 1\n",
+       "| p | eps | E_eps (shooting, mass 1) | E1 (eps=0) | coarse 3-pt vertex | local 3-pt vertex | E_PINN (grid-min node) | err vs E_eps % | err vs E1 % | E_PINN over local nodes | Lam_min | core frac | mass |",
+       "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+tx = [r"\begin{table}[ht]", r"\centering", r"\begin{tabular}{cccccccc}", r"\toprule",
+      r"$p$ & $\varepsilon$ & $E_\varepsilon$ (shooting) & $E_{\rm PINN}$ & err.\ vs $E_\varepsilon$ (\%) & err.\ vs $E_1$ (\%) & $E_{\rm curve}$ & $\bar\Lambda^{1/2}$ \\", r"\midrule"]
+regout = []
+c0 = curve("disk_p1.5")
+if c0 is not None:
+    E, L, r, d = c0; i = int(np.argmin(L))
+    md2.append(f"| 1.5 | 0 (1e-12 safeguard) | -- | {refs['p1.5_d2']['E1']:.4f} | no minimum (Lam 24–58) | -- | {r[i]['E_ls']:.3f} | -- | {pc((r[i]['E_ls']-refs['p1.5_d2']['E1'])/refs['p1.5_d2']['E1'])} | "
+               f"{min(x['E_ls'] for x in r):.2f}–{max(x['E_ls'] for x in r):.2f} | {L[i]:.1f} | {r[i]['core_frac']:.2f} | {r[i]['mass']:.3f} |")
+    tx.append(f"1.5 & 0 & -- & {r[i]['E_ls']:.2f} (no minimum) & -- & ${pc((r[i]['E_ls']-refs['p1.5_d2']['E1'])/refs['p1.5_d2']['E1'])}$ & -- & {L[i]**0.5:.2f} \\\\")
+for p, eps, cn, ln in [(1.5, 0.3, "reg_p1.5_eps0.3", "reg_p1.5_eps0.3_loc0"), (1.5, 0.1, "reg_p1.5_eps0.1", "reg_p1.5_eps0.1_loc0"),
+                       (1.5, 0.03, "reg_p1.5_eps0.03", "reg_p1.5_eps0.03_loc0"), (4.0, 0.1, "reg_p4_eps0.1", None)]:
+    cc = curve(cn)
+    if cc is None or len(cc[0]) < 3: continue
+    ref = rr[f"p{p}_eps{eps}"]; Ee, E1 = ref["E_eps"], ref["E1"]
+    vc, ic, _ = vertex3(cc[0], cc[1])
+    cl = curve(ln) if ln else None
+    src = cl if cl is not None and len(cl[0]) >= 3 else cc
+    E, L, r, d = src; vl, i, _ = vertex3(E, L)
+    x = dict(p=p, eps=eps, E_eps=Ee, E1=E1, coarse_vertex=vc, local_vertex=vl if src is cl else None, E_ls=r[i]["E_ls"], node=float(E[i]),
+             E_ls_nodes=[y["E_ls"] for y in r], nodes=E.tolist(), Lam=float(L[i]), core=r[i]["core_frac"], mass=r[i]["mass"])
+    regout.append(x)
+    lv = f"{vl:.3f}" if src is cl else "--"
+    md2.append(f"| {p} | {eps} | {Ee:.4f} | {E1:.4f} | {vc:.3f} ({pc((vc-Ee)/Ee)} vs E_eps) | {lv} | {x['E_ls']:.4f} (node {x['node']}) | {pc((x['E_ls']-Ee)/Ee)} | {pc((x['E_ls']-E1)/E1)} | "
+               f"{min(x['E_ls_nodes']):.3f}–{max(x['E_ls_nodes']):.3f} | {x['Lam']:.3f} | {x['core']:.2f} | {x['mass']:.3f} |")
+    tx.append(f"{p:g} & {eps:g} & {Ee:.4f} & {x['E_ls']:.4f} & ${pc((x['E_ls']-Ee)/Ee)}$ & ${pc((x['E_ls']-E1)/E1)}$ & {vc:.2f} & {x['Lam']**0.5:.2f} \\\\")
+c4 = curve("disk_p4")
+tx += [r"\bottomrule", r"\end{tabular}",
+       r"\caption{Regularized operator $\mathrm{div}\big((|\nabla u|^2+\varepsilon^2)^{(p-2)/2}\nabla u\big)$ in the loss, unit disk, first eigenvalue "
+       r"($E_1=4.0178$ for $p=1.5$, $14.6816$ for $p=4$). $E_\varepsilon$: radial shooting for the regularized problem with $\int|u|^p=1$ "
+       r"(the regularized problem is not homogeneous, so $E_\varepsilon$ depends on this normalization). Row $\varepsilon=0$: unregularized loss.}",
+       r"\label{tab.plap.reg}", r"\end{table}", ""]
+json.dump(dict(out, regularised=regout), open(RES / "plap_summary_r2.json", "w"), indent=1)
+open(HERE / "tables_reg.md", "w").write("\n".join(md2) + "\n"); open(HERE / "tables_r2.tex", "a").write("\n".join(tx) + "\n")
+print("\n".join(md2))

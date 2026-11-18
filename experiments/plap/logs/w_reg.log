@@ -34,3 +34,6 @@
 [reg_p4_eps0.1] E= 13.0000 Lam=3.0594e+01 mass=0.8723 Lam_n=3.7554e+01 E_ls=13.6029 RQ=14.9004 core=0.52 ep=1500 t=176s
 [reg_p4_eps0.1] E= 14.0000 Lam=7.8702e+00 mass=0.9615 Lam_n=8.3475e+00 E_ls=14.3810 RQ=14.7201 core=0.74 ep=1500 t=178s
 [reg_p4_eps0.1] E= 15.0000 Lam=7.4969e+00 mass=0.9626 Lam_n=7.9378e+00 E_ls=14.5054 RQ=14.8194 core=0.84 ep=1500 t=189s
+[reg_p4_eps0.1] E= 16.0000 Lam=5.9003e+00 mass=0.9783 Lam_n=6.0975e+00 E_ls=14.9459 RQ=14.7693 core=0.67 ep=1500 t=194s
+[reg_p4_eps0.1] E= 17.0000 Lam=8.3128e+00 mass=0.9732 Lam_n=8.6588e+00 E_ls=15.2064 RQ=14.6341 core=0.46 ep=1500 t=187s
+QUEUE DONE

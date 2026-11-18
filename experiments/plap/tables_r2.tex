@@ -48,3 +48,20 @@ $p$ & $E_1$ (shooting) & $E_{\rm PINN}$ at the grid minimum (seeds 0, 1, 2) & ma
 \label{tab.plap.p.seeds}
 \end{table}
 
+\begin{table}[ht]
+\centering
+\begin{tabular}{cccccccc}
+\toprule
+$p$ & $\varepsilon$ & $E_\varepsilon$ (shooting) & $E_{\rm PINN}$ & err.\ vs $E_\varepsilon$ (\%) & err.\ vs $E_1$ (\%) & $E_{\rm curve}$ & $\bar\Lambda^{1/2}$ \\
+\midrule
+1.5 & 0 & -- & 5.29 (no minimum) & -- & $+31.63$ & -- & 4.92 \\
+1.5 & 0.3 & 3.9572 & 3.9480 & $-0.23$ & $-1.74$ & 3.97 & 0.31 \\
+1.5 & 0.1 & 4.0099 & 3.9988 & $-0.28$ & $-0.47$ & 4.01 & 0.32 \\
+1.5 & 0.03 & 4.0170 & 4.0054 & $-0.29$ & $-0.31$ & 4.02 & 0.35 \\
+4 & 0.1 & 14.7490 & 14.9459 & $+1.33$ & $+1.80$ & 15.92 & 2.47 \\
+\bottomrule
+\end{tabular}
+\caption{Regularized operator $\mathrm{div}\big((|\nabla u|^2+\varepsilon^2)^{(p-2)/2}\nabla u\big)$ in the loss, unit disk, first eigenvalue ($E_1=4.0178$ for $p=1.5$, $14.6816$ for $p=4$). $E_\varepsilon$: radial shooting for the regularized problem with $\int|u|^p=1$ (the regularized problem is not homogeneous, so $E_\varepsilon$ depends on this normalization). Row $\varepsilon=0$: unregularized loss.}
+\label{tab.plap.reg}
+\end{table}
+
