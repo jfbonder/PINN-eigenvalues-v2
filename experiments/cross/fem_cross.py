@@ -53,7 +53,7 @@ def solve(m, k=12, sigma=0.0):
 
 def run(kind):
     out = dict(kind=kind, levels=[])
-    for nuni, ng in [(1, 4), (2, 6), (3, 8), (3, 11), (4, 13)]:
+    for nuni, ng in [(1, 3), (1, 5), (1, 7), (2, 5), (2, 7)]:
         t0 = time.perf_counter(); m = graded(kind, nuni, ng)
         v, *_ = solve(m, 12, sigma=0.5)
         out["levels"].append(dict(nuni=nuni, ngrade=ng, nelem=int(m.t.shape[1]), eig=v.tolist(), wall=time.perf_counter() - t0))
