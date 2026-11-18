@@ -17,3 +17,4 @@
 [feat0_s2] E= 11.500 loss_var=6.902e-01 Lam_strong=6.902e-01 mass=0.991 E_var=12.0089 E_strong=12.0089 core=0.25 t=200s
 [feat0_s2] E= 12.500 loss_var=2.095e-01 Lam_strong=2.095e-01 mass=1.008 E_var=12.1877 E_strong=12.1877 core=0.32 t=193s
 [feat0_s2] E= 13.500 loss_var=1.647e+00 Lam_strong=1.647e+00 mass=0.991 E_var=12.3911 E_strong=12.3911 core=0.09 t=192s
+[feat0_s2] E= 14.500 loss_var=4.857e+00 Lam_strong=4.857e+00 mass=0.978 E_var=12.6228 E_strong=12.6228 core=0.08 t=208s
