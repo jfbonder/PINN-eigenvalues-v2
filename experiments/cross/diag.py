@@ -35,8 +35,8 @@ def main():
         cfg = dict(mu=300.0, n_samples=5000); cfg.update(VARIANTS[v]); beps = cfg.pop("beps", 0.0); enrich = cfg.pop("enrich", False); bpow = cfg.pop("bpow", 0); kmax = cfg.pop("kmax", 1)
         out = RES / f"cross_diag_{a.domain}_E{a.E}_{v}_s{a.seed}.json"
         if out.exists(): continue
-        B = (partial(C.B_cross, eps=beps, power=bpow) if a.domain == "cross" else partial(C.B_L, eps=beps))
-        torch.manual_seed(a.seed); m = C.make_model(B, corners=(C.CORNERS_CROSS if a.domain == "cross" else C.CORNERS_L), enrich=enrich, kmax=kmax)
+        B = (partial(C.B_cross, eps=beps, power=bpow) if a.domain == "cross" else partial(C.B_L, eps=beps, power=bpow))
+        torch.manual_seed(a.seed); m = C.make_model(B, corners=(C.CORNERS_CROSS if a.domain == "cross" else C.CORNERS_L), enrich=enrich, kmax=kmax, R=(0.2 if a.domain == "cross" else 0.5))
         tr = C.train(m, a.E, samp, n_epochs=a.epochs, patience=10**9, **cfg)
         ev = C.evaluate(m, samp, a.E)
         torch.save(m.state_dict(), RES / "cross_models" / f"{a.domain}_E{a.E}_{v}_s{a.seed}.pt") if (RES / "cross_models").mkdir(exist_ok=True) is None else None

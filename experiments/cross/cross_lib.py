@@ -9,7 +9,7 @@ AREA_CROSS = 2 * (2 * 2 * A) / 2 * 1 + 0  # placeholder overwritten below
 AREA_CROSS = 8 * A - 4 * A * A
 AREA_L = 3.0
 CORNERS_CROSS = [(sx * A, sy * A) for sx in (-1, 1) for sy in (-1, 1)]
-CORNERS_L = [(0.0, 0.0)]
+CORNERS_L = [(0.0, 0.0, 1.0, 1.0)]
 
 # ---------------------------------------------------------------- boundary factors
 def B_cross(x, eps=0.0, scale=True, power=0):
@@ -25,7 +25,7 @@ def B_cross(x, eps=0.0, scale=True, power=0):
         B = B * (p1 ** 2 + p2 ** 2 + 1e-30) ** (power / 2) / (0.06 ** power)
     return B / 0.25 if scale else B
 
-def B_L(x, eps=0.0):
+def B_L(x, eps=0.0, power=0):
     """L-shape [-1,1]^2 minus [0,1]^2: phi_sq=(1-x^2)(1-y^2) (square), phi_q=-(x*y)?? use R-conjunction of the square with
     the complement of the quadrant: psi = -max(x,0)... simple smooth choice: complement function g=(1-x)*(1... ) not smooth ->
     use R-conjunction  phi ^ psi = phi+psi-sqrt(phi^2+psi^2) with psi = x*? We use psi = -(x*y) smoothed (positive when xy<0)."""
@@ -33,7 +33,9 @@ def B_L(x, eps=0.0):
     phi = (1 - X ** 2) * (1 - Y ** 2)
     # complement of quadrant {x>0,y>0}: positive in the L (x<0 or y<0): R-disjunction of (-x) and (-y)
     s = -X - Y + torch.sqrt(X ** 2 + Y ** 2 + eps ** 2)       # >0 iff x<0 or y<0, =0 on the quadrant boundary rays
-    return phi + s - torch.sqrt(phi ** 2 + s ** 2 + eps ** 2)
+    B = phi + s - torch.sqrt(phi ** 2 + s ** 2 + eps ** 2)
+    if power: B = B * (X ** 2 + Y ** 2 + 1e-30) ** (power / 2)
+    return B
 
 # ---------------------------------------------------------------- samplers
 def sample_cross(n):
@@ -102,8 +104,9 @@ class Enriched(nn.Module):
     def sing(self, x):
         """returns (value, laplacian) of the singular part (no autograd needed)."""
         val = torch.zeros(x.shape[0], 1); lap = torch.zeros(x.shape[0], 1)
-        for k, (cx, cy) in enumerate(self.corners):
-            sx, sy = (1.0 if cx > 0 else -1.0), (1.0 if cy > 0 else -1.0)
+        for k, cc in enumerate(self.corners):
+            cx, cy = cc[0], cc[1]
+            sx, sy = (cc[2], cc[3]) if len(cc) == 4 else ((1.0 if cx > 0 else -1.0), (1.0 if cy > 0 else -1.0))
             dx = sx * (x[:, 0:1] - cx); dy = sy * (x[:, 1:2] - cy)
             r = torch.sqrt(dx ** 2 + dy ** 2 + 1e-14)
             th = torch.remainder(-torch.atan2(dy, dx), 2 * math.pi)          # clockwise from +x' ray, in [0,2pi)
