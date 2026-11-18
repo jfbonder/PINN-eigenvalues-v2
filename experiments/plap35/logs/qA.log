@@ -54,3 +54,4 @@
 [base_ep5000] E= 13.500 loss_var=1.967e+00 Lam_strong=1.967e+00 mass=0.993 E_var=12.3898 E_strong=12.3898 core=0.27 t=623s
 [base_E2] E= 65.000 loss_var=2.329e+03 Lam_strong=2.329e+03 mass=0.007 E_var=31.1285 E_strong=31.1285 core=0.00 t=388s
 [base_E2] E= 67.000 loss_var=2.137e+03 Lam_strong=2.137e+03 mass=0.009 E_var=38.3067 E_strong=38.3067 core=0.00 t=197s
+[base_E2] E= 69.000 loss_var=8.812e+02 Lam_strong=8.812e+02 mass=0.060 E_var=62.5187 E_strong=62.5187 core=0.06 t=197s
