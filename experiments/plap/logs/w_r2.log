@@ -35,3 +35,4 @@
 [r2_disk_p4_s1] E= 15.0000 Lam=4.4092e+00 mass=0.9957 Lam_n=4.4376e+00 E_ls=14.6130 RQ=14.6243 core=0.87 ep=1500 t=190s
 [r2_disk_p4_s1] E= 16.0000 Lam=5.0175e+00 mass=0.9753 Lam_n=5.2096e+00 E_ls=14.8995 RQ=14.6475 core=0.67 ep=1500 t=198s
 [r2_disk_p4_s1] E= 17.0000 Lam=8.5977e+00 mass=0.9707 Lam_n=8.9897e+00 E_ls=15.1328 RQ=14.6950 core=0.49 ep=1500 t=193s
+[r2_disk_p3_s2] E=  8.5000 Lam=3.2772e+00 mass=0.9942 Lam_n=3.3026e+00 E_ls=9.6564 RQ=9.7825 core=0.25 ep=1500 t=197s

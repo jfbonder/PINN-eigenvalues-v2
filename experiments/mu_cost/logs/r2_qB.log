@@ -99,3 +99,5 @@ total wall 249.11407835199861
 [mucost_r2_rq_s2_noes] k=1 E=19.7555 exact=19.7392 relerr=8.26e-04 ep=3000 t=114s ov=0.00e+00
 [mucost_r2_rq_s2_noes] k=2 E=49.4329 exact=49.3480 relerr=1.72e-03 ep=3000 t=113s ov=1.22e-02
 [mucost_r2_rq_s2_noes] k=3 E=49.4639 exact=49.3480 relerr=2.35e-03 ep=3000 t=125s ov=3.04e-02
+[mucost_r2_rq_s2_noes] k=4 E=79.0103 exact=78.9568 relerr=6.77e-04 ep=3000 t=138s ov=2.73e-02
+[mucost_r2_rq_s2_noes] k=5 E=98.6730 exact=98.6960 relerr=2.33e-04 ep=3000 t=153s ov=3.54e-02
