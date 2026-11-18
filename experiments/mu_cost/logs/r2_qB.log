@@ -114,3 +114,17 @@ total wall 811.8410558129999
 [mucost_off_mu30_s1] E=33.100 mu=30 res=1.280e-05 mass=0.000 r=4.332e+02 ep=302 t=11s
 [mucost_off_mu30_s1] E=35.600 mu=30 res=9.502e-06 mass=0.000 r=2.069e+02 ep=302 t=11s
 [mucost_off_mu30_s1] E=38.100 mu=30 res=1.281e-05 mass=0.000 r=4.489e+02 ep=302 t=11s
+[mucost_off_mu30_s1] E=40.600 mu=30 res=1.581e-05 mass=0.000 r=2.692e+02 ep=302 t=12s
+[mucost_off_mu30_s1] E=43.100 mu=30 res=1.323e+01 mass=0.337 r=6.269e+00 ep=1313 t=50s
+[mucost_off_mu30_s1] E=45.600 mu=30 res=1.095e+01 mass=0.768 r=3.775e+00 ep=1850 t=63s
+[mucost_off_mu30_s1] E=48.100 mu=30 res=1.586e+00 mass=0.977 r=1.274e+00 ep=1098 t=40s
+[mucost_off_mu30_s1] E=50.600 mu=30 res=1.556e+00 mass=0.972 r=1.265e+00 ep=432 t=15s
+[mucost_off_mu30_s1] E=53.100 mu=30 res=1.083e+01 mass=0.762 r=3.771e+00 ep=534 t=19s
+[mucost_off_mu75_s1] E=15.600 mu=75 res=1.495e+01 mass=0.870 r=4.144e+00 ep=690 t=27s
+[mucost_off_mu75_s1] E=18.100 mu=75 res=2.656e+00 mass=0.984 r=1.643e+00 ep=592 t=19s
+[mucost_off_mu75_s1] E=20.600 mu=75 res=7.429e-01 mass=0.992 r=8.655e-01 ep=476 t=18s
+[mucost_off_mu75_s1] E=23.100 mu=75 res=1.018e+01 mass=0.901 r=3.362e+00 ep=326 t=13s
+[mucost_off_mu75_s1] E=25.600 mu=75 res=2.622e+01 mass=0.761 r=5.871e+00 ep=649 t=26s
+[mucost_off_mu75_s1] E=28.100 mu=75 res=3.726e+01 mass=0.532 r=8.367e+00 ep=561 t=23s
+[mucost_off_mu75_s1] E=30.600 mu=75 res=2.460e+01 mass=0.208 r=1.087e+01 ep=949 t=35s
+[mucost_off_mu75_s1] E=33.100 mu=75 res=2.587e-05 mass=0.000 r=2.672e+02 ep=1607 t=61s

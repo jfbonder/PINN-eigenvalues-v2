@@ -38,3 +38,5 @@
 [r2_disk_p3_s2] E=  8.5000 Lam=3.2772e+00 mass=0.9942 Lam_n=3.3026e+00 E_ls=9.6564 RQ=9.7825 core=0.25 ep=1500 t=197s
 [r2_disk_p3_s2] E=  9.2500 Lam=9.5420e-01 mass=0.9824 Lam_n=9.7711e-01 E_ls=9.7557 RQ=9.8934 core=0.58 ep=1500 t=203s
 [r2_disk_p3_s2] E= 10.0000 Lam=6.6969e-01 mass=1.0010 Lam_n=6.6883e-01 E_ls=9.8142 RQ=9.7223 core=0.84 ep=1500 t=207s
+[r2_disk_p3_s2] E= 10.7500 Lam=1.1453e+00 mass=0.9952 Lam_n=1.1526e+00 E_ls=9.8886 RQ=9.8879 core=0.38 ep=1500 t=222s
+[r2_disk_p3_s2] E= 11.5000 Lam=2.6815e+00 mass=0.9868 Lam_n=2.7293e+00 E_ls=9.9999 RQ=9.8435 core=0.19 ep=1500 t=222s
