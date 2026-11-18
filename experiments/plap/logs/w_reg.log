@@ -20,3 +20,5 @@
 [reg_p1.5_eps0.1_loc0] E=  3.7500 Lam=2.0479e-01 mass=1.0085 Lam_n=2.0365e-01 E_ls=3.9916 RQ=4.0133 core=0.03 ep=1500 t=184s
 [reg_p1.5_eps0.1_loc0] E=  4.0000 Lam=1.0415e-01 mass=1.0009 Lam_n=1.0409e-01 E_ls=3.9988 RQ=4.0029 core=0.00 ep=1500 t=184s
 [reg_p1.5_eps0.1_loc0] E=  4.2500 Lam=1.7518e-01 mass=0.9931 Lam_n=1.7599e-01 E_ls=4.0070 RQ=4.0558 core=0.02 ep=1500 t=180s
+[reg_p1.5_eps0.03] E=  2.5000 Lam=3.3794e+00 mass=1.0005 Lam_n=3.3782e+00 E_ls=3.9971 RQ=4.0192 core=0.05 ep=1500 t=182s
+[reg_p1.5_eps0.03] E=  3.0000 Lam=1.5287e+00 mass=0.9981 Lam_n=1.5307e+00 E_ls=3.9811 RQ=4.0101 core=0.05 ep=1500 t=194s
