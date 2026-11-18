@@ -107,3 +107,10 @@ total wall 811.8410558129999
 [mucost_off_mu30_s1] E=15.600 mu=30 res=1.208e+01 mass=0.704 r=4.143e+00 ep=690 t=25s
 [mucost_off_mu30_s1] E=18.100 mu=30 res=2.588e+00 mass=0.959 r=1.643e+00 ep=425 t=14s
 [mucost_off_mu30_s1] E=20.600 mu=30 res=7.508e-01 mass=1.001 r=8.662e-01 ep=919 t=31s
+[mucost_off_mu30_s1] E=23.100 mu=30 res=9.262e+00 mass=0.814 r=3.373e+00 ep=665 t=22s
+[mucost_off_mu30_s1] E=25.600 mu=30 res=1.464e+01 mass=0.426 r=5.865e+00 ep=546 t=18s
+[mucost_off_mu30_s1] E=28.100 mu=30 res=2.266e-05 mass=0.000 r=1.000e+02 ep=1690 t=59s
+[mucost_off_mu30_s1] E=30.600 mu=30 res=1.506e-05 mass=0.000 r=8.634e+01 ep=302 t=12s
+[mucost_off_mu30_s1] E=33.100 mu=30 res=1.280e-05 mass=0.000 r=4.332e+02 ep=302 t=11s
+[mucost_off_mu30_s1] E=35.600 mu=30 res=9.502e-06 mass=0.000 r=2.069e+02 ep=302 t=11s
+[mucost_off_mu30_s1] E=38.100 mu=30 res=1.281e-05 mass=0.000 r=4.489e+02 ep=302 t=11s
