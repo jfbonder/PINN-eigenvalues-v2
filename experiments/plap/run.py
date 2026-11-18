@@ -54,9 +54,14 @@ def run_local_all(job):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--worker", type=int, required=True)
     ap.add_argument("--only", default="")
+    ap.add_argument("--names", default="", help="comma-separated job names (from any queue), run in this order")
     a = ap.parse_args()
     torch.set_num_threads(1)
-    for job in jobs.QUEUES[a.worker]:
+    queue = jobs.QUEUES[a.worker]
+    if a.names:
+        allj = {j["name"]: j for q in jobs.QUEUES.values() for j in q}
+        queue = [allj[n] for n in a.names.split(",")]
+    for job in queue:
         if a.only and a.only != job["name"]:
             continue
         try:
