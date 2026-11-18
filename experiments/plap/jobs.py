@@ -87,3 +87,11 @@ for s in (1, 2):
 QUEUES[2] = R2
 # legacy loss near the published second value 19.44 of the disk (true E2 = 18.393), for item 13
 QUEUES[3] = [J("r2_disk22_legacyE2_P1", "disk", 2.2, [17.0, 18.0, 19.0, 20.0, 21.0], P1, legacy=True, mu=4000.0, epochs0=3000)]
+
+# ---------------- Regularised p-Laplacian: div((|grad u|^2+eps^2)^{(p-2)/2} grad u) + E|u|^{p-2}u ----------------
+REG = []
+for eps in (0.3, 0.1, 0.03):
+    REG += [J(f"reg_p1.5_eps{eps}", "disk", 1.5, np.arange(2.5, 6.01, 0.5), P1, eps=eps, keep_models=True),
+            dict(J(f"reg_p1.5_eps{eps}_loc", "disk", 1.5, [], P1, eps=eps), local_all_from=[f"reg_p1.5_eps{eps}"], h=0.25, npts=3)]
+REG += [J("reg_p4_eps0.1", "disk", 4.0, [13.0, 14.0, 15.0, 16.0, 17.0], P1, eps=0.1)]
+QUEUES[4] = REG

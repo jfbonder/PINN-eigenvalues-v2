@@ -40,10 +40,10 @@ def E_of_a(a, p, d, eps, lo, hi):
 def reference(p, d, eps, E0, mass=1.0):
     area = {2: 2 * np.pi, 3: 4 * np.pi}[d]
     def mass_err(a):
-        E = E_of_a(a, p, d, eps, 0.3 * E0, 2.0 * E0)
+        E = E_of_a(a, p, d, eps, 0.05 * E0, 3.0 * E0)
         return area * solve(E, a, p, d, eps).y[2, -1] - mass
-    a = brentq(mass_err, 0.05, 5.0, xtol=1e-8)
-    return E_of_a(a, p, d, eps, 0.3 * E0, 2.0 * E0), a
+    a = brentq(mass_err, 0.3, 2.0, xtol=1e-8)
+    return E_of_a(a, p, d, eps, 0.05 * E0, 3.0 * E0), a
 
 
 def main():
@@ -57,7 +57,7 @@ def main():
             out[f"p{p}_eps{eps}"] = dict(p=p, eps=eps, E_eps=E, u0=a, E1=E0, E_mass098=Em, E_mass102=Ep)
             print(f"p={p} eps={eps:5.2f}: E_eps={E:.5f} (u(0)={a:.4f}); E1={E0:.5f}; shift {100*(E-E0)/E0:+.2f}%; "
                   f"mass 0.98/1.02 -> {Em:.5f}/{Ep:.5f}", flush=True)
-    json.dump(out, open(os.path.join(os.path.dirname(__file__), "..", "results", "plap_refs_reg.json"), "w"), indent=1)
+            json.dump(out, open(os.path.join(os.path.dirname(__file__), "..", "results", "plap_refs_reg.json"), "w"), indent=1)
 
 
 if __name__ == "__main__":
