@@ -529,17 +529,14 @@ def sample_ball_3d(n: int, radius: float = 1.0) -> torch.Tensor:
 
 
 def sample_ball_4d(n: int, radius: float = 1.0) -> torch.Tensor:
-    """Uniform samples inside the 4-D ball."""
-    r      = radius * torch.rand(n, 1) ** (1 / 4)
-    theta1 = 2 * np.pi * torch.rand(n, 1)
-    theta2 = torch.acos(2 * torch.rand(n, 1) - 1)
-    theta3 = 2 * np.pi * torch.rand(n, 1)
-    return torch.cat([
-        r * torch.sin(theta2) * torch.sin(theta3) * torch.cos(theta1),
-        r * torch.sin(theta2) * torch.sin(theta3) * torch.sin(theta1),
-        r * torch.sin(theta2) * torch.cos(theta3),
-        r * torch.cos(theta2),
-    ], dim=1)
+    """Uniform samples inside the 4-D ball (Gaussian direction x U^{1/4} radius).
+
+    Note: an earlier version used a hyperspherical-angle parametrisation with
+    wrong angular densities (E[x_i^2] = 1/9, 1/9, 2/9, 2/9 instead of 1/6)."""
+    g = torch.randn(n, 4)
+    g = g / g.norm(dim=1, keepdim=True)
+    r = radius * torch.rand(n, 1) ** (1 / 4)
+    return r * g
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
