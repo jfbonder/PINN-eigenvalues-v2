@@ -42,8 +42,6 @@
 \address{Departamento de Matem\'aticas Aplicadas y Ciencia de Datos, Universidad San Pablo-CEU, CEU Universities, Juli\'an Romea 2, 28003 Madrid, Spain}
 \email{ariel.salort@ceu.es}
 
-\subjclass[2020]{35P05, 35P30, 35J92, 65N25, 68T07}
-\keywords{Physics-informed neural networks; eigenvalue problems; elliptic PDEs; $p$-Laplacian; deep learning}
 
 \begin{abstract}
 \begin{revblock}
@@ -61,6 +59,11 @@ dimensions two to four agree with exact values and with independent finite eleme
 computations, including $p$-Laplacian eigenvalues beyond the second. The method does not resolve
 multiplicities and, for the lowest eigenvalues of linear problems, it is more expensive than
 Rayleigh-quotient methods with deflation.
+
+\medskip\noindent\textbf{Keywords:} Physics-informed neural networks; eigenvalue problems; elliptic
+PDEs; $p$-Laplacian; deep learning.
+
+\noindent\textbf{AMS 2020 Classification:} 35P05, 35P30, 35J92, 65N25, 68T07.
 \end{revblock}
 \end{abstract}
 
@@ -144,7 +147,7 @@ finite element validation). Section~\ref{sec.nolin} treats the $p$-Laplacian. Se
 analyses the practical method: stability and spurious minima, choice of $\mu$, and computational
 cost. Section~\ref{sec.conclusions} summarizes the results and the limitations. The appendices
 contain the proof of existence of minimizers (Theorem~\ref{teo.min}) and the proofs of
-Propositions~\ref{prop.penalized}, \ref{prop.rayleigh}, \ref{prop.plap} and \ref{prop.stability}.
+Propositions~\ref{prop.penalized}, \ref{prop.rayleigh}, \ref{prop.plap}, \ref{prop.ck} and \ref{prop.stability}.
 \end{revblock}
 
 
@@ -220,7 +223,7 @@ E_*=E^1<E^2<\cdots<E^{\rev{J}}=E^*,
 $$
 and for each $E^i$ we train our neural network to minimize $\Lambda(u, E^i)$, obtaining a corresponding minimizer $u^i$.
 
-\rev{Finally, we look for the local minima of the discrete loss curve $\Lambda(E^i)$ whose value is below a threshold. By \eqref{cota.igual} and Proposition~\ref{prop.stability} below, each of them lies within a computable distance of an eigenvalue; the eigenvalue is then refined from the trained network (Section~\ref{sec.certificate}), and the associated minimizers $u^i$ approximate the corresponding eigenfunctions.}
+\rev{Finally, we look for the local minima of the discrete loss curve $\Lambda(E^i)$ whose value is below a threshold. By \eqref{cota.igual} and Proposition~\ref{prop.stability} below, each of them lies within a distance of an eigenvalue controlled by the training error $\delta$, which can be estimated a posteriori; the eigenvalue is then refined from the trained network (Section~\ref{sec.certificate}), and the associated minimizers $u^i$ approximate the corresponding eigenfunctions.}
 
 \rev{The aim of this article is to give an approach to compute eigenvalues based on neural networks
 whose implementation is simple and which does not require orthogonalization against other eigenfunctions.
@@ -373,6 +376,7 @@ $\omega=10$ (Fig.~\ref{pot1.fig}) & $[0,55]^a$ & 0.7 & 100 & 3000 & re-init.\ 50
 wells (Fig.~\ref{fig.well-two}) & $[0,75]^a$ & 0.63 & 400/1000 & 2000 & re-init.\ 50 & 92/97 & (ii)\\
 FEM windows (Tab.~\ref{table.fem}) & $4\times7$ nodes & 0.5 & 400/1000/100 & 2000/3000 & cold/warm, 2--3 seeds & $\le 2.3$ & (ii)\\
 blind scan (Tab.~\ref{table.blind}) & $[4.7,49.7]$ & 1.5 & 400 & 2000 & warm & 41.1 & (ii)\\
+ball $\R^{10}$ (\S4.2) & $[54,84]$ & 3 & 2000 & 2000 & warm & 93.7 & (ii)\\
 \bottomrule
 \multicolumn{8}{@{}l}{$^\ast$The re-initializations at $E\approx33,66,100$ are cold starts with $\mu\ll E^2/2$; branch switch and collapse were observed there (Section~\ref{sec.stability}).}
 \end{tabular}
@@ -455,6 +459,21 @@ statistical: the estimator of $\Lambda(u,E)$ has a bias $O(1/N)$ and a standard 
 $O(N^{-1/2})$ that can be estimated from the same sample. With $4\times10^5$ points the standard
 error of $r$ was $0.1$--$0.4\%$ of $r$ in the examples of Section~\ref{sec.fem}, negligible compared
 with the margin by which the bounds hold (Section~\ref{sec.stability}).
+
+\noindent\emph{Upper bound for $E_1$ and sign of the error.} A network function $u=B\,\mathrm{NN}$ is
+smooth up to the boundary and vanishes on $\partial\Omega$, so integration by parts gives
+$-\int u(\Delta u-Vu)=\int(|\nabla u|^2+Vu^2)$: with exact integration, $\rho(u)$ is the Rayleigh
+quotient $R(u)$, and $\rho(u)\ge E_1$ by the Rayleigh--Ritz principle. The computed first eigenvalue is
+therefore an upper bound for $E_1$, up to the Monte Carlo error of the integrals. If a lower bound
+$\beta\le E_2$ with $\rho(u)<\beta$ is available, Temple's inequality \cite{Kato1949} gives the bracket
+$\rho(u)-\eta(u)^2/(\beta-\rho(u))\le E_1\le\rho(u)$. For a higher eigenvalue, writing $u=\sum_ja_ju_j$,
+\[
+\rho(u)-E_k=\frac{\sum_ja_j^2(E_j-E_k)}{\sum_ja_j^2},
+\]
+which is quadratic in the components of $u$ outside the eigenspace of $E_k$ and positive when these
+lie mainly in higher modes. Most of the differences we observed are positive (all those of
+Tables~\ref{table.2} and \ref{table.4} and of the example in $\R^{10}$ of Section~\ref{sec.examples}),
+which is consistent with this upward bias.
 \end{revblock}
 
 \noindent\rev{For the nonlinear problems of Section~\ref{sec.nolin} no analogue of the Weinstein or
@@ -544,7 +563,19 @@ the window ($14.507$, $14.712$, $14.963$ at $E=13.78$, $14.78$, $15.78$): with 2
 not fully converged to an eigenfunction, and the quotient is reliable only at the node of smallest
 loss.
 \end{revblock}
-% TODO-HIGHDIM: short paragraph on the d=10 unit ball test (first two eigenvalue clusters j_{4,1}^2, j_{5,1}^2; cost per epoch linear in d; multiplicities not resolved) -- numbers to be supplied.
+\begin{revblock}
+The cost of an epoch grows only linearly with $d$ (Section~\ref{sec.cost}; we measured about $60+50d$
+ms per epoch for the $3\times128$ network with 5000 points on one thread), whereas mesh-based methods
+become infeasible in high dimension. As an illustration we scanned the unit ball of $\R^{10}$, whose
+first eigenvalue $j_{4,1}^2=57.583$ is simple and whose second, $j_{5,1}^2=76.939$, has multiplicity
+10, on the nodes $E=54,57,\dots,84$ (warm start, at most 2000 epochs, seed 0; 1.8 hours on one thread).
+Most of the volume of this ball lies near its boundary, where $B=1-|x|^2$ is small; with $\mu=200$ the
+network collapsed to $u\equiv0$ at the first node, and we used $\mu=2000$. The recorded residual has two
+wells (19.8 at $E=57$ and 49.4 at $E=78$, against 234 at $E=72$), the tenfold eigenvalue appearing as a
+single minimum. The Rayleigh quotient is $57.62$--$57.84$ at the nodes of the first well ($+0.07\%$ to
+$+0.45\%$) and $77.10$--$77.70$ at those of the second ($+0.2\%$ to $+1.0\%$). With $r\approx4.7$--$7$ at the
+minima the Weinstein enclosure is weak, so this example shows feasibility rather than accuracy.
+\end{revblock}
 
 \begin{table}[htbp]
 \centering\small
@@ -841,6 +872,29 @@ eigenvalues, without any orthogonality; this is the justification of the method 
 $p=2$ one has $c_k=1$ and (a) gives $\Lambda(E)\le\min_k(E-E_k)^2$, which together with the lower
 bound of Section~\ref{sec.approach} yields the identity \eqref{cota.igual}.
 
+The constants $c_k$ determine the curvature of the parabolas in (a). They can be estimated in terms of
+$|\Omega|$, $E_k$ and Sobolev constants. Let $q=2(p-1)$ and, for $p<d$, $p^*=dp/(d-p)$; let $S_*$ be the
+constant in $\|v\|_{p^*}\le S_*\|\nabla v\|_p$ and, when $W^{1,p}_0(\Omega)\hookrightarrow L^q(\Omega)$,
+$S_q$ the constant in $\|v\|_q\le S_q\|\nabla v\|_p$, $v\in W^{1,p}_0(\Omega)$.
+
+\begin{proposition}[Curvature of the wells]\label{prop.ck}
+Let $d\ge2$ and let $u_k$ be an eigenfunction of \eqref{p-eigen} with eigenvalue $E_k$ and
+$\|u_k\|_p=1$, $c_k=\int_\Omega|u_k|^q\,dx$.
+\begin{enumerate}
+\item[(a)] If $1<p<2$, then $S_*^{-q(1-\theta)/\theta}E_k^{-\alpha}\le c_k\le|\Omega|^{(2-p)/p}$, where
+$\theta\in(0,1)$ is given by $\frac1p=\frac\theta q+\frac{1-\theta}{p^*}$ and $\alpha=\frac{q(1-\theta)}{p\theta}>0$.
+\item[(b)] If $p=2$, then $c_k=1$.
+\item[(c)] If $p>2$, then $c_k\ge|\Omega|^{(2-p)/p}$. If, in addition, $p\ge d$, or $p<d$ and
+$d(p-2)\le2p(p-1)$ (which holds for every $p>2$ when $d\le11$), then
+$W^{1,p}_0(\Omega)\hookrightarrow L^q(\Omega)$ and $c_k\le S_q^{\,q}E_k^{q/p}=S_q^{2(p-1)}E_k^{2(p-1)/p}$.
+\end{enumerate}
+\end{proposition}
+The proof is given in Appendix~\ref{app.proofs}. The examples of this section satisfy the hypotheses
+of (c): $d=2$, $p=2.2>d$, and $d=3$, $p=2.5$, with $q=3\le p^*=15$. Thus for $1<p<2$ the curvature of the
+wells is bounded above uniformly in $k$ but may decrease as $k$ grows (the wells may flatten), while
+for $p>2$ it is bounded below uniformly but the upper bound grows like $E_k^{2(p-1)/p}$ (the wells may
+steepen).
+
 \begin{remark}[What is lost with respect to the linear case]\label{rem.plap.lost}
 (1) The proof of (b) is by compactness and gives no lower bound of the form
 $\Lambda_p(E)\ge c\,\dist(E,\sigma_p)^2$: there is no analogue of the Weinstein bound, a small value
@@ -954,27 +1008,47 @@ $2\times2$ cell mode and the mode with both diagonals as nodal lines, with relat
 below $0.1\%$ except for the radial mode with a nodal circle ($+0.41\%$; its gradient vanishes on a
 whole circle, which gives the largest residual floor). For the ball of $\R^3$ the shooting value
 $14.1112$ and the axisymmetric finite element value $35.6315$ are matched to $0.08\%$ and $0.01\%$.
-With three seeds (local windows, same settings) $E_{\rm PINN}$ was $6.5320$, $6.5329$, $6.5285$ for the
-first eigenvalue of the disk, $18.4069$, $18.3890$, $18.3968$ for the second, and $5.4902$, $5.4867$,
-$5.4966$ for the first eigenvalue of the square (largest relative differences $0.05\%$, $0.08\%$,
-$0.15\%$). %TODO-PLAP-R2: confirm the three-seed numbers (experiments/plap/tables_r2.md, part (a)).
+Table~\ref{tab.plap.seeds} repeats the first two eigenvalues of the disk and of the square with
+three seeds (local three-node windows, $h=0.5$): the spread of $E_{\rm PINN}$ is $0.004$--$0.018$ and the
+largest relative difference $0.15\%$, whereas the vertex $E_{\rm curve}$ is much less reproducible
+(from $+0.49\%$ to $-1.64\%$ for the first eigenvalue of the square).
+
+\begin{table}[tbp]
+\centering\small
+\color{blue}
+\caption{Seed dependence for $p=2.2$ (seeds 0, 1, 2; local three-node windows, $h=0.5$, settings of Table~\ref{tab.plap}). For the second eigenvalue of the square the close eigenvalues $15.1429$ (diagonal nodal line) and $15.2808$ (midline) lie in the same minimum of the loss curve; each seed converges to one of them, no mean is given, and the difference is measured to the nearer one.}
+\label{tab.plap.seeds}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccc}
+\toprule
+eigenvalue & $E_{\rm ref}$ & $E_{\rm PINN}$ (seeds 0, 1, 2) & mean & spread & max.\ rel.\ diff.\ (\%) & $E_{\rm curve}$ (seeds 0, 1, 2)\\
+\midrule
+disk $E_1$ & 6.5317 & 6.5320, 6.5329, 6.5285 & 6.5311 & 0.0044 & 0.05 & 6.54, 6.54, 6.54\\
+disk $E_2$ & 18.3929 & 18.4069, 18.3890, 18.3968 & 18.3976 & 0.0179 & 0.08 & 18.41, 18.45, 18.46\\
+square $E_1$ & 5.4950 & 5.4902, 5.4867, 5.4966 & 5.4912 & 0.0100 & 0.15 & 5.52, 5.49, 5.41\\
+square $E_2$ & 15.1429 / 15.2808 & 15.1440, 15.2467, 15.1396 & -- & -- & 0.22 & 15.16, 15.51, 15.42\\
+\bottomrule
+\end{tabular}
+\end{table}
+
 Two caveats apply. First, close eigenvalues are not separated: in the square, $15.1429$ (diagonal
 nodal line) and $15.2808$ (midline nodal line, the other mode into which the double eigenvalue
 $5\pi^2/4$ of the Laplacian splits at $p=2.2$) give a single minimum, and which of the two the network
-converges to depends on the seed (two seeds gave $15.144$ and $15.140$, one gave $15.247$); the same
+converges to depends on the seed (seeds 0 and 2 gave the diagonal mode, seed 1 the midline mode, Table~\ref{tab.plap.seeds}); the same
 happens for $32.46$ and $33.17$ (three strips). Second, the reference for $35.63$ is an eigenvalue of
 the ball with one nodal plane and an upper bound for the second eigenvalue; that it is the second
 eigenvalue is not proved.
 
 \subsection{Error sources}
-Table~\ref{tab.plap.conv} in Appendix~\ref{app.conv} varies one setting at a time for the first
-eigenvalue of the disk, $p=2.2$ (single seed except where stated). We identify the following error
+Tables~\ref{tab.plap.conv} and \ref{tab.plap.conv2} in Appendix~\ref{app.conv} vary one setting at a
+time for the first and second eigenvalues of the disk, $p=2.2$ (single seed except where stated). We identify the following error
 sources.
 \begin{enumerate}
 \item \emph{Optimization noise.} With a constant learning rate and early stopping (protocol P0, as in
 the linear examples) the loss at a fixed $E$ fluctuates between seeds by $\pm0.1$--$0.2$, while the
 curve rises only by $\approx0.27$ at distance $0.5$ from the eigenvalue; the vertex of the curve then
-has relative differences up to $2.3\%$ (three seeds). A decaying learning rate reduces the
+has errors of up to $2\%$ of either sign even with the loss \eqref{loss.p} ($-0.17$, $+0.47$, $+2.26\%$
+for three seeds). A decaying learning rate reduces the
 fluctuation to $\approx0.01$--$0.02$ and the vertex difference to $0.2\%$.
 \item \emph{Residual floor near critical points.} After the decay the loss at the eigenvalue is
 $\approx0.13$, and $50$--$60\%$ of it comes from the $2\%$ of the sample points with the smallest
@@ -983,8 +1057,8 @@ training ($0.150$ for $2\times32$, $0.096$ for $4\times256$; $0.049$ with 5000 e
 is not symmetric in $E$ it biases the minimum of the curve by $+0.2$ to $+0.8\%$; this bias is not
 removed by a larger network, more points or longer training.
 \item \emph{Grid in $E$.} Refining the grid makes the curve estimate \emph{worse}
-($+0.18\%$, $+0.78\%$, $+3.7\%$ for $h=0.5$, $0.25$, $0.125$; one seed each, and for $h=0.125$ the three
-loss values are monotone, so the vertex is an extrapolation), because the differences of the loss
+($+0.18\%$ and $+0.78\%$ for $h=0.5$ and $0.25$, one seed each; for $h=0.125$ the three loss values
+are monotone and the stencil no longer brackets the minimum), because the differences of the loss
 between neighbouring nodes ($\approx c_1h^2$) fall below the fluctuations of the floor. The step should
 satisfy $c_1h^2\gg$ (fluctuation), here $h\gtrsim0.5$; a coarse grid followed by the frozen-network
 refinement is cheaper and more accurate.
@@ -994,42 +1068,73 @@ for $N=20000$.
 \end{enumerate}
 The refined value $E_{\rm PINN}$ is insensitive to all these settings (relative difference at most
 $0.05\%$ for every configuration with learning-rate decay, $\ge1500$ epochs and $N\ge5000$), because it
-is computed from the trained function alone. The same holds for the second eigenvalue of the disk:
-over three seeds, constant learning rate, a $2\times64$ network and 5000 epochs, $E_{\rm PINN}$ at the
-node $E=18.5$ stayed within $0.08\%$ of $18.3929$, whereas $E_{\rm curve}$ ranged from $+0.11\%$ to
-$+1.68\%$. %TODO-PLAP-R2: confirm E2 convergence numbers (tables_r2.md, part (b)).
+is computed from the trained function alone. The same holds for the second eigenvalue of the disk
+(Table~\ref{tab.plap.conv2}): over three seeds, constant learning rate, a $2\times64$ network and 5000
+epochs, $E_{\rm PINN}$ at the node $E=18.5$ stayed within $0.08\%$ of $18.3929$ (from $-0.14\%$ to
+$+0.08\%$ over the three nodes), whereas $E_{\rm curve}$ ranged from $+0.11\%$ to $+1.68\%$ and did not
+improve with longer training; the floor ($\approx0.85$) is about seven times that of the first
+eigenvalue.
 Hence the loss curve should be used to \emph{detect} the eigenvalues and the frozen-network quotient
 to \emph{compute} them.
 
 \subsection{Range of \texorpdfstring{$p$}{p}}
-Table~\ref{tab.plap.p} shows the first eigenvalue of the disk for several $p$. The residual floor
-grows with $p$ (the eigenfunction is only $C^{1,1/(p-1)}$ at its maximum), and so does the dependence of
-$E_{\rm PINN}$ on the node at which the network was trained: over the three central nodes of the
-window it ranges from $-0.8\%$ to $+0.8\%$ for $p=3$ and from $-2.6\%$ to $+1.5\%$ for $p=4$ (three
-seeds), and at $p=4$ two of the three seeds collapsed to $u\equiv0$ at one node. We therefore regard
-the method as tested for $2\le p\le3$ (at $p=2.2$ and $p=3$), with $p=4$ marginal.
-%TODO-PLAP-R2: confirm p=3,4 seed/node numbers (tables_r2.md, part (c)).
-For $p=1.5$ the method fails. For $p<2$ the strong form $\Delta_pu$ of a smooth network is singular
-at its critical points (like $|x-x_0|^{p-2}$), and the Monte Carlo estimator of the loss has infinite
-variance for $p\le3/2$ in two dimensions; the failure is a consequence of the lack of regularity
-required by the strong form. A regularized operator
-$-\operatorname{div}((|\nabla u|^2+\nu^2)^{(p-2)/2}\nabla u)$ with a small $\nu>0$ is a natural
-remedy, which we leave for future work.
-%TODO-PLAP-R2: regularized p<2 results (p=1.5, nu=0.3/0.1/0.03) -- replace the last sentence by a short remark if they work.
+Table~\ref{tab.plap.p} shows the first eigenvalue of the disk for several $p$, with three seeds and
+the dependence of $E_{\rm PINN}$ on the node at which the network was trained. The residual floor of
+Lemma~\ref{lem.critical} grows with $p$ (the eigenfunction is only $C^{1,1/(p-1)}$ at its maximum),
+and so does this node dependence: at the grid minimum the largest relative difference is $0.05\%$,
+$0.31\%$ and $1.45\%$ for $p=2.2$, $3$, $4$, but over the three central nodes $E_{\rm PINN}$ ranges from
+$-0.09\%$ to $+0.10\%$, from $-0.77\%$ to $+0.81\%$ and from $-2.56\%$ to $+1.48\%$, respectively. At
+$p=4$ the curve is flat ($\bar\Lambda_p=4.4$--$8.0$ between $E=14$ and $16$) and 2 of the 15 trainings
+collapsed to $u\equiv0$. The method is therefore validated for $p\in[2.2,3]$ (and $p=2.5$ in three
+dimensions); $p=4$ is marginal.
 
 \begin{table}[tbp]
 \centering\small
 \color{blue}
-\caption{First eigenvalue of the $p$-Laplacian in the unit disk for several $p$ (settings of Table~\ref{tab.plap}; reference by radial shooting). $E_{\rm PINN}$ at the node of smallest loss for seeds 0, 1, 2 (seed 0 only for $p=1.5$); $E_{\rm curve}$ and $\bar\Lambda_p^{1/2}$ for seed 0.}
+\caption{First eigenvalue of the $p$-Laplacian in the unit disk (reference by radial shooting; settings of Table~\ref{tab.plap}; steps $h=0.5$, $0.75$, $1$ for $p=2.2,3,4$). $E_{\rm PINN}$ at the grid minimum for seeds 0, 1, 2, and range of $E_{\rm PINN}$ over the three central nodes and all seeds. $p=1.5$: unregularized loss, seed 0, no minimum near $E_1$.}
 \label{tab.plap.p}
-\begin{tabular}{cccccc}
+\begin{tabular}{ccccc}
 \toprule
-$p$ & $E_1$ (shooting) & $E_{\rm PINN}$ (seeds 0, 1, 2) & max.\ rel.\ diff.\ (\%) & $E_{\rm curve}$ (rel.\ diff.\ \%) & $\bar\Lambda_p^{1/2}$ \\
+$p$ & $E_1$ & $E_{\rm PINN}$ (seeds 0, 1, 2) & max.\ rel.\ diff.\ (\%) & range over nodes (rel.\ diff.\ \%)\\
 \midrule
-1.5 & 4.0178 & 5.2887 & $+31.6$ & 4.702 ($+17.0$) & 4.92 \\
-2.2 & 6.5317 & 6.5320, 6.5329, 6.5285 & 0.05 & 6.543 ($+0.18$) & 0.36 \\
-3.0 & 9.8315 & 9.8012, 9.8265, 9.8142 & 0.31 & 9.885 ($+0.55$) & 0.78 \\
-4.0 & 14.6816 & 14.8952, 14.6130, 14.5326 & 1.45 & 15.886 ($+8.20$) & 2.50 \\
+1.5 & 4.0178 & 5.2887 & $+31.6$ & 5.29--7.84\\
+2.2 & 6.5317 & 6.5320, 6.5329, 6.5285 & 0.05 & 6.526--6.538 ($-0.09$ to $+0.10$)\\
+3 & 9.8315 & 9.801, 9.827, 9.814 & 0.31 & 9.76--9.91 ($-0.77$ to $+0.81$)\\
+4 & 14.6816 & 14.895, 14.613, 14.533 & 1.45 & 14.31--14.90 ($-2.56$ to $+1.48$)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{The case $p<2$ and regularization.} For $p=1.5$ the loss \eqref{loss.p} fails: the curve has
+no minimum near $E_1=4.0178$ ($\bar\Lambda_p=24$--$58$). For $p<2$ the strong form $\Delta_pu$ of a
+smooth network is singular at its critical points (like $|x-x_0|^{p-2}$), and the Monte Carlo
+estimator of the loss has infinite variance for $p\le3/2$ in two dimensions: the failure is a
+consequence of the regularity required by the strong form. Replacing $\Delta_pu$ in the loss by the
+regularized operator $\operatorname{div}((|\nabla u|^2+\nu^2)^{(p-2)/2}\nabla u)$, $\nu>0$, removes the
+singularity, and in our test it cures the failure (Table~\ref{tab.plap.reg}; unit disk, first
+eigenvalue, seed 0): the curve has a clean minimum near $E=4$ with $\bar\Lambda_p^{1/2}\approx0.3$, as
+for $p=2.2$. The regularized problem is not homogeneous, so its eigenvalue $E_\nu$ depends on the
+normalization; with $\int|u|^p=1$, radial shooting gives $E_\nu=3.9572$, $4.0099$, $4.0170$ for
+$\nu=0.3$, $0.1$, $0.03$. The PINN values differ from $E_\nu$ by $-0.23$, $-0.28$, $-0.29\%$ and from
+$E_1$ by $-1.74$, $-0.47$, $-0.31\%$; for $\nu\le0.1$ the total difference is dominated by the PINN error
+(whose origin we have not identified) rather than by the regularization shift ($\le0.2\%$). For $p=4$ the
+regularization ($\nu=0.1$) brings no improvement, as expected: for $p>2$ the difficulty is the defect at
+the critical points (Lemma~\ref{lem.critical}), not a singularity of the operator.
+
+\begin{table}[tbp]
+\centering\small
+\color{blue}
+\caption{Regularized operator $\operatorname{div}((|\nabla u|^2+\nu^2)^{(p-2)/2}\nabla u)$ in the loss, unit disk, first eigenvalue, seed 0 ($E_1=4.0178$ for $p=1.5$, $14.6816$ for $p=4$). $E_\nu$: radial shooting for the regularized problem with $\int|u|^p=1$. Row $\nu=0$: unregularized loss.}
+\label{tab.plap.reg}
+\begin{tabular}{ccccccc}
+\toprule
+$p$ & $\nu$ & $E_\nu$ & $E_{\rm PINN}$ & rel.\ diff.\ vs $E_\nu$ (\%) & rel.\ diff.\ vs $E_1$ (\%) & $\bar\Lambda_p^{1/2}$\\
+\midrule
+1.5 & 0 & -- & 5.29 (no minimum) & -- & $+31.6$ & 4.92\\
+1.5 & 0.3 & 3.9572 & 3.9480 & $-0.23$ & $-1.74$ & 0.31\\
+1.5 & 0.1 & 4.0099 & 3.9988 & $-0.28$ & $-0.47$ & 0.32\\
+1.5 & 0.03 & 4.0170 & 4.0054 & $-0.29$ & $-0.31$ & 0.35\\
+4 & 0.1 & 14.7490 & 14.9459 & $+1.33$ & $+1.80$ & 2.47\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1113,7 +1218,7 @@ $2.7$--$66$ (median $7.5$): both bounds held, and the Kato--Temple bound is the 
 (ii) \emph{Size of $\delta$.} We measured $\delta_i=|r_i^2-\ell(E^i)^2|$ at every node, with $r_i^2$ the
 normalized loss on a fresh sample. In the three seeds of the offset scan of Section~\ref{sec.cost}
 (18 nodes on $[17.3,102.3]$) the maxima were $3.5$, $2.9$, $2.6$; in the three seeds on $[15,55]$ they
-were $9.8$, $7.8$, $12.1$, attained at the mid-gap node $E=35$, where $\ell^2=219$ and a relative
+were $9.8$, $7.8$, $12.1$, attained at the mid-gap node $E=35$, where $\ell^2\approx206$ and a relative
 error of a few percent in $r^2$ gives $\delta\approx10$ (medians $0.15$--$0.25$). In the 80-node scan of
 Table~\ref{table.1} the maximum over all nodes was $1749$, but after excluding $9$ nodes (5 collapsed,
 4 that had switched to the branch of another eigenvalue after a re-initialization) it was $2.35$
@@ -1316,6 +1421,12 @@ derivatives make each epoch more expensive, and multiplicities and close cluster
 The method proposed in this work provides a flexible framework for computing eigenvalues and eigenfunctions of differential operators using neural networks. \rev{The detection step does not rely on the Rayleigh quotient or on orthogonality conditions between eigenfunctions; in the linear case the Rayleigh quotient of the detected network is then used to refine the value and to certify it.} As a result, it is well-suited for computing \rev{eigenvalues in a prescribed window} and for addressing nonlinear problems where such structures are no longer available.
 
 \begin{revblock}
+The main contributions of this work are: the characterization of eigenvalues as the zeros of a
+residual loss curve, which needs neither the Rayleigh quotient nor orthogonality and therefore extends
+to the $p$-Laplacian; the analysis of the penalized loss used in practice, with a rule for the penalty
+parameter and a stability result for the detection; and a posteriori certificates for the computed
+eigenvalues in the linear case, together with a systematic validation against exact values and
+independent reference computations.
 For self-adjoint problems the loss curve equals the squared distance to the spectrum; the penalized
 loss used in practice has an explicit loss curve and no spurious local minima, which yields the rule
 $\mu\ge D^2$ along warm-started scans, confirmed on a window with two eigenvalues. The detection is
@@ -1328,7 +1439,8 @@ values for the potentials). For the $p$-Laplacian the zeros of the loss curve ar
 eigenvalues and the curve lies below a parabola at each of them; the first and second eigenvalues
 agree with independent references to within $0.1\%$, further eigenvalues are detected in the same
 scan and agree with independent references, and the dominant error sources (optimization noise and
-the residual floor at critical points) have been identified; the method was tested for $2\le p\le3$.
+the residual floor at critical points) have been identified; the method is validated for
+$p\in[2.2,3]$, and for $p=1.5$ a regularized operator removes the failure of the strong form.
 
 \emph{Limitations.} The scan does not resolve multiplicities or clusters of eigenvalues closer than
 the error level; eigenvalues can be missed when the warm-started network stays on a neighbouring branch
@@ -1337,34 +1449,11 @@ unreliable, so high windows are reached by continuation or by repeated restarts;
 eigenvalues of linear problems a Rayleigh-quotient PINN with deflation is cheaper, and finite elements
 are much cheaper and more accurate in the dimensions considered here; no bound on the training error
 is proved; and for the $p$-Laplacian there is no a posteriori certificate, the accuracy degrades for
-$p\ge4$, and the method in its present strong form fails for $p<2$. A weak-form (variational) version
+$p\ge4$, and for $p<2$ the strong form requires a regularization of the operator, which changes the
+eigenvalue slightly. A weak-form (variational) version
 of the loss, which avoids the regularity required by the strong form, is a natural direction for
 future work.
 \end{revblock}
-
-\section*{Declarations}
-
-\subsection*{Code availability}
-\rev{The Python code used in this work, including the scripts and raw results of the experiments
-reported here, is openly accessible at}
-\begin{center}
-\rev{\url{https://github.com/jfbonder/PINN-eigenvalues-v2}}
-\end{center}
-
-\subsection*{\rev{Data availability}}
-\rev{No external data were used; all data are generated by the code above.}
-
-\subsection*{\rev{Declaration of competing interest}}
-\rev{The authors declare that they have no known competing financial interests or personal
-relationships that could have appeared to influence the work reported in this paper.}
-% TODO-AUTHORS: add the declaration on the use of AI tools (and any other statement) required by the journal.
-
-\subsection*{Funding}
-This work was partially supported by ANPCyT under grant PICT 2019-3837 and by CONICET under grant PIP 11220150100032CO.
-
-\subsection*{Acknowledgements}
-JFB thanks Pablo Groisman for encouraging him to teach a course on the Mathematical Foundations of Deep Learning in the fall semester of 2025, which inspired \rev{this work}.
-
 
 \appendix
 
@@ -1422,7 +1511,7 @@ $$
 Hence, $u_E$ is admissible and attains the minimum.
 \end{proof}
 
-\section{Proofs of Propositions~\ref{prop.penalized}, \ref{prop.rayleigh}, \ref{prop.plap} and \ref{prop.stability}}\label{app.proofs}
+\section{Proofs of Propositions~\ref{prop.penalized}, \ref{prop.rayleigh}, \ref{prop.plap}, \ref{prop.ck} and \ref{prop.stability}}\label{app.proofs}
 \begin{revblock}
 Throughout, $L$, $u_k$, $E_k$, $\ell(E)$ are as in Section~\ref{sec.approach} and $\|\cdot\|=\|\cdot\|_2$.
 
@@ -1475,6 +1564,34 @@ $|w_n|^{p-2}w_n\to|w|^{p-2}w$ in $L^{p'}\subset W^{-1,p'}$; also $f_n\to0$ in $W
 $-\Delta_pw_n\to E|w|^{p-2}w$ in $W^{-1,p'}$, and by continuity of $(-\Delta_p)^{-1}\colon
 W^{-1,p'}\to W^{1,p}_0$, $w_n\to w$ strongly, with $-\Delta_pw=E|w|^{p-2}w$, $w\ne0$.
 \end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop.ck}]
+Write $u=u_k$ and $q=2(p-1)$. Testing the weak form of \eqref{p-eigen} with $u$ gives
+$\|\nabla u\|_p^p=E_k\|u\|_p^p=E_k$. (b) is $\|u\|_2=1$.
+
+(a) Let $1<p<2$, so that $0<q<p$. H\"older's inequality with exponents $p/q$ and $p/(p-q)$ gives
+$c_k=\int_\Omega|u|^q\le|\Omega|^{1-q/p}\big(\int_\Omega|u|^p\big)^{q/p}=|\Omega|^{(2-p)/p}$, since
+$1-q/p=(2-p)/p$. For the lower bound note that $p<2\le d$, so $p^*$ is defined and $q<p<p^*$. Writing
+$|u|^p=|u|^{p\theta}|u|^{p(1-\theta)}$ and applying H\"older's inequality with exponents
+$q/(p\theta)$ and $p^*/(p(1-\theta))$, whose reciprocals add up to $1$ by the definition of $\theta$, we
+obtain the interpolation inequality
+\[
+1=\|u\|_p\le\|u\|_q^{\theta}\|u\|_{p^*}^{1-\theta}\le c_k^{\theta/q}\big(S_*\|\nabla u\|_p\big)^{1-\theta}
+=c_k^{\theta/q}\big(S_*E_k^{1/p}\big)^{1-\theta}.
+\]
+Raising to the power $q/\theta$ gives $c_k\ge S_*^{-q(1-\theta)/\theta}E_k^{-q(1-\theta)/(p\theta)}$.
+
+(c) Let $p>2$, so that $q>p$. H\"older's inequality with exponents $q/p$ and $q/(q-p)$ gives
+$1=\int_\Omega|u|^p\le|\Omega|^{1-p/q}c_k^{p/q}$, i.e.\ $c_k\ge|\Omega|^{-(q-p)/p}=|\Omega|^{(2-p)/p}$, since
+$q-p=p-2$. For the upper bound we need $W^{1,p}_0(\Omega)\hookrightarrow L^q(\Omega)$. If $p>d$ this follows
+from Morrey's embedding into $L^\infty(\Omega)$ and the boundedness of $\Omega$; if $p=d$,
+$W^{1,d}_0(\Omega)$ embeds into $L^s(\Omega)$ for every $s<\infty$; if $p<d$, the Sobolev embedding into
+$L^{p^*}(\Omega)$ and H\"older's inequality give the embedding when $q\le p^*$, and
+$q\le p^*\iff2(p-1)(d-p)\le dp\iff d(p-2)\le2p(p-1)$. Then
+$c_k=\|u\|_q^q\le S_q^q\|\nabla u\|_p^q=S_q^qE_k^{q/p}$. Finally, writing $p=2+t$ with $t>0$,
+$\frac{2p(p-1)}{p-2}=2\big(t+3+\frac2t\big)\ge6+4\sqrt2>11$, so the condition holds for all $p>2$ when
+$d\le11$.
+\end{proof}
 \end{revblock}
 
 
@@ -1505,189 +1622,206 @@ $N=20000$ & 0.397 & 0.123 & 0.325 & 6.538 ($+0.10$) & 6.5319 ($+0.00$)\\
 $\mu=50$ & 0.390 & 0.073 & 0.250 & 6.571 ($+0.60$) & 6.5317 ($-0.00$)\\
 $\mu=1000$ & 0.516 & 0.166 & 0.385 & 6.558 ($+0.39$) & 6.5352 ($+0.05$)\\
 $h=0.25$ & -- & 0.120 & -- & 6.583 ($+0.78$) & 6.5338 ($+0.03$)\\
-$h=0.125$ & -- & 0.116 & -- & 6.773 ($+3.69$) & 6.5337 ($+0.03$)\\
+$h=0.125$ & -- & 0.116 & -- & -- (monotone) & 6.5337 ($+0.03$)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[tbp]
+\centering\small
+\color{blue}
+\caption{Convergence study for the second eigenvalue of the $p$-Laplacian, $p=2.2$, in the unit disk (reference $18.3929$: finite elements on the half disk; $18.395$ in \cite{HJ11}). Nodes $E=18.0,18.5,19.0$; $E_{\rm PINN}$ from the network trained at $E=18.5$; single runs (seed 0) except the three baseline seeds.}
+\label{tab.plap.conv2}
+\begin{tabular}{lccccc}
+\toprule
+setting & $\bar\Lambda_p(18.0)$ & $\bar\Lambda_p(18.5)$ & $\bar\Lambda_p(19.0)$ & $E_{\rm curve}$ (rel.\ diff.\ \%) & $E_{\rm PINN}$ (rel.\ diff.\ \%)\\
+\midrule
+baseline, seed 0 & 1.056 & 0.832 & 1.292 & 18.41 ($+0.11$) & 18.4069 ($+0.08$)\\
+baseline, seed 1 & 1.066 & 0.890 & 1.160 & 18.45 ($+0.30$) & 18.3890 ($-0.02$)\\
+baseline, seed 2 & 1.144 & 0.876 & 1.259 & 18.46 ($+0.34$) & 18.3968 ($+0.02$)\\
+P0 (constant learning rate, early stopping) & 1.103 & 0.937 & 1.226 & 18.43 ($+0.22$) & 18.3867 ($-0.03$)\\
+network $2\times64$ & 1.576 & 1.123 & 1.284 & 18.62 ($+1.23$) & 18.3823 ($-0.06$)\\
+5000 epochs & 1.087 & 0.712 & 0.753 & 18.70 ($+1.68$) & 18.3857 ($-0.04$)\\
 \bottomrule
 \end{tabular}
 \end{table}
 \end{revblock}
 
+\section*{Declaration}
+\begin{revblock}
+\noindent\textbf{Conflicts of interest:} The authors declare that they have no known competing financial
+interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+\noindent\textbf{Funding:} This work was partially supported by grants UBACYT Prog.\ 2018
+20020170100445BA and ANPCyT PICT 2019-00985.
+
+\noindent\textbf{Author's Contribution:} J.~Fern\'andez Bonder and A.~Salort contributed equally to all
+aspects of this work (conceptualization, methodology, formal analysis, software, investigation,
+writing -- original draft, writing -- review and editing). All authors reviewed the results and
+approved the final version of the manuscript.
+
+\noindent\textbf{Acknowledgement:} JFB thanks Pablo Groisman for encouraging him to teach a course on
+the Mathematical Foundations of Deep Learning in the fall semester of 2025, which inspired this work.
+This work was partially supported by grants UBACYT Prog.\ 2018 20020170100445BA and ANPCyT PICT
+2019-00985.
+
+\noindent\textbf{Data availability statement:} No external data were used. The Python code, the scripts
+of all the experiments reported here and their raw results are openly accessible at
+\url{https://github.com/jfbonder/PINN-eigenvalues-v2}.
+
+\noindent\textbf{Using of AI tools:} During the preparation of this revised version, the authors used
+Claude (Anthropic) through a multi-agent system (models Claude Fable 5.2, Claude Opus 5.5 and Claude
+Sonnet 5.5). The code was originally developed by the authors and was subsequently modified with the
+assistance of these AI tools, which were also used to implement and run additional numerical
+experiments (including the finite element reference computations) and to draft and edit parts of the
+text. The authors checked all results and the final text and take full responsibility for the content
+of this article.
+\end{revblock}
+
 \begin{thebibliography}{99}
 
 \bibitem{Lu-Meng-Mao}
-L.~Lu, X.~Meng, Z.~Mao, and G.~E. Karniadakis,
-DeepXDE: a deep learning library for solving differential equations,
-SIAM Rev. \textbf{63}, 208 (2021).
+Lu L., Meng X., Mao Z., Karniadakis G.E., DeepXDE: a deep learning library for solving differential
+equations, SIAM Rev., 63, 208, 2021.
 
 \bibitem{Rackauckas}
-C.~Rackauckas, Y.~Ma, J.~Martensen, C.~Warner, K.~Zubov, R.~Supekar, D.~Skinner, A.~Ramadhan, and A.~Edelman,
-Universal differential equations for scientific machine learning (2021),
-\href{https://arxiv.org/abs/2001.04385}{arXiv:2001.04385 [cs.LG]}.
+Rackauckas C., Ma Y., Martensen J., Warner C., Zubov K., Supekar R., Skinner D., Ramadhan A.,
+Edelman A., Universal differential equations for scientific machine learning, arXiv preprint,
+\href{https://arxiv.org/abs/2001.04385}{arXiv:2001.04385}, 2021.
 
 \bibitem{Rackauckas-Innes-Ma-Bettencourt-etal}
-C.~Rackauckas, M.~Innes, Y.~Ma, J.~Bettencourt, L.~White, and V.~Dixit,
-DiffEqFlux.jl -- a Julia library for neural differential equations (2019),
-\href{https://arxiv.org/abs/1902.02376}{arXiv:1902.02376 [cs.LG]}.
+Rackauckas C., Innes M., Ma Y., Bettencourt J., White L., Dixit V., DiffEqFlux.jl -- a Julia library
+for neural differential equations, arXiv preprint,
+\href{https://arxiv.org/abs/1902.02376}{arXiv:1902.02376}, 2019.
 
 \bibitem{Blechschmidt-Ernst}
-J.~Blechschmidt and O.~G. Ernst,
-Three ways to solve partial differential equations with neural networks---a review,
-GAMM-Mitt. \textbf{44}, e202100006 (2021).
+Blechschmidt J., Ernst O.G., Three ways to solve partial differential equations with neural
+networks---a review, GAMM-Mitt., 44, e202100006, 2021.
 
 \bibitem{Berg-Nystrom}
-J.~Berg and K.~Nystr\"om,
-A unified deep artificial neural network approach to partial differential equations in complex geometries,
-Neurocomputing \textbf{317}, 28 (2018).
+Berg J., Nystr\"om K., A unified deep artificial neural network approach to partial differential
+equations in complex geometries, Neurocomputing, 317, 28, 2018.
 
 \bibitem{GT24}
-F.~Ghazi and L.~Tawfiq,
-Design optimal neural network based on new LM training algorithm for solving 3D-PDEs,
-An International Journal of Optimization and Control: Theories \& Applications \textbf{14}, 249 (2024).
+Ghazi F., Tawfiq L., Design optimal neural network based on new LM training algorithm for solving
+3D-PDEs, An International Journal of Optimization and Control: Theories \& Applications, 14, 249, 2024.
 
 \bibitem{KKG}
-A.~Kumar, M.~Kumar, and P.~Goswami,
-Numerical solution of coupled system of Emden-Fowler equations using artificial neural network technique,
-An International Journal of Optimization and Control: Theories \& Applications \textbf{14} (2024).
+Kumar A., Kumar M., Goswami P., Numerical solution of coupled system of Emden-Fowler equations using
+artificial neural network technique, An International Journal of Optimization and Control: Theories \&
+Applications, 14, 2024.
 
 \bibitem{MHO}
-N.~Madani, Z.~Hammouch, and N.~Ozdemir,
-Hybrid GA-IPA and neural network-based solution for fractional-order nonlinear predator-prey dynamical systems,
-Nonlinear Dyn. \textbf{113}, 32979 (2025).
+Madani N., Hammouch Z., Ozdemir N., Hybrid GA-IPA and neural network-based solution for
+fractional-order nonlinear predator-prey dynamical systems, Nonlinear Dyn., 113, 32979, 2025.
 
-% Authors, journal, volume, pages (402-413) and year confirmed by web search (Nov 2026).
-% TODO-AUTHORS: DOI could not be confirmed from this environment (ScienceDirect PII S1110016824008172); add it after checking the publisher page.
 \bibitem{Yasin-etal}
-F.~Yasin, M.~H. Alshehri, M.~Arshad, Y.~Shang, and Z.~Afzal,
-Exploring dynamics of multi-peak and breathers-type solitary wave solutions in generalized higher-order nonlinear Schr\"odinger equation and their optical applications,
-Alex. Eng. J. \textbf{105}, 402--413 (2024).
+Yasin F., Alshehri M.H., Arshad M., Shang Y., Afzal Z., Exploring dynamics of multi-peak and
+breathers-type solitary wave solutions in generalized higher-order nonlinear Schr\"odinger equation
+and their optical applications, Alex. Eng. J., 105, 402--413, 2024.
 
 \bibitem{Lagaris-Likas-Fotiadis}
-I.~E. Lagaris, A.~Likas, and D.~I. Fotiadis,
-Artificial neural networks for solving ordinary and partial differential equations,
-IEEE Trans. Neural Netw. \textbf{9}, 987 (1998).
+Lagaris I.E., Likas A., Fotiadis D.I., Artificial neural networks for solving ordinary and partial
+differential equations, IEEE Trans. Neural Netw., 9, 987, 1998.
 
 \bibitem{Raissi-Perdiakaris-Karniadakis}
-M.~Raissi, P.~Perdikaris, and G.~E. Karniadakis,
-Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations, J. Comput. Phys. \textbf{378}, 686 (2019).
+Raissi M., Perdikaris P., Karniadakis G.E., Physics-informed neural networks: A deep learning
+framework for solving forward and inverse problems involving nonlinear partial differential
+equations, J. Comput. Phys., 378, 686, 2019.
 
 \bibitem{Karniadakis-etal}
-G.~E. Karniadakis, I.~G. Kevrekidis, L.~Lu, P.~Perdikaris, S.~Wang, and L.~Yang,
-Physics-informed machine learning,
-Nat. Rev. Phys. \textbf{3}, 422 (2021).
+Karniadakis G.E., Kevrekidis I.G., Lu L., Perdikaris P., Wang S., Yang L., Physics-informed machine
+learning, Nat. Rev. Phys., 3, 422, 2021.
 
 \bibitem{Jin-Mattheakis-Protopapas1}
-H.~Jin, M.~Mattheakis, and P.~Protopapas,
-Unsupervised neural networks for quantum eigenvalue problems,
-in \textit{Proceedings of the 2020 NeurIPS Workshop on Machine Learning and the Physical Sciences}
-(Vancouver, Canada, 2020).
+Jin H., Mattheakis M., Protopapas P., Unsupervised neural networks for quantum eigenvalue problems,
+Proceedings of the 2020 NeurIPS Workshop on Machine Learning and the Physical Sciences, Vancouver,
+Canada, 2020.
 
 \bibitem{Jin-Mattheakis-Protopapas2}
-H.~Jin, M.~Mattheakis, and P.~Protopapas,
-Physics-informed neural networks for quantum eigenvalue problems,
-in \textit{Proceedings of the 2022 International Joint Conference on Neural Networks (IJCNN)}
-(IEEE, 2022).
+Jin H., Mattheakis M., Protopapas P., Physics-informed neural networks for quantum eigenvalue
+problems, Proceedings of the 2022 International Joint Conference on Neural Networks (IJCNN), IEEE,
+2022.
 
 \bibitem{Sakar}
-S.~Sarkar,
-Physics-informed neural networks for one-dimensional quantum well problems, \href{https://arxiv.org/abs/2504.05367}{arXiv:2504.05367} (2025).
+Sarkar S., Physics-informed neural networks for one-dimensional quantum well problems, arXiv
+preprint, \href{https://arxiv.org/abs/2504.05367}{arXiv:2504.05367}, 2025.
 
 \bibitem{Holliday-Lindner-Ditto}
-E.~G. Holliday, J.~F. Lindner, and W.~L. Ditto,
-Solving quantum billiard eigenvalue problems with physics-informed machine learning,
-AIP Adv. \textbf{13}, 085013 (2023).
+Holliday E.G., Lindner J.F., Ditto W.L., Solving quantum billiard eigenvalue problems with
+physics-informed machine learning, AIP Adv., 13, 085013, 2023.
 
 \bibitem{Rowan-Evans-Maute-Dootsan}
-C.~Rowan, J.~Evans, K.~Maute, and A.~Doostan,
-Solving engineering eigenvalue problems with neural networks using the Rayleigh quotient,
-Int. J. Numer. Methods Eng. \textbf{126}(24), e70209 (2025).
+Rowan C., Evans J., Maute K., Doostan A., Solving engineering eigenvalue problems with neural
+networks using the Rayleigh quotient, Int. J. Numer. Methods Eng., 126(24), e70209, 2025.
 
 \bibitem{E-Yu}
-W.~E and B.~Yu,
-The Deep Ritz method: a deep learning-based numerical algorithm for solving variational problems,
-Commun. Math. Stat. \textbf{6}, 1 (2018).
+E W., Yu B., The Deep Ritz method: a deep learning-based numerical algorithm for solving variational
+problems, Commun. Math. Stat., 6, 1, 2018.
 
 \bibitem{Betcke-Trefethen}
-T.~Betcke and L.~N. Trefethen,
-Reviving the method of particular solutions,
-SIAM Rev. \textbf{47}, 469 (2005).
+Betcke T., Trefethen L.N., Reviving the method of particular solutions, SIAM Rev., 47, 469, 2005.
 
 \bibitem{Wang-Zunger}
-L.-W.~Wang and A.~Zunger,
-Solving Schr\"odinger's equation around a desired energy: application to silicon quantum dots,
-J. Chem. Phys. \textbf{100}, 2394 (1994).
+Wang L.-W., Zunger A., Solving Schr\"odinger's equation around a desired energy: application to
+silicon quantum dots, J. Chem. Phys., 100, 2394, 1994.
 
 \bibitem{Weinstein1934}
-D.~H.~Weinstein, Modified Ritz method, Proc. Natl. Acad. Sci. USA \textbf{20}, 529 (1934).
+Weinstein D.H., Modified Ritz method, Proc. Natl. Acad. Sci. USA, 20, 529, 1934.
 
 \bibitem{Parlett1998}
-B.~N.~Parlett, \emph{The Symmetric Eigenvalue Problem}, Classics in Applied Mathematics, Vol.~20 (SIAM, Philadelphia, 1998).
+Parlett B.N., The Symmetric Eigenvalue Problem, Classics in Applied Mathematics 20, SIAM,
+Philadelphia, USA, 1998.
 
 \bibitem{Kato1949}
-T.~Kato,
-On the upper and lower bounds of eigenvalues,
-J. Phys. Soc. Japan \textbf{4}, 334 (1949).
+Kato T., On the upper and lower bounds of eigenvalues, J. Phys. Soc. Japan, 4, 334, 1949.
 
 \bibitem{Anane1987}
-A.~Anane,
-Simplicit\'e et isolation de la premi\`ere valeur propre du $p$-laplacien avec poids,
-C. R. Acad. Sci. Paris S\'er. I Math. \textbf{305}, 725 (1987).
+Anane A., Simplicit\'e et isolation de la premi\`ere valeur propre du $p$-laplacien avec poids,
+C. R. Acad. Sci. Paris S\'er. I Math., 305, 725, 1987.
 
 \bibitem{Lindqvist1990}
-P.~Lindqvist,
-On the equation $\operatorname{div}(|\nabla u|^{p-2}\nabla u)+\lambda|u|^{p-2}u=0$,
-Proc. Amer. Math. Soc. \textbf{109}, 157 (1990).
+Lindqvist P., On the equation $\operatorname{div}(|\nabla u|^{p-2}\nabla u)+\lambda|u|^{p-2}u=0$,
+Proc. Amer. Math. Soc., 109, 157, 1990.
 
 \bibitem{GarciaAzorero-Peral}
-J.~P.~Garc\'ia Azorero and I.~Peral Alonso,
-Existence and nonuniqueness for the $p$-Laplacian: nonlinear eigenvalues,
-Comm. Partial Differential Equations \textbf{12}, 1389 (1987).
+Garc\'ia Azorero J.P., Peral Alonso I., Existence and nonuniqueness for the $p$-Laplacian: nonlinear
+eigenvalues, Comm. Partial Differential Equations, 12, 1389, 1987.
 
-% Volume, year and pages 1-9 confirmed from a citing bibliography (Anane-Chakrone 2000), Nov 2026.
 \bibitem{Anane-Tsouli}
-A.~Anane and N.~Tsouli,
-On the second eigenvalue of the $p$-Laplacian,
-in \textit{Nonlinear Partial Differential Equations},
-Pitman Res. Notes Math. Ser. \textbf{343} (Longman, Harlow, 1996), pp.~1--9.
+Anane A., Tsouli N., On the second eigenvalue of the $p$-Laplacian, Nonlinear Partial Differential
+Equations, Pitman Res. Notes Math. Ser., 343, 1--9, 1996.
 
 \bibitem{Cuesta-deFigueiredo-Gossez}
-M.~Cuesta, D.~de Figueiredo, and J.-P.~Gossez,
-The beginning of the Fu\v{c}ik spectrum for the $p$-Laplacian,
-J. Differential Equations \textbf{159}, 212 (1999).
+Cuesta M., de Figueiredo D., Gossez J.-P., The beginning of the Fu\v{c}ik spectrum for the
+$p$-Laplacian, J. Differential Equations, 159, 212, 1999.
 
 \bibitem{HJ11}
-J.~Hor\'ak,
-Numerical investigation of the smallest eigenvalues of the $p$-Laplace operator on planar domains,
-Electron. J. Differential Equations \textbf{2011}, No.~132, 1--30 (2011).
+Hor\'ak J., Numerical investigation of the smallest eigenvalues of the $p$-Laplace operator on planar
+domains, Electron. J. Differential Equations, 2011(132), 1--30, 2011.
 
 \bibitem{DiBenedetto}
-E.~DiBenedetto,
-$C^{1+\alpha}$ local regularity of weak solutions of degenerate elliptic equations,
-Nonlinear Anal. \textbf{7}, 827 (1983).
+DiBenedetto E., $C^{1+\alpha}$ local regularity of weak solutions of degenerate elliptic equations,
+Nonlinear Anal., 7, 827, 1983.
 
 \bibitem{Tolksdorf}
-P.~Tolksdorf,
-Regularity for a more general class of quasilinear elliptic equations,
-J. Differential Equations \textbf{51}, 126 (1984).
+Tolksdorf P., Regularity for a more general class of quasilinear elliptic equations, J. Differential
+Equations, 51, 126, 1984.
 
 \bibitem{Hornik1991}
-K.~Hornik,
-Approximation capabilities of multilayer feedforward networks,
-Neural Netw. \textbf{4}, 251 (1991).
+Hornik K., Approximation capabilities of multilayer feedforward networks, Neural Netw., 4, 251, 1991.
 
 \bibitem{Pinkus1999}
-A.~Pinkus,
-Approximation theory of the MLP model in neural networks,
-Acta Numer. \textbf{8}, 143 (1999).
+Pinkus A., Approximation theory of the MLP model in neural networks, Acta Numer., 8, 143, 1999.
 
 \bibitem{DeRyck-Lanthaler-Mishra}
-T.~De Ryck, S.~Lanthaler, and S.~Mishra,
-On the approximation of functions by tanh neural networks,
-Neural Netw. \textbf{143}, 732 (2021).
+De Ryck T., Lanthaler S., Mishra S., On the approximation of functions by tanh neural networks,
+Neural Netw., 143, 732, 2021.
 
 \bibitem{Rahaman-etal}
-N.~Rahaman, A.~Baratin, D.~Arpit, F.~Draxler, M.~Lin, F.~Hamprecht, Y.~Bengio, and A.~Courville,
-On the spectral bias of neural networks,
-in \textit{Proceedings of the 36th International Conference on Machine Learning},
-Proc. Mach. Learn. Res. \textbf{97}, 5301 (2019).
+Rahaman N., Baratin A., Arpit D., Draxler F., Lin M., Hamprecht F., Bengio Y., Courville A., On the
+spectral bias of neural networks, Proceedings of the 36th International Conference on Machine
+Learning, Proc. Mach. Learn. Res., 97, 5301, 2019.
 
 \end{thebibliography}
 
