@@ -1,0 +1,4 @@
+[conv_P0_s0] E=  6.5000 Lam=3.6432e-01 mass=1.0439 Lam_n=3.4762e-01 E_ls=6.5393 RQ=6.5570 core=0.20 ep=884 t=129s
+[conv_P0_s0] E=  7.0000 Lam=3.7439e-01 mass=0.8890 Lam_n=4.2564e-01 E_ls=6.5541 RQ=6.6001 core=0.27 ep=509 t=65s
+[conv_P0_s1] E=  6.0000 Lam=3.9372e-01 mass=0.9284 Lam_n=4.2699e-01 E_ls=6.5323 RQ=6.5721 core=0.07 ep=1988 t=258s
+[conv_P0_s1] E=  6.5000 Lam=2.0303e-01 mass=0.9937 Lam_n=2.0443e-01 E_ls=6.5453 RQ=6.5349 core=0.29 ep=447 t=58s
