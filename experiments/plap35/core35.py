@@ -100,9 +100,10 @@ def terms(model, x, job, need_strong, create_graph):
 def train_node(model, E, job, epochs):
     p = float(job["p"]); mu = float(job["mu"]); lam = float(job.get("lam", 0.0)); N = int(job.get("N", 5000))
     opt = torch.optim.Adam(model.parameters(), lr=1e-3)
-    sch = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs, eta_min=1e-5)
-    t0 = time.perf_counter()
-    for _ in range(epochs):
+    proto = job.get("proto", "P1")          # P1: cosine decay; P0c: constant lr; P0: constant lr + early stopping (paper)
+    sch = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs, eta_min=1e-5) if proto == "P1" else None
+    t0 = time.perf_counter(); hist = []; best = float("inf"); noimp = 0; ran = 0
+    for ep in range(epochs):
         x, wq = sample(N, job)
         opt.zero_grad()
         T = terms(model, x, job, False, True)
@@ -111,8 +112,20 @@ def train_node(model, E, job, epochs):
         loss = res + mu * nrm
         if job["variant"] == "mixed":
             loss = loss + lam * VOL * (wq * T["aux"]).mean()
-        loss.backward(); opt.step(); sch.step()
-    return dict(train_res=res.item(), train_norm=nrm.item(), train_loss=loss.item(), wall_time=time.perf_counter() - t0, epochs_run=epochs)
+        loss.backward(); opt.step(); ran += 1
+        if sch is not None:
+            sch.step()
+        if ep % 10 == 0 or ep == epochs - 1:
+            hist.append([ep, float(res.item()), float(loss.item())])
+        if proto == "P0":
+            if loss.item() < best - 1e-5:
+                best = loss.item(); noimp = 0
+            else:
+                noimp += 1
+            if noimp > 300:
+                break
+    return dict(train_res=res.item(), train_norm=nrm.item(), train_loss=loss.item(), wall_time=time.perf_counter() - t0,
+                epochs_run=ran, hist=hist)
 
 
 def evaluate(model, E, job, n_eval=40000, chunk=5000):
@@ -135,6 +148,10 @@ def evaluate(model, E, job, n_eval=40000, chunk=5000):
     out = dict(mass=mass, res_var=VOL * m(rv) / hom, Lam_strong=VOL * m(rs) / hom, E_var=E_var, E_strong=E_strong,
                RQ=m(A["g2"] ** (p / 2)) / m(A["dens"]), core_frac=(rv[idx].sum() / rv.sum()).item(),
                core_frac_strong=(rs[idx].sum() / rs.sum()).item(), collapsed=bool(mass < 0.5))
+    # Monte Carlo spread: the same network evaluated on the n_eval/chunk independent batches of `chunk` points
+    bm = (VOL * rv.view(-1, chunk).mean(1) / hom); bs = (VOL * rs.view(-1, chunk).mean(1) / hom)
+    out.update(mc_std_var=bm.std().item(), mc_min_var=bm.min().item(), mc_max_var=bm.max().item(),
+               mc_std_strong=bs.std().item(), mc_batch=chunk, mc_nbatch=int(len(bm)))
     out["loss_var"] = out["res_var"]
     if mixed:
         out["cons"] = VOL * m(A["aux"]) / hom
@@ -163,6 +180,8 @@ def run_job(job):
         ev = evaluate(model, E, job)
         recs.append(dict(E=E, **info, **ev))
         torch.save(model.state_dict(), ck)
+        if job.get("keep_models"):
+            torch.save(model.state_dict(), CKPT / f"{name}_E{E:.3f}.pt")
         tmp = str(path) + ".tmp"
         json.dump(dict(name=name, config=dict(job, E=Es), records=recs, total_wall_s=sum(r["wall_time"] for r in recs),
                        host=dict(threads=torch.get_num_threads(), torch=torch.__version__)), open(tmp, "w"), indent=1)
