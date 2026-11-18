@@ -1,0 +1,7 @@
+[conv_ep5000] E=  7.0000 Lam=2.4320e-01 mass=0.9980 Lam_n=2.4373e-01 E_ls=6.5347 RQ=6.5087 core=0.22 ep=5000 t=646s
+[disk_p3] E=  8.5000 Lam=3.3044e+00 mass=0.9950 Lam_n=3.3264e+00 E_ls=9.6582 RQ=9.8172 core=0.26 ep=1500 t=191s
+[disk_p3] E=  9.2500 Lam=8.6365e-01 mass=0.9919 Lam_n=8.7307e-01 E_ls=9.7752 RQ=9.8360 core=0.54 ep=1500 t=195s
+[disk_p3] E= 10.0000 Lam=5.9375e-01 mass=0.9884 Lam_n=6.0303e-01 E_ls=9.8012 RQ=9.9146 core=0.83 ep=1500 t=188s
+[disk_p3] E= 10.7500 Lam=1.1084e+00 mass=0.9979 Lam_n=1.1115e+00 E_ls=9.9100 RQ=9.8722 core=0.36 ep=1500 t=178s
+[disk_p3] E= 11.5000 Lam=2.6538e+00 mass=0.9991 Lam_n=2.6571e+00 E_ls=10.0005 RQ=9.8108 core=0.17 ep=1500 t=176s
+QUEUE DONE
