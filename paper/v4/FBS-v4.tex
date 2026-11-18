@@ -52,12 +52,14 @@ satisfy the Dirichlet condition exactly, and the eigenvalues are detected as the
 resulting loss curve. For self-adjoint operators the loss curve is the squared distance from $E$ to
 the spectrum. For the penalized loss used in practice we compute the loss curve in closed form, which
 excludes spurious local minima and yields an explicit rule for the penalty parameter; we prove that
-the detection is stable under training and sampling errors, and every computed eigenvalue carries an
+the detection is stable under training and sampling errors, provided the measured training error is
+small compared with the squared gaps, and in the linear case every computed eigenvalue carries an
 a posteriori Weinstein and Kato--Temple enclosure. For the $p$-Laplacian the zeros of the loss curve
 are exactly the eigenvalues and the curve lies below a parabola at each of them. Experiments in
 dimensions two to four agree with exact values and with independent finite element and shooting
-computations, including $p$-Laplacian eigenvalues beyond the second, and a test in dimension ten,
-where mesh-based methods are not practical, recovers the first two eigenvalues. The method does not resolve
+computations, including $p$-Laplacian eigenvalues beyond the second; in dimension ten, where
+mesh-based methods are not practical, the method locates the first two eigenvalues to within $1\%$
+(single run, weak certificate). The method does not resolve
 multiplicities and, for the lowest eigenvalues of linear problems, it is more expensive than
 Rayleigh-quotient methods with deflation.
 
@@ -569,19 +571,21 @@ The cost of an epoch grows only linearly with $d$ (Section~\ref{sec.cost}; we me
 ms per epoch for the $3\times128$ network with 5000 points on one thread), whereas mesh-based methods
 become infeasible in high dimension. As an illustration we scanned the unit ball of $\R^{10}$, whose
 first eigenvalue $j_{4,1}^2=57.583$ is simple and whose second, $j_{5,1}^2=76.939$, has multiplicity
-10, on the nodes $E=54,57,\dots,84$ (warm start, at most 2000 epochs, seed 0; 1.8 hours on one thread).
+10, on the nodes $E=54,57,\dots,84$, a window chosen around the known eigenvalues (warm start, at most
+2000 epochs, a single run with seed 0; 1.8 hours on one thread).
 Most of the volume of this ball lies near its boundary, where $B=1-|x|^2$ is small; with $\mu=200$ the
 network collapsed to $u\equiv0$ at the first node, and we used $\mu=2000$. The recorded residual has two
 wells (19.8 at $E=57$ and 49.4 at $E=78$, against 234 at $E=72$), the tenfold eigenvalue appearing as a
-single minimum. The Rayleigh quotient is $57.62$--$57.84$ at the nodes of the first well ($+0.07\%$ to
-$+0.45\%$) and $77.10$--$77.70$ at those of the second ($+0.2\%$ to $+1.0\%$). With $r\approx4.7$--$7$ at the
-minima the Weinstein enclosure is weak, so this example shows feasibility rather than accuracy.
+single minimum. The Rayleigh quotient depends on the node: it is $57.62$--$57.84$ at the nodes of the
+first well ($+0.07\%$ to $+0.45\%$) and $77.10$--$77.70$ at those of the second ($+0.2\%$ to $+1.0\%$); no
+Monte Carlo standard error was computed for this run. With $r\approx4.7$--$7$ at the minima the
+Weinstein enclosure is weak, so this example shows feasibility rather than accuracy.
 \end{revblock}
 
 \begin{table}[htbp]
 \centering\small
 \color{blue}
-\caption{Eigenvalues of \eqref{eigen2} in the unit balls of $\R^3$ and $\R^4$ (three-node windows, seed 0). $\hat E$: Rayleigh quotient at the node of smallest normalized loss, with its Monte Carlo standard error in the last digits ($4\times10^5$ points); $r$: Weinstein radius.}
+\caption{Eigenvalues of \eqref{eigen2} in the unit balls of $\R^3$ and $\R^4$ (three-node windows, seed 0). $\hat E$: Rayleigh quotient at the node of smallest normalized loss, with its Monte Carlo standard error in the last digits ($4\times10^5$ points); $r$: Weinstein radius. In $\R^4$ the quotient drifts with the node ($14.51$, $14.71$, $14.96$ for the first eigenvalue); the value at the node of smallest loss is given. The higher eigenvalues in the windows of Fig.~\ref{loss3D.fig} were not recomputed in this way and are shown only in that figure.}
 \label{table.2}
 \begin{tabular}{ccccccc}
 \toprule
@@ -878,7 +882,7 @@ $|\Omega|$, $E_k$ and Sobolev constants. Let $q=2(p-1)$ and, for $p<d$, $p^*=dp/
 constant in $\|v\|_{p^*}\le S_*\|\nabla v\|_p$ and, when $W^{1,p}_0(\Omega)\hookrightarrow L^q(\Omega)$,
 $S_q$ the constant in $\|v\|_q\le S_q\|\nabla v\|_p$, $v\in W^{1,p}_0(\Omega)$.
 
-\begin{proposition}[Curvature of the wells]\label{prop.ck}
+\begin{proposition}[Bounds on the constants $c_k$]\label{prop.ck}
 Let $d\ge2$ and let $u_k$ be an eigenfunction of \eqref{p-eigen} with eigenvalue $E_k$ and
 $\|u_k\|_p=1$, $c_k=\int_\Omega|u_k|^q\,dx$.
 \begin{enumerate}
@@ -891,10 +895,13 @@ $W^{1,p}_0(\Omega)\hookrightarrow L^q(\Omega)$ and $c_k\le S_q^{\,q}E_k^{q/p}=S_
 \end{enumerate}
 \end{proposition}
 The proof is given in Appendix~\ref{app.proofs}. The examples of this section satisfy the hypotheses
-of (c): $d=2$, $p=2.2>d$, and $d=3$, $p=2.5$, with $q=3\le p^*=15$. Thus for $1<p<2$ the curvature of the
-wells is bounded above uniformly in $k$ but may decrease as $k$ grows (the wells may flatten), while
-for $p>2$ it is bounded below uniformly but the upper bound grows like $E_k^{2(p-1)/p}$ (the wells may
-steepen).
+of (c): $d=2$, $p=2.2>d$, and $d=3$, $p=2.5$, with $q=3\le p^*=15$. For $p<d$ the constants $S_*$ and
+$S_q$ can be taken independent of $\Omega$ when $q=p^*$, whereas for $p\ge d$ the constant $S_q$ depends on
+$\Omega$. By Proposition~\ref{prop.plap}(a) every eigenvalue lies under a parabola $c_k(E-E_k)^2$, so
+every isolated eigenvalue produces a well of the loss curve. For $1<p<2$ the curvature of these bounding
+parabolas is bounded above uniformly in $k$ but may decrease as $k$ grows (the bounding parabolas may
+flatten), while for $p>2$ it is bounded below uniformly but the upper bound grows like
+$E_k^{2(p-1)/p}$ (the bounding parabolas may steepen).
 
 \begin{remark}[What is lost with respect to the linear case]\label{rem.plap.lost}
 (1) The proof of (b) is by compactness and gives no lower bound of the form
@@ -1009,6 +1016,7 @@ $2\times2$ cell mode and the mode with both diagonals as nodal lines, with relat
 below $0.1\%$ except for the radial mode with a nodal circle ($+0.41\%$; its gradient vanishes on a
 whole circle, which gives the largest residual floor). For the ball of $\R^3$ the shooting value
 $14.1112$ and the axisymmetric finite element value $35.6315$ are matched to $0.08\%$ and $0.01\%$.
+The rows $k\ge3$ and the ball of $\R^3$ are single runs (seed 0).
 Table~\ref{tab.plap.seeds} repeats the first two eigenvalues of the disk and of the square with
 three seeds (local three-node windows, $h=0.5$): the spread of $E_{\rm PINN}$ is $0.004$--$0.018$ and the
 largest relative difference $0.15\%$, whereas the vertex $E_{\rm curve}$ is much less reproducible
@@ -1222,12 +1230,14 @@ normalized loss on a fresh sample. In the three seeds of the offset scan of Sect
 were $9.8$, $7.8$, $12.1$, attained at the mid-gap node $E=35$, where $\ell^2\approx206$ and a relative
 error of a few percent in $r^2$ gives $\delta\approx10$ (medians $0.15$--$0.25$). In the 80-node scan of
 Table~\ref{table.1} the maximum over all nodes was $1749$, but after excluding $9$ nodes (5 collapsed,
-4 that had switched to the branch of another eigenvalue after a re-initialization) it was $2.35$
+4 branch-switched or lagging nodes: after the re-initialization at $E\approx66.5$ the network sat on the
+$5\pi^2$ branch, and already at $E=65.1$, past the mid-gap $64.15$, the warm-started network had
+lagged on that branch) it was $2.35$
 (median $0.26$). On the remaining (clean) nodes $\delta\le12.1$, well below $\gamma^2/8=48.7$ and $109.6$
 for the gaps $\gamma=19.7$ and $29.6$ of the unit square, and the hypotheses of (d) hold (e.g.\
-$h=5$, $\delta=12.1$ give $2\tau+h=16.1<19.7$). They do not make the bound (c) sharp: $\delta$ is
+$h=5$, $\delta=12.1$ give $2\tau+h=16.0<19.7$). They do not make the bound (c) sharp: $\delta$ is
 comparable to $h^2/4$ at the mid-gap nodes, where it is dominated by the training floor at large
-$\ell$. Large values of $\delta$ occurred only at collapsed nodes and at branch-switched nodes, where
+$\ell$. Large values of $\delta$ occurred only at collapsed nodes and at branch-switched or lagging nodes, where
 the network sits on the eigenfunction of an eigenvalue different from the nearest one; the
 eigenvalues missed in the annulus and for $\omega=10$ (Section~\ref{sec.fem}) are instances of the
 second kind. Both are visible in the network itself: the first by a vanishing mass, the second by a
@@ -1320,7 +1330,7 @@ $\mu$ & $\mu/D^2$ & regime & spurious minima & collapsed & $\hat E$\\
 30 & 0.14 & (iv) & 3 / 1 ($E=28$--$41$) & 6/6 & 49.3482, 49.3477\\
 75 & 0.34 & (iv) & 1 / 1 ($E=33$--$36$) & 2/2 & 49.3487, 49.3476\\
 150 & 0.68 & (iii) & 1 / 1 ($E=35.6$) & 0/0 & 49.3473, 49.3478\\
-219 & 1.0 & (ii) & none & 0/0 & 49.3487, 49.3483\\
+219 & $\approx1.0$ & (ii) & none & 0/0 & 49.3487, 49.3483\\
 300 & 1.4 & (ii) & none & 0/0 & 49.3479, 49.3481\\
 1000 & 4.6 & (ii) & none & 0/0 & 49.3475, 49.3475\\
 \bottomrule
@@ -1392,10 +1402,15 @@ deflation, $K=6$, early stopping & 247 [229, 262] & 6 (with mult.) & $3.1\times1
 deflation, $K=6$, no early stopping & 813 [796, 830] & 6 (with mult.) & $2.3\times10^{-3}$\\
 scan $[17.3,102.3]$, 18 nodes & 2082 [2023, 2135] (+77--110) & 4 distinct & $4.1\times10^{-5}$\\
 scan $[0,105]$, 80 nodes (Table~\ref{table.1}; seed 0) & 6534 (+413) & 4 distinct & $3.5\times10^{-5}$\\
-cold start $[95,102]$, 5 nodes, $\mu=5000$ & 818--950 & $10\pi^2$ at 8/15 nodes & $2.1\times10^{-5}$ (seed 0)\\
+cold start $[95,102]$, 5 nodes, $\mu=5000$ & 818--1008 & $10\pi^2$ at 8/15 nodes & $2.1\times10^{-5}$ (one run)\\
 \bottomrule
 \end{tabular}
 \end{table}
+
+In all three seeds of the offset scan, $2\pi^2$ appears at the boundary node $E=17.3$ ($r^2\approx6.0$,
+against $6.6$--$6.8$ at $E=22.3$), not as an interior minimum, so Proposition~\ref{prop.stability}(d)
+does not apply to it; it is identified through the Rayleigh quotient at that node ($19.740$). The other
+three distinct eigenvalues are interior minima.
 
 For the lowest eigenvalues of a two-dimensional problem the Rayleigh-quotient PINN with deflation is
 \emph{cheaper} in raw wall time: the 18-node scan is $2.6$ times slower than deflation without early
@@ -1435,14 +1450,17 @@ stable under training and sampling errors whenever the measured error level is s
 the squared gaps, which holds at all nodes except collapsed or branch-switched ones, and these are
 visible in the network; each eigenvalue comes with an a posteriori enclosure. The method was
 validated against exact values and independent finite element computations in dimensions two to four
-(and tested in dimension ten, where the cost per epoch grows only linearly with the dimension),
+(and tested in dimension ten, where the cost per epoch grows only linearly with the dimension: a
+single run on a window chosen around the known eigenvalues, with a quotient depending on the node,
+$+0.07\%$ to $+1.0\%$, $r=4.7$--$7$ and no Monte Carlo standard error computed),
 with several seeds (seed means within $0.1\%$ and single runs within $0.25\%$ of the finite element
 values for the potentials). For the $p$-Laplacian the zeros of the loss curve are exactly the
 eigenvalues and the curve lies below a parabola at each of them; the first and second eigenvalues
 agree with independent references to within $0.1\%$, further eigenvalues are detected in the same
 scan and agree with independent references, and the dominant error sources (optimization noise and
 the residual floor at critical points) have been identified; the method is validated for
-$p\in[2.2,3]$, and for $p=1.5$ a regularized operator removes the failure of the strong form.
+$p\in[2.2,3]$, and for $p=1.5$ a regularized operator removes the failure of the strong form in a
+single-seed test, with a bias of about $0.3\%$ of unidentified origin.
 
 \emph{Limitations.} The scan does not resolve multiplicities or clusters of eigenvalues closer than
 the error level; eigenvalues can be missed when the warm-started network stays on a neighbouring branch
