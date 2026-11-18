@@ -22,3 +22,5 @@
 [conv_mu50] E=  6.5000 Lam=7.2870e-02 mass=0.9961 Lam_n=7.3182e-02 E_ls=6.5317 RQ=6.5240 core=0.55 ep=1500 t=197s
 [conv_mu50] E=  7.0000 Lam=2.4690e-01 mass=0.9893 Lam_n=2.4983e-01 E_ls=6.5308 RQ=6.5854 core=0.25 ep=1500 t=197s
 [conv_mu1000] E=  6.0000 Lam=5.2012e-01 mass=1.0066 Lam_n=5.1641e-01 E_ls=6.5380 RQ=6.5146 core=0.04 ep=1500 t=199s
+[conv_mu1000] E=  6.5000 Lam=1.6493e-01 mass=0.9967 Lam_n=1.6552e-01 E_ls=6.5352 RQ=6.5249 core=0.31 ep=1500 t=204s
+[conv_mu1000] E=  7.0000 Lam=3.8178e-01 mass=0.9919 Lam_n=3.8517e-01 E_ls=6.5358 RQ=6.5866 core=0.35 ep=1500 t=202s

@@ -7,3 +7,5 @@
 [ball25_coarse_P1] E= 36.0000 Lam=1.8253e+00 mass=0.9796 Lam_n=1.8711e+00 E_ls=35.6409 RQ=36.2231 core=0.01 ep=1500 t=275s
 [ball25_coarse_P1] E= 38.0000 Lam=6.6898e+00 mass=0.9685 Lam_n=6.9516e+00 E_ls=35.7261 RQ=35.8620 core=0.00 ep=1500 t=269s
 [ball25_coarse_P1] E= 40.0000 Lam=1.8468e+01 mass=0.9577 Lam_n=1.9451e+01 E_ls=35.8506 RQ=35.2426 core=0.02 ep=1500 t=269s
+[ball25_coarse_P1] E= 42.0000 Lam=3.3325e+01 mass=0.8795 Lam_n=3.8877e+01 E_ls=36.0320 RQ=35.5582 core=0.00 ep=1500 t=278s
+[ball25_coarse_P1] E= 44.0000 Lam=5.1918e+01 mass=0.8178 Lam_n=6.6090e+01 E_ls=36.1598 RQ=35.2645 core=0.00 ep=1500 t=279s

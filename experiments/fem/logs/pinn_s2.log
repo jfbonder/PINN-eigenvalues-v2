@@ -20,3 +20,9 @@ four_well s2 c=33.23 E= 33.730 res=6.520e-01 r2=6.550e-01 rho_var=33.0472 rho_re
 four_well s2 c=33.23 E= 34.230 res=1.859e+00 r2=2.161e+00 rho_var=33.0409 rho_res=33.2071 ep=483 t=40s
 four_well s2 c=33.23 E= 34.730 res=2.663e+00 r2=2.916e+00 rho_var=33.0544 rho_res=33.2028 ep=590 t=48s
 four_well s2 c=39.47 E= 37.970 res=6.103e+00 r2=6.846e+00 rho_var=39.4517 rho_res=39.3917 ep=2000 t=150s
+four_well s2 c=39.47 E= 38.470 res=3.254e+00 r2=3.888e+00 rho_var=39.4792 rho_res=39.4241 ep=642 t=52s
+four_well s2 c=39.47 E= 38.970 res=1.373e+00 r2=1.112e+00 rho_var=39.5110 rho_res=39.4566 ep=527 t=46s
+four_well s2 c=39.47 E= 39.470 res=1.680e+00 r2=1.529e+00 rho_var=39.4869 rho_res=39.4357 ep=394 t=38s
+four_well s2 c=39.47 E= 39.970 res=8.161e-01 r2=7.675e-01 rho_var=39.5122 rho_res=39.4554 ep=405 t=36s
+four_well s2 c=39.47 E= 40.470 res=2.547e+00 r2=3.889e+00 rho_var=39.4775 rho_res=39.4184 ep=381 t=33s
+four_well s2 c=39.47 E= 40.970 res=2.518e+00 r2=4.982e+00 rho_var=39.4408 rho_res=39.3909 ep=371 t=33s
