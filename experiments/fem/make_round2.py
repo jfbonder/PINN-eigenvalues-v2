@@ -46,6 +46,8 @@ def scan_md():
     tex += [r"\bottomrule", r"\end{tabular}"]
     miss = [(e, m) for e, m in femE if all(abs(e - f) > 0.75 for f in found)]
     L += ["", "FEM eigenvalue groups (E<52) with NO detected minimum within 0.75 (distinct eigenvalues listed individually; clusters = several within a few tenths): " + (", ".join(f"{e:.3f}(x{m})" for e, m in miss) or "none")]
+    ne = sum(m for e, m in femE if e <= 49.7)
+    L += ["", f"Counting: FEM has {sum(1 for e, m in femE if e <= 49.7)} distinct eigenvalue groups / {ne} eigenfunctions in [0,49.7]; the scan shows {len(found)} separate minima (9.58, 19.75/19.97, 32.79/32.87/33.03, 39.19, 48.41-48.68). The Rayleigh quotient of the network at the node reached the individual members only occasionally (e.g. 19.968 at E=22.7, 32.797 at E=33.2)."]
     L += ["", "Node values: " + "; ".join(f"{e:.1f}: loss {a:.2f}, rho {b:.3f}" for e, a, b in zip(E, lr, rho))]
     return "\n".join(L), "\n".join(tex), None
 
