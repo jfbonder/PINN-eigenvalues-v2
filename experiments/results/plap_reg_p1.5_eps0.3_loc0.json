@@ -1,0 +1,53 @@
+{
+ "name": "reg_p1.5_eps0.3_loc0",
+ "config": {
+  "width": 128,
+  "depth": 3,
+  "N": 5000,
+  "mu": 200.0,
+  "seed": 0,
+  "epochs": 1500,
+  "patience": 1000000000,
+  "lr_decay": "cos",
+  "name": "reg_p1.5_eps0.3_loc0",
+  "domain": "disk",
+  "p": 1.5,
+  "E": [
+   3.75,
+   4.0,
+   4.25
+  ],
+  "eps": 0.3,
+  "h": 0.25,
+  "npts": 3,
+  "coarse_vertex": 3.967881780178772,
+  "coarse_E": 4.0,
+  "init_ckpt": "/home/user/PINN-eigenvalues-v2/experiments/plap/ckpt/reg_p1.5_eps0.3_E4.0000.pt"
+ },
+ "records": [
+  {
+   "E": 3.75,
+   "mu": 200.0,
+   "train_res": 0.1766686886548996,
+   "train_norm": 0.0001599715615157038,
+   "wall_time": 180.36172695500136,
+   "epochs_run": 1500,
+   "total_loss": 0.2086630016565323,
+   "best_loss": NaN,
+   "Lam": 0.17123141297851446,
+   "mass": 1.0085882454614417,
+   "Lam_n": 0.17025799138482411,
+   "E_ls": 3.9428723505767977,
+   "Lam_ls": 0.1202261692741999,
+   "RQ": 4.017464672146473,
+   "core_frac": 0.005909669678658247,
+   "res_max": 1.0196720186882646,
+   "mean_u2": 0.24921819458007813
+  }
+ ],
+ "host": {
+  "threads": 1,
+  "torch": "2.15.0+cu132"
+ },
+ "total_wall_s": 180.36172695500136
+}
