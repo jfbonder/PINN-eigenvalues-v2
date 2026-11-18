@@ -30,3 +30,8 @@ E= 42.700 loss_res=4.3322 rho=40.7071 r=2.046 mass=0.997 ep=563 t=115s
 E= 44.200 loss_res=11.8230 rho=40.7043 r=3.533 mass=0.960 ep=349 t=75s
 E= 45.700 loss_res=21.9176 rho=40.6970 r=5.080 mass=0.926 ep=445 t=99s
 E= 47.200 loss_res=37.1024 rho=40.7022 r=6.540 mass=0.878 ep=734 t=149s
+E= 48.700 loss_res=1.7501 rho=49.2188 r=1.203 mass=1.001 ep=2000 t=432s
+E= 50.200 loss_res=1.6254 rho=49.2208 r=1.260 mass=1.027 ep=1188 t=248s
+E= 51.700 loss_res=6.8751 rho=49.2184 r=2.637 mass=0.991 ep=601 t=124s
+E= 53.200 loss_res=16.4231 rho=49.2208 r=4.067 mass=0.966 ep=435 t=96s
+E= 54.700 loss_res=27.1899 rho=49.2144 r=5.568 mass=0.934 ep=399 t=84s

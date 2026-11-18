@@ -579,6 +579,18 @@ and in $\R^4$ the quotient stays within $0.03$ of $E_k$ at all three nodes. With
 in $\R^4$ give $\hat E=14.6879(9)$ and $26.3752(6)$, with $r=0.54$ and $0.35$. For the first eigenvalue
 the Temple bracket of Section~\ref{sec.certificate} reads $14.666\le E_1\le14.685$ (seed 0), which
 contains $j_{1,1}^2=14.6820$.
+
+In the full scan in $\R^4$ (Fig.~\ref{loss3D.fig}, right; nodes $E=0.7,2.2,\dots,54.7$, $\mu=200\ge
+D^2=195.5$, at most 2000 epochs, warm start, seed 0, 1.4 hours on one thread) the recorded residual
+has exactly four local minima, at $E=14.2$, $26.2$, $41.2$ and $50.2$, one for each eigenvalue in the
+window. The Rayleigh quotients of the networks at these nodes are $14.6828$, $26.3738$, $40.7083$ and
+$49.2208$, against $14.6820$, $26.3746$, $40.7065$ and $49.2185$ (relative differences $+0.006\%$,
+$-0.003\%$, $+0.004\%$ and $+0.005\%$, Monte Carlo standard errors $3\times10^{-4}$ to $4\times10^{-3}$),
+and each eigenvalue lies inside the Weinstein enclosure of its node ($r=0.52$, $0.38$, $0.65$, $1.26$).
+Elsewhere the normalized loss $r^2$ follows $\ell(E)^2$ and the recorded residual follows
+$\ell^2(1-\ell^2/(2\mu))$ (Proposition~\ref{prop.penalized}), except at the nodes $E=33.7$, $45.7$ and $47.2$,
+where the warm-started network lags on the branch of the lower eigenvalue past the mid-point of a
+gap (Section~\ref{sec.stability}).
 \end{revblock}
 \begin{revblock}
 The cost of an epoch grows only linearly with $d$ (Section~\ref{sec.cost}; for the $3\times128$ network
@@ -622,7 +634,7 @@ $d$ & $(m,n)$ & mult. & $E_{(m,n)}$ & $\hat E$ & rel.\ error & $r$\\
 \centering
 \includegraphics[width=.4\columnwidth]{loss_n=3_V=0_p=2_mu=100_reseteo_cada_15_iteraciones.png}
 \includegraphics[width=.4\columnwidth]{loss_ball4_scan_mu200.png}
-\caption{The \rev{recorded loss curve $\mathcal R_\mu(E)$} in the unit ball of $\R^3$ \rev{(left; legend $\bar\Lambda(E)$)} and of $\R^4$ \rev{(right)} compared with the \rev{exact curve $\Lambda(E)=\ell(E)^2$. Right: scan with $E=0.7,2.2,\dots,54.7$, $\mu=200$, warm start, seed 0; also shown is the normalized loss $r^2$ evaluated on $4\times10^5$ fresh points; triangles: local minima of $\mathcal R_\mu$; dotted lines: eigenvalues $j_{m+1,n}^2$}.}
+\caption{The \rev{recorded loss curve $\mathcal R_\mu(E)$} in the unit ball of $\R^3$ \rev{(left; legend $\bar\Lambda(E)$)} and of $\R^4$ \rev{(right)} compared with the \rev{exact curve $\Lambda(E)=\ell(E)^2$. Right: scan with $E=0.7,2.2,\dots,54.7$, $\mu=200$, warm start, seed 0; also shown are the normalized loss $r^2$ evaluated on $4\times10^5$ fresh points and the closed form $\ell^2(1-\ell^2/(2\mu))$ of Proposition~\ref{prop.penalized} (black dotted); triangles: local minima of $\mathcal R_\mu$; grey dotted lines: eigenvalues $j_{m+1,n}^2$}.}
 \label{loss3D.fig}
 \end{figure}
 

@@ -43,6 +43,8 @@ print("local minima of r^2 at E =", [float(E[i]) for i in mins_r2])
 
 fig, ax = plt.subplots(figsize=(7, 3.5))
 ax.plot(Ef, ell2, "-", color="tab:orange", lw=1.5, label=r"$\ell(E)^2$ (exact)")
+mu = d["settings"]["mu"]
+ax.plot(Ef, ell2 * np.clip(1 - ell2 / (2 * mu), 0, None), ":", color="k", lw=1.0, label=r"$\ell^2(1-\ell^2/2\mu)$ (Prop. 1)")
 ax.plot(E, r2, "s--", color="tab:green", ms=3, lw=0.8, label=r"normalized loss $r^2$")
 ax.plot(E, res, "o-", color="tab:blue", ms=3, lw=1.2, label=r"recorded residual $\mathcal{R}_\mu(E)$")
 ax.plot(E[mins], res[mins], "v", color="tab:red", ms=8, label="local minima")
@@ -50,7 +52,7 @@ for x in ev[ev < 56]:
     ax.axvline(x, color="gray", ls=":", lw=0.8)
 ax.set_xlim(0, 56); ax.set_ylim(0, 210)
 ax.set_xlabel(r"$E$"); ax.set_ylabel("Loss")
-ax.text(0.97, 0.62, r"$d=4$", transform=ax.transAxes, ha="right", fontsize=12)
+ax.text(0.60, 0.88, r"$d=4$", transform=ax.transAxes, ha="right", fontsize=12)
 ax.legend(loc="upper right", fontsize=8)
 fig.tight_layout(); fig.savefig(a.out, dpi=130)
 print("wrote", a.out)
