@@ -19,3 +19,4 @@ four_well s2 c=33.23 E= 33.230 res=4.841e-01 r2=3.612e-01 rho_var=33.0675 rho_re
 four_well s2 c=33.23 E= 33.730 res=6.520e-01 r2=6.550e-01 rho_var=33.0472 rho_res=33.2019 ep=682 t=55s
 four_well s2 c=33.23 E= 34.230 res=1.859e+00 r2=2.161e+00 rho_var=33.0409 rho_res=33.2071 ep=483 t=40s
 four_well s2 c=33.23 E= 34.730 res=2.663e+00 r2=2.916e+00 rho_var=33.0544 rho_res=33.2028 ep=590 t=48s
+four_well s2 c=39.47 E= 37.970 res=6.103e+00 r2=6.846e+00 rho_var=39.4517 rho_res=39.3917 ep=2000 t=150s
