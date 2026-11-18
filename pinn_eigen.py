@@ -11,8 +11,10 @@ Provides:
   - train_one       : train for a single E value
   - sweep           : scan a range of E values with warm initialization
   - refine          : detect and refine local minima of the loss curve
+  - local_minima, a_posteriori, kato_temple, temple_bracket, cosine_lr :
+                      detection, closed-form Rayleigh quotient and certificate (Section 3.1)
   - Samplers        : sample_disk, sample_square, sample_annulus,
-                      sample_triangle, sample_ball_3d, sample_ball_4d
+                      sample_triangle, sample_ball_3d, sample_ball_4d, sample_ball
   - Boundary fns    : boundary_disk, boundary_square, boundary_triangle,
                       boundary_annulus, boundary_ball
   - Plotting        : plot_loss_curve, plot_eigenfunction_disk,
@@ -484,6 +486,118 @@ def refine(
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+#  Detection and a posteriori quantities (Section 3.1 of the paper)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def local_minima(values, threshold: Optional[float] = None) -> List[int]:
+    """Indices i (0 < i < n-1) with values[i] < values[i-1], values[i] < values[i+1]
+    and, if *threshold* is given, values[i] < threshold."""
+    v = list(values)
+    return [i for i in range(1, len(v) - 1)
+            if v[i] < v[i - 1] and v[i] < v[i + 1] and (threshold is None or v[i] < threshold)]
+
+
+def cosine_lr(n_epochs: int, eta_min: float = 1e-5) -> Callable:
+    """lr_scheduler factory for train_one: cosine decay from the initial lr to *eta_min*
+    over *n_epochs* (protocol of the p-Laplacian examples: 1e-3 -> 1e-5 over 1500 epochs)."""
+    return lambda opt: torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=n_epochs, eta_min=eta_min)
+
+
+def a_posteriori(
+    model: nn.Module,
+    sampler: Callable[[int], torch.Tensor],
+    V_fn: Callable[[torch.Tensor], torch.Tensor],
+    E: float,
+    p: float = 2.0,
+    vol: float = 1.0,
+    n_chunks: int = 40,
+    chunk: int = 10000,
+    seed: int = 777,
+) -> dict:
+    """
+    A posteriori quantities of a trained network u, Monte Carlo on n_chunks*chunk fresh points
+    (fixed seed; the global torch RNG state is restored). Standard errors (`*_se`) are batch means
+    over the chunks.
+
+    p = 2 (L = -Δ + V), Section 3.1:
+      rho_res  : closed-form quotient  -∫u(Δu - Vu) / ∫u²  (the refined eigenvalue Ê)
+      rho_var  : variational form  ∫(|∇u|² + Vu²) / ∫u²  (larger MC error)
+      r        : r(u, E) = ‖(L - E)u‖ / ‖u‖ at the node E   (Weinstein radius at E)
+      eta      : η(u) = r(u, ρ)  (from the exact identity r(u,E)² = (E - ρ)² + η²)
+      weinstein: [ρ - η, ρ + η], an interval that contains an eigenvalue of L
+      mass     : mean(u²);  res_mean : mean((Δu - Vu + Eu)²)
+    p ≠ 2 (Section 5; no certificate is available):
+      E_pinn   : -∫Δ_p u·w / ∫w²,  w = |u|^{p-2}u   (frozen-network minimizer in E)
+      Lam_n    : vol·mean((Δ_p u + E w)²) / mass^{2(p-1)/p}  (normalized loss at E, scale invariant)
+      Lam_n_pinn: the same at E = E_pinn;   RQ : ∫|∇u|^p / ∫|u|^p;   mass : vol·mean|u|^p
+    For p = 2 the returned keys rho_res, rho_res_se, rho_var, rho_var_se, r, r_se, mass, mass_se,
+    res_mean are exactly those of experiments/fem/mc_eval.py (same sample, same formulas).
+    """
+    st = torch.get_rng_state()
+    torch.manual_seed(seed)
+    S = []
+    try:
+        for _ in range(n_chunks):
+            x = sampler(chunk).requires_grad_(True)
+            u = model(x)
+            (gu,) = torch.autograd.grad(u, x, torch.ones_like(u), create_graph=True)
+            V = V_fn(x).detach()
+            if p == 2.0:
+                lap = _laplacian(u, x)
+                res = lap - V * u + E * u
+                S.append([(u ** 2).mean().item(), (gu ** 2).sum(1).mean().item(),
+                          (V * u ** 2).mean().item(), (u * (lap - V * u)).mean().item(),
+                          (res ** 2).mean().item(), ((lap - V * u) ** 2).mean().item()])
+            else:
+                Lu = (_p_laplacian(u, x, p) - V * u.abs().clamp_min(1e-12) ** (p - 2.0) * u).detach()
+                u = u.detach()
+                w = u.abs().clamp_min(1e-12) ** (p - 2.0) * u
+                gn = torch.norm(gu.detach(), dim=1, keepdim=True)
+                S.append([(Lu * w).mean().item(), (w * w).mean().item(), (Lu * Lu).mean().item(),
+                          (u.abs() ** p).mean().item(), (gn ** p).mean().item(),
+                          ((Lu + E * w) ** 2).mean().item()])
+    finally:
+        torch.set_rng_state(st)
+    S = np.array(S)
+    m = S.mean(0)
+    se = lambda a: float(np.std(a, ddof=1) / np.sqrt(len(a))) if len(a) > 1 else float("nan")
+    if p == 2.0:
+        u2, g2, vu2, ulu, r2, lu2 = S.T
+        rho = float(-m[3] / m[0])
+        r_E = float(np.sqrt(m[4] / m[0]))
+        eta = float(np.sqrt(max(m[4] / m[0] - (E - rho) ** 2, 0.0)))
+        return dict(E=float(E), p=2.0,
+                    rho_res=rho, rho_res_se=se(-ulu / u2),
+                    rho_var=float((m[1] + m[2]) / m[0]), rho_var_se=se((g2 + vu2) / u2),
+                    r=r_E, r_se=se(np.sqrt(r2 / u2)), eta=eta,
+                    weinstein=(rho - eta, rho + eta),
+                    mass=float(m[0]), mass_se=se(u2), res_mean=float(m[4]),
+                    n_points=n_chunks * chunk)
+    lu_w, w_w, lu_lu, dens, gp, res2 = S.T
+    hom = 2.0 * (p - 1.0) / p
+    mass = vol * float(m[3])
+    E_pinn = float(-m[0] / m[1])
+    return dict(E=float(E), p=float(p),
+                E_pinn=E_pinn, E_pinn_se=se(-lu_w / w_w),
+                Lam=vol * float(m[5]), Lam_n=vol * float(m[5]) / mass ** hom,
+                Lam_n_pinn=vol * float(m[2] - m[0] ** 2 / m[1]) / mass ** hom,
+                RQ=float(m[4] / m[3]), mass=mass, n_points=n_chunks * chunk)
+
+
+def kato_temple(rho: float, eta: float, gap: float) -> float:
+    """Kato–Temple bound: if E_k is the only eigenvalue in (ρ-γ, ρ+γ), then |ρ - E_k| ≤ η²/γ."""
+    return float(eta ** 2 / gap) if gap > 0 else float("inf")
+
+
+def temple_bracket(rho: float, eta: float, beta: float) -> Tuple[float, float]:
+    """Temple's inequality for the first eigenvalue: if ρ < β ≤ E_2, then
+    ρ - η²/(β - ρ) ≤ E_1 ≤ ρ  (the upper bound up to the MC error of ρ)."""
+    if not rho < beta:
+        return (float("nan"), float("nan"))
+    return (float(rho - eta ** 2 / (beta - rho)), float(rho))
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 #  Samplers
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -537,6 +651,13 @@ def sample_ball_4d(n: int, radius: float = 1.0) -> torch.Tensor:
     g = g / g.norm(dim=1, keepdim=True)
     r = radius * torch.rand(n, 1) ** (1 / 4)
     return r * g
+
+
+def sample_ball(n: int, dim: int, radius: float = 1.0) -> torch.Tensor:
+    """Uniform samples inside the ball of R^dim (Gaussian direction x U^{1/dim} radius)."""
+    g = torch.randn(n, dim)
+    g = g / g.norm(dim=1, keepdim=True)
+    return radius * torch.rand(n, 1) ** (1.0 / dim) * g
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

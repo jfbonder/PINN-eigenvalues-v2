@@ -25,3 +25,6 @@ paper/v4/*.fls
 paper/v4/*.log
 paper/v4/*.out
 .claude/
+
+# outputs of the examples (python -m examples.run, notebook)
+examples_out/
