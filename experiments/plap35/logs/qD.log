@@ -5,3 +5,4 @@
 [base_E2_premass] E= 73.000 loss_var=1.779e+02 Lam_strong=1.779e+02 mass=0.501 E_var=69.3942 E_strong=69.3942 core=0.28 t=193s
 [mixed_lam10_s1] E= 10.500 loss_var=1.947e+00 Lam_strong=1.085e+01 mass=0.991 E_var=11.3784 E_strong=11.8038 E_weak=11.5761 cons=8.41e-02 core=0.14 t=104s
 [mixed_lam10_s1] E= 11.500 loss_var=5.578e-01 Lam_strong=7.430e+00 mass=1.008 E_var=11.8620 E_strong=12.0126 E_weak=11.7985 cons=2.69e-02 core=0.14 t=103s
+[mixed_lam10_s1] E= 12.500 loss_var=3.802e-01 Lam_strong=7.153e+00 mass=1.006 E_var=12.2515 E_strong=12.1140 E_weak=12.2069 cons=1.88e-02 core=0.00 t=105s
