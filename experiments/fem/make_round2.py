@@ -81,6 +81,9 @@ def tables_md():
             pf = parab(E, r2, i); key = min(PAPER[t], key=lambda z: abs(z - ex)); pv = PAPER[t][key]
             md.append(f"| {ex:.4f} | {r['rho_res']:.4f} ({r['rho_res_se']:.4f}) | {pct(r['rho_res'], ex):+.4f}% | {pf:.3f} | {pct(pf, ex):+.3f}% | {r['r']:.3f} ± {r['r_se']:.3f} | {r['mass']:.3f} | {r['r2']:.3f} | {pv:.4f} | {pct(pv, ex):+.4f}% |")
             tex.append(f"{ex:.4f} & {r['rho_res']:.4f} & {pct(r['rho_res'], ex):+.3f} & {pf:.3f} & {r['r']:.2f} & {r['mass']:.2f} & {pct(pv, ex):+.3f} \\\\")
+        md += ["", "All nodes (E: Rayleigh quotient, r, epochs; a node with r >> 1 or rho far from E has NOT converged to the targeted eigenfunction - cold start at the first node of each window):", ""]
+        for (k, recs) in d.items():
+            md.append(f"- window {k}: " + "; ".join(f"{r['E']:.2f}: rho={r['rho_res']:.3f}, r={r['r']:.2f}, ep={r['epochs_run']}" for r in sorted(recs, key=lambda r: r['E'])))
         md.append("")
         tex.append(r"\addlinespace")
     return "\n".join(md), "\n".join(tex)

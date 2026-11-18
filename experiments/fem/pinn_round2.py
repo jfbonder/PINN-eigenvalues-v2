@@ -18,9 +18,9 @@ TASKS = {
   "tri": dict(dim=2, B=pe.boundary_triangle, sampler=pe.sample_triangle, V=pe.V_zero, mu=15000.0, n_epochs=2000, n_samples=4000,
               windows={f"{k:.4f}": A(k) for k in [5 * np.pi**2, 10 * np.pi**2, 13 * np.pi**2, 17 * np.pi**2]}),
   "ball3": dict(dim=3, B=pe.boundary_ball, sampler=pe.sample_ball_3d, V=pe.V_zero, mu=100.0, n_epochs=2000, n_samples=5000,
-              windows={f"{k:.4f}": A(k) for k in [9.8696, 20.1907, 33.2175, 39.4784, 48.8312, 59.6795, 66.9543]}),
+              windows={f"{k:.4f}": A(k) for k in [9.8696, 20.1907, 33.2175, 39.4784]}),
   "ball4": dict(dim=4, B=pe.boundary_ball, sampler=pe.sample_ball_4d, V=pe.V_zero, mu=200.0, n_epochs=2000, n_samples=5000,
-              windows={f"{k:.4f}": A(k) for k in [14.6820, 26.3746, 40.7065, 49.2185]}),
+              windows={f"{k:.4f}": A(k) for k in [14.6820, 26.3746]}),
   "scan": dict(dim=3, B=pe.boundary_ball, sampler=pe.sample_ball_3d, V=dw, mu=400.0, n_epochs=2000, n_samples=5000,
               windows={"scan_4.7-49.7": [round(4.7 + 1.5 * i, 3) for i in range(31)]}),
 }

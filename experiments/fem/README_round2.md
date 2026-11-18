@@ -26,8 +26,39 @@ Worst single-run error of the Rayleigh quotient over all windows/seeds: 0.248%. 
 |---|---|---|---|---|---|
 | 45.2 | 0.097 | 0.097 | 45.0930 ± 0.0004 | 0.312 | 0.971 |
 | 45.7 | 0.439 | 0.446 | 45.0952 ± 0.0005 | 0.668 | 1.013 |
+| 46.2 | 0.072 | 0.058 | 46.2903 ± 0.0004 | 0.240 | 1.016 |
+| 46.7 | 0.196 | 0.191 | 46.2905 ± 0.0002 | 0.437 | 1.007 |
+| 47.2 | 0.880 | 0.890 | 46.2919 ± 0.0004 | 0.943 | 1.002 |
+| 47.7 | 1.931 | 2.086 | 46.2894 ± 0.0006 | 1.444 | 0.986 |
+| 48.2 | 3.638 | 3.701 | 46.2912 ± 0.0004 | 1.924 | 0.977 |
+| 48.7 | 5.693 | 5.932 | 46.2891 ± 0.0004 | 2.435 | 0.961 |
+| 49.2 | 8.298 | 8.540 | 46.2904 ± 0.0004 | 2.922 | 0.962 |
 
 ### 8.4 Tables 2-4 re-run with local offset windows (item 10)
+**Table 4 (triangle, mu=15000)**: 3 offset nodes (exact-0.9, +0.1, +1.1) per eigenvalue, fresh network at the first node, warm start along the window; rho = closed-form frozen-network Rayleigh quotient (4e5 MC pts, standard error in brackets).
+
+| exact | rho (min-loss node) ± SE | rel.err | parabola on r^2 | rel.err | r ± SE | mass | min r^2 | paper value (v4) | paper rel.err |
+|---|---|---|---|---|---|---|---|---|---|
+| 49.3480 | 49.3509 (0.0014) | +0.0058% | 49.947 | +1.213% | 0.945 ± 0.002 | 0.997 | 0.893 | 49.3699 | +0.0444% |
+| 98.6960 | 98.7067 (0.0024) | +0.0108% | nan | +nan% | 1.811 ± 0.003 | 1.011 | 3.279 | 98.8922 | +0.1987% |
+| 128.3049 | 128.4612 (0.0095) | +0.1219% | nan | +nan% | 5.676 ± 0.015 | 0.986 | 32.214 | 128.0485 | -0.1998% |
+| 167.7833 | 167.7923 (0.0035) | +0.0054% | nan | +nan% | 2.513 ± 0.003 | 1.006 | 6.314 | 167.6872 | -0.0573% |
+
+All nodes (E: Rayleigh quotient, r, epochs; a node with r >> 1 or rho far from E has NOT converged to the targeted eigenfunction - cold start at the first node of each window):
+
+- window 49.3480: 48.45: rho=55.965, r=44.20, ep=874; 49.45: rho=49.351, r=0.94, ep=1506; 50.45: rho=49.358, r=1.83, ep=925
+- window 98.6960: 97.80: rho=57.121, r=47.41, ep=2000; 98.80: rho=99.044, r=4.46, ep=2000; 99.80: rho=98.707, r=1.81, ep=1655
+- window 128.3049: 127.40: rho=88.028, r=61.92, ep=2000; 128.40: rho=135.850, r=20.51, ep=2000; 129.40: rho=128.461, r=5.68, ep=2000
+- window 167.7833: 166.88: rho=164.660, r=15.01, ep=2000; 167.88: rho=167.735, r=3.37, ep=2000; 168.88: rho=167.792, r=2.51, ep=1793
+
+**Table 2 (3-D ball, mu=100)**: 3 offset nodes (exact-0.9, +0.1, +1.1) per eigenvalue, fresh network at the first node, warm start along the window; rho = closed-form frozen-network Rayleigh quotient (4e5 MC pts, standard error in brackets).
+
+| exact | rho (min-loss node) ± SE | rel.err | parabola on r^2 | rel.err | r ± SE | mass | min r^2 | paper value (v4) | paper rel.err |
+|---|---|---|---|---|---|---|---|---|---|
+
+All nodes (E: Rayleigh quotient, r, epochs; a node with r >> 1 or rho far from E has NOT converged to the targeted eigenfunction - cold start at the first node of each window):
+
+- window 9.8696: 8.97: rho=9.870, r=0.92, ep=1689
 
 ### 8.5 Monte Carlo standard errors (item 15)
 | run (saved network) | rho_res ± SE | rho_var ± SE | r ± SE | mean u^2 ± SE |

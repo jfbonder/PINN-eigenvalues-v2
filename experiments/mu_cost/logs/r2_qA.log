@@ -96,3 +96,34 @@
 [mucost_off_mu1000_s0] E=50.600 mu=1000 res=1.739e+00 mass=0.997 r=1.321e+00 ep=444 t=15s
 [mucost_off_mu1000_s0] E=53.100 mu=1000 res=1.410e+01 mass=0.983 r=3.787e+00 ep=1286 t=45s
 === 05:18:29 (c) cold start 10pi^2
+[mucost_t1_cold_mu5000_s0] E=95.000 mu=5000 res=1.612e+03 mass=0.765 r=4.591e+01 ep=1086 t=146s
+[mucost_t1_cold_mu5000_s0] E=96.750 mu=5000 res=1.748e+03 mass=0.770 r=4.766e+01 ep=339 t=42s
+[mucost_t1_cold_mu5000_s0] E=98.500 mu=5000 res=1.818e+03 mass=0.747 r=4.934e+01 ep=753 t=93s
+[mucost_t1_cold_mu5000_s0] E=100.250 mu=5000 res=3.632e+00 mass=1.015 r=1.892e+00 ep=4871 t=640s
+[mucost_t1_cold_mu5000_s0] E=102.000 mu=5000 res=1.162e+01 mass=0.984 r=3.436e+00 ep=679 t=86s
+[mucost_t1_cold_mu20000_s0] E=95.000 mu=20000 res=4.771e+03 mass=0.843 r=7.523e+01 ep=879 t=114s
+[mucost_t1_cold_mu20000_s0] E=96.750 mu=20000 res=4.964e+03 mass=0.840 r=7.686e+01 ep=644 t=81s
+[mucost_t1_cold_mu20000_s0] E=98.500 mu=20000 res=5.243e+03 mass=0.846 r=7.871e+01 ep=383 t=49s
+[mucost_t1_cold_mu20000_s0] E=100.250 mu=20000 res=5.575e+03 mass=0.860 r=8.052e+01 ep=621 t=87s
+[mucost_t1_cold_mu20000_s0] E=102.000 mu=20000 res=5.618e+03 mass=0.831 r=8.221e+01 ep=743 t=101s
+[mucost_t1_cold_mu5000_s1] E=95.000 mu=5000 res=1.654e+03 mass=0.783 r=4.596e+01 ep=609 t=83s
+[mucost_t1_cold_mu5000_s1] E=96.750 mu=5000 res=1.760e+03 mass=0.777 r=4.759e+01 ep=800 t=98s
+[mucost_t1_cold_mu5000_s1] E=98.500 mu=5000 res=3.481e+00 mass=0.989 r=1.876e+00 ep=4359 t=542s
+[mucost_t1_cold_mu5000_s1] E=100.250 mu=5000 res=4.521e+00 mass=0.992 r=2.135e+00 ep=529 t=69s
+[mucost_t1_cold_mu5000_s1] E=102.000 mu=5000 res=1.196e+01 mass=0.999 r=3.460e+00 ep=379 t=51s
+[mucost_t1_cold_mu20000_s1] E=95.000 mu=20000 res=4.860e+03 mass=0.858 r=7.527e+01 ep=679 t=87s
+[mucost_t1_cold_mu20000_s1] E=96.750 mu=20000 res=5.048e+03 mass=0.852 r=7.695e+01 ep=856 t=107s
+[mucost_t1_cold_mu20000_s1] E=98.500 mu=20000 res=5.215e+03 mass=0.842 r=7.870e+01 ep=302 t=40s
+[mucost_t1_cold_mu20000_s1] E=100.250 mu=20000 res=5.406e+03 mass=0.836 r=8.044e+01 ep=393 t=52s
+[mucost_t1_cold_mu20000_s1] E=102.000 mu=20000 res=5.700e+03 mass=0.843 r=8.223e+01 ep=477 t=62s
+[mucost_t1_cold_mu5000_s2] E=95.000 mu=5000 res=1.670e+03 mass=0.791 r=4.596e+01 ep=681 t=90s
+[mucost_t1_cold_mu5000_s2] E=96.750 mu=5000 res=1.753e+03 mass=0.771 r=4.766e+01 ep=466 t=61s
+[mucost_t1_cold_mu5000_s2] E=98.500 mu=5000 res=2.160e+00 mass=1.018 r=1.456e+00 ep=3677 t=473s
+[mucost_t1_cold_mu5000_s2] E=100.250 mu=5000 res=4.552e+00 mass=1.011 r=2.122e+00 ep=883 t=120s
+[mucost_t1_cold_mu5000_s2] E=102.000 mu=5000 res=1.186e+01 mass=0.995 r=3.452e+00 ep=538 t=75s
+[mucost_t1_cold_mu20000_s2] E=95.000 mu=20000 res=4.853e+03 mass=0.857 r=7.525e+01 ep=695 t=95s
+[mucost_t1_cold_mu20000_s2] E=96.750 mu=20000 res=5.063e+03 mass=0.854 r=7.702e+01 ep=842 t=106s
+[mucost_t1_cold_mu20000_s2] E=98.500 mu=20000 res=5.196e+03 mass=0.839 r=7.869e+01 ep=479 t=62s
+[mucost_t1_cold_mu20000_s2] E=100.250 mu=20000 res=5.458e+03 mass=0.843 r=8.048e+01 ep=355 t=48s
+[mucost_t1_cold_mu20000_s2] E=102.000 mu=20000 res=5.616e+03 mass=0.831 r=8.219e+01 ep=668 t=86s
+=== 06:26:27 DONEA

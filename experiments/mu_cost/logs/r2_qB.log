@@ -18,3 +18,76 @@
 [mucost_scan_broad_off_s0] E=97.300 mu=450 res=2.138e+00 mass=0.983 r=1.475e+00 ep=1117 t=138s
 [mucost_scan_broad_off_s0] E=102.300 mu=450 res=1.341e+01 mass=0.997 r=3.666e+00 ep=475 t=61s
 === 05:16:07 (b) offset scan seed 1 load 4.03
+[mucost_scan_broad_off_s1] E=17.300 mu=450 res=6.193e+00 mass=1.028 r=2.455e+00 ep=1789 t=237s
+[mucost_scan_broad_off_s1] E=22.300 mu=450 res=6.553e+00 mass=0.995 r=2.567e+00 ep=492 t=66s
+[mucost_scan_broad_off_s1] E=27.300 mu=450 res=5.552e+01 mass=0.968 r=7.573e+00 ep=350 t=42s
+[mucost_scan_broad_off_s1] E=32.300 mu=450 res=1.286e+02 mass=0.815 r=1.256e+01 ep=674 t=84s
+[mucost_scan_broad_off_s1] E=37.300 mu=450 res=1.227e+02 mass=0.839 r=1.209e+01 ep=1720 t=234s
+[mucost_scan_broad_off_s1] E=42.300 mu=450 res=4.805e+01 mass=0.958 r=7.083e+00 ep=1235 t=160s
+[mucost_scan_broad_off_s1] E=47.300 mu=450 res=4.414e+00 mass=1.001 r=2.100e+00 ep=388 t=50s
+[mucost_scan_broad_off_s1] E=52.300 mu=450 res=8.849e+00 mass=0.989 r=2.992e+00 ep=534 t=68s
+[mucost_scan_broad_off_s1] E=57.300 mu=450 res=5.949e+01 mass=0.935 r=7.978e+00 ep=653 t=89s
+[mucost_scan_broad_off_s1] E=62.300 mu=450 res=1.346e+02 mass=0.799 r=1.298e+01 ep=343 t=42s
+[mucost_scan_broad_off_s1] E=67.300 mu=450 res=1.146e+02 mass=0.831 r=1.174e+01 ep=2040 t=262s
+[mucost_scan_broad_off_s1] E=72.300 mu=450 res=4.299e+01 mass=0.932 r=6.790e+00 ep=1036 t=136s
+[mucost_scan_broad_off_s1] E=77.300 mu=450 res=3.191e+00 mass=1.011 r=1.777e+00 ep=876 t=121s
+[mucost_scan_broad_off_s1] E=82.300 mu=450 res=1.178e+01 mass=1.002 r=3.430e+00 ep=421 t=57s
+[mucost_scan_broad_off_s1] E=87.300 mu=450 res=6.415e+01 mass=0.911 r=8.391e+00 ep=516 t=66s
+[mucost_scan_broad_off_s1] E=92.300 mu=450 res=4.167e+01 mass=0.951 r=6.620e+00 ep=1972 t=243s
+[mucost_scan_broad_off_s1] E=97.300 mu=450 res=2.138e+00 mass=0.991 r=1.469e+00 ep=670 t=84s
+[mucost_scan_broad_off_s1] E=102.300 mu=450 res=1.299e+01 mass=0.980 r=3.640e+00 ep=384 t=47s
+=== 05:52:41 (b) offset scan seed 2 load 4.02
+[mucost_scan_broad_off_s2] E=17.300 mu=450 res=5.963e+00 mass=0.997 r=2.446e+00 ep=1622 t=206s
+[mucost_scan_broad_off_s2] E=22.300 mu=450 res=6.604e+00 mass=1.002 r=2.567e+00 ep=686 t=88s
+[mucost_scan_broad_off_s2] E=27.300 mu=450 res=5.392e+01 mass=0.941 r=7.569e+00 ep=380 t=53s
+[mucost_scan_broad_off_s2] E=32.300 mu=450 res=1.256e+02 mass=0.795 r=1.257e+01 ep=447 t=59s
+[mucost_scan_broad_off_s2] E=37.300 mu=450 res=1.210e+02 mass=0.829 r=1.208e+01 ep=1856 t=240s
+[mucost_scan_broad_off_s2] E=42.300 mu=450 res=4.735e+01 mass=0.946 r=7.076e+00 ep=544 t=70s
+[mucost_scan_broad_off_s2] E=47.300 mu=450 res=4.327e+00 mass=1.008 r=2.072e+00 ep=486 t=63s
+[mucost_scan_broad_off_s2] E=52.300 mu=450 res=8.682e+00 mass=0.973 r=2.988e+00 ep=368 t=47s
+[mucost_scan_broad_off_s2] E=57.300 mu=450 res=5.974e+01 mass=0.931 r=8.010e+00 ep=673 t=87s
+[mucost_scan_broad_off_s2] E=62.300 mu=450 res=1.330e+02 mass=0.791 r=1.297e+01 ep=704 t=87s
+[mucost_scan_broad_off_s2] E=67.300 mu=450 res=1.154e+02 mass=0.833 r=1.177e+01 ep=2566 t=333s
+[mucost_scan_broad_off_s2] E=72.300 mu=450 res=4.279e+01 mass=0.940 r=6.747e+00 ep=864 t=122s
+[mucost_scan_broad_off_s2] E=77.300 mu=450 res=3.305e+00 mass=1.004 r=1.815e+00 ep=1068 t=140s
+[mucost_scan_broad_off_s2] E=82.300 mu=450 res=1.146e+01 mass=0.983 r=3.414e+00 ep=508 t=64s
+[mucost_scan_broad_off_s2] E=87.300 mu=450 res=6.635e+01 mass=0.936 r=8.420e+00 ep=681 t=90s
+[mucost_scan_broad_off_s2] E=92.300 mu=450 res=4.073e+01 mass=0.963 r=6.503e+00 ep=1774 t=233s
+[mucost_scan_broad_off_s2] E=97.300 mu=450 res=2.610e+00 mass=0.987 r=1.626e+00 ep=659 t=88s
+[mucost_scan_broad_off_s2] E=102.300 mu=450 res=1.323e+01 mass=1.002 r=3.633e+00 ep=464 t=65s
+=== 06:30:33 (b) RQ seed 0 ES
+[mucost_r2_rq_s0_es] k=1 E=19.7610 exact=19.7392 relerr=1.10e-03 ep=660 t=26s ov=0.00e+00
+[mucost_r2_rq_s0_es] k=2 E=50.8110 exact=49.3480 relerr=2.96e-02 ep=676 t=28s ov=1.24e-02
+[mucost_r2_rq_s0_es] k=3 E=49.7535 exact=49.3480 relerr=8.22e-03 ep=749 t=34s ov=4.69e-02
+[mucost_r2_rq_s0_es] k=4 E=79.2557 exact=78.9568 relerr=3.79e-03 ep=1139 t=54s ov=2.15e-02
+[mucost_r2_rq_s0_es] k=5 E=98.8559 exact=98.6960 relerr=1.62e-03 ep=1132 t=64s ov=4.43e-02
+[mucost_r2_rq_s0_es] k=6 E=98.7706 exact=98.6960 relerr=7.56e-04 ep=984 t=56s ov=5.43e-02
+total wall 262.147701803
+=== 06:35:30 (b) RQ seed 0 noES
+[mucost_r2_rq_s0_noes] k=1 E=19.7514 exact=19.7392 relerr=6.15e-04 ep=3000 t=114s ov=0.00e+00
+[mucost_r2_rq_s0_noes] k=2 E=49.4125 exact=49.3480 relerr=1.31e-03 ep=3000 t=122s ov=9.79e-03
+[mucost_r2_rq_s0_noes] k=3 E=49.4034 exact=49.3480 relerr=1.12e-03 ep=3000 t=127s ov=1.59e-02
+[mucost_r2_rq_s0_noes] k=4 E=78.9744 exact=78.9568 relerr=2.22e-04 ep=3000 t=146s ov=4.29e-02
+[mucost_r2_rq_s0_noes] k=5 E=98.7469 exact=98.6960 relerr=5.15e-04 ep=3000 t=154s ov=1.20e-02
+[mucost_r2_rq_s0_noes] k=6 E=98.7382 exact=98.6960 relerr=4.27e-04 ep=3000 t=167s ov=2.22e-02
+total wall 830.0526128050005
+=== 06:49:52 (b) RQ seed 1 ES
+[mucost_r2_rq_s1_es] k=1 E=19.7528 exact=19.7392 relerr=6.89e-04 ep=582 t=23s ov=0.00e+00
+[mucost_r2_rq_s1_es] k=2 E=50.6899 exact=49.3480 relerr=2.72e-02 ep=595 t=25s ov=4.78e-02
+[mucost_r2_rq_s1_es] k=3 E=49.8984 exact=49.3480 relerr=1.12e-02 ep=476 t=21s ov=6.23e-02
+[mucost_r2_rq_s1_es] k=4 E=79.1080 exact=78.9568 relerr=1.91e-03 ep=1294 t=60s ov=3.24e-02
+[mucost_r2_rq_s1_es] k=5 E=99.4130 exact=98.6960 relerr=7.26e-03 ep=602 t=31s ov=6.51e-02
+[mucost_r2_rq_s1_es] k=6 E=99.0469 exact=98.6960 relerr=3.56e-03 ep=1328 t=70s ov=1.24e-02
+total wall 229.43988431599973
+=== 06:54:15 (b) RQ seed 1 noES
+[mucost_r2_rq_s1_noes] k=1 E=19.7464 exact=19.7392 relerr=3.63e-04 ep=3000 t=115s ov=0.00e+00
+[mucost_r2_rq_s1_noes] k=2 E=49.3901 exact=49.3480 relerr=8.53e-04 ep=3000 t=115s ov=3.24e-02
+[mucost_r2_rq_s1_noes] k=3 E=49.3735 exact=49.3480 relerr=5.16e-04 ep=3000 t=127s ov=4.31e-02
+[mucost_r2_rq_s1_noes] k=4 E=79.0176 exact=78.9568 relerr=7.69e-04 ep=3000 t=136s ov=1.77e-02
+[mucost_r2_rq_s1_noes] k=5 E=98.5150 exact=98.6960 relerr=1.83e-03 ep=3000 t=141s ov=5.03e-02
+[mucost_r2_rq_s1_noes] k=6 E=98.6245 exact=98.6960 relerr=7.25e-04 ep=3000 t=163s ov=4.17e-02
+total wall 796.4840941100028
+=== 07:08:02 (b) RQ seed 2 ES
+[mucost_r2_rq_s2_es] k=1 E=19.7504 exact=19.7392 relerr=5.68e-04 ep=969 t=35s ov=0.00e+00
+[mucost_r2_rq_s2_es] k=2 E=50.8562 exact=49.3480 relerr=3.06e-02 ep=465 t=19s ov=2.05e-02
+[mucost_r2_rq_s2_es] k=3 E=49.7719 exact=49.3480 relerr=8.59e-03 ep=1023 t=44s ov=9.46e-03
