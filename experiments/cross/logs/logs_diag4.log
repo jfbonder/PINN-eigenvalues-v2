@@ -1,0 +1,2 @@
+enr_eps 26.1 rho=23.5314+-0.0113 r=4.976+-0.052 mass=0.967 chunk_r range [4.508,5.439] wall=276s
+enr_eps_fixed 26.1 rho=23.4925+-0.0093 r=5.319+-0.104 mass=0.992 chunk_r range [4.549,6.436] wall=289s

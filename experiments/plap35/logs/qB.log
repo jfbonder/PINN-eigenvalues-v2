@@ -1,0 +1,82 @@
+[mixed_s0] E= 10.500 loss_var=4.352e+02 Lam_strong=2.174e+02 mass=0.004 E_var=10.5826 E_strong=11.3429 E_weak=12.8323 cons=3.77e+00 core=0.01 t=103s
+[mixed_s0] E= 11.500 loss_var=2.282e+00 Lam_strong=6.706e+00 mass=0.991 E_var=11.9764 E_strong=12.0087 E_weak=12.1408 cons=1.64e-02 core=0.13 t=106s
+[mixed_s0] E= 12.500 loss_var=1.646e+00 Lam_strong=6.820e+00 mass=0.981 E_var=12.1984 E_strong=12.0817 E_weak=12.3006 cons=1.29e-02 core=0.00 t=118s
+[mixed_s0] E= 13.500 loss_var=2.980e+00 Lam_strong=7.384e+00 mass=0.986 E_var=12.4029 E_strong=12.3348 E_weak=12.3063 cons=1.24e-02 core=0.05 t=108s
+[mixed_s0] E= 14.500 loss_var=6.055e+00 Lam_strong=1.087e+01 mass=0.985 E_var=12.6086 E_strong=12.4546 E_weak=12.2505 cons=1.32e-02 core=0.07 t=99s
+[mixed_s1] E= 10.500 loss_var=2.114e+01 Lam_strong=2.735e+01 mass=0.883 E_var=10.7406 E_strong=10.7296 E_weak=12.3425 cons=4.93e-02 core=0.03 t=99s
+[mixed_s1] E= 11.500 loss_var=2.632e+00 Lam_strong=7.286e+00 mass=1.000 E_var=11.9613 E_strong=11.9386 E_weak=11.9852 cons=1.89e-02 core=0.12 t=96s
+[mixed_s1] E= 12.500 loss_var=1.832e+00 Lam_strong=6.635e+00 mass=0.997 E_var=12.1907 E_strong=12.1190 E_weak=12.1393 cons=1.44e-02 core=0.02 t=95s
+[mixed_s1] E= 13.500 loss_var=3.061e+00 Lam_strong=7.827e+00 mass=0.988 E_var=12.4262 E_strong=12.3512 E_weak=12.2383 cons=1.34e-02 core=0.03 t=95s
+[mixed_s1] E= 14.500 loss_var=6.073e+00 Lam_strong=1.153e+01 mass=0.978 E_var=12.6375 E_strong=12.4242 E_weak=12.3180 cons=1.40e-02 core=0.05 t=98s
+[mixed_s2] E= 10.500 loss_var=1.840e+01 Lam_strong=2.403e+01 mass=0.903 E_var=10.8690 E_strong=10.9375 E_weak=12.1799 cons=5.41e-02 core=0.02 t=98s
+[mixed_s2] E= 11.500 loss_var=3.548e+00 Lam_strong=8.077e+00 mass=0.976 E_var=11.8821 E_strong=11.8619 E_weak=12.1960 cons=2.53e-02 core=0.08 t=94s
+[mixed_s2] E= 12.500 loss_var=1.926e+00 Lam_strong=7.055e+00 mass=1.003 E_var=12.1825 E_strong=12.1420 E_weak=12.0377 cons=1.53e-02 core=0.01 t=99s
+[mixed_s2] E= 13.500 loss_var=3.119e+00 Lam_strong=8.112e+00 mass=0.984 E_var=12.3829 E_strong=12.3236 E_weak=12.3401 cons=1.34e-02 core=0.03 t=97s
+[mixed_s2] E= 14.500 loss_var=6.240e+00 Lam_strong=1.120e+01 mass=0.975 E_var=12.6342 E_strong=12.4775 E_weak=12.3076 cons=1.53e-02 core=0.05 t=106s
+[mixed_lam10] E= 10.500 loss_var=1.949e+00 Lam_strong=1.053e+01 mass=1.000 E_var=11.3401 E_strong=11.9344 E_weak=11.5072 cons=9.32e-02 core=0.12 t=102s
+[mixed_lam10] E= 11.500 loss_var=5.555e-01 Lam_strong=7.380e+00 mass=0.994 E_var=11.8568 E_strong=12.0457 E_weak=11.9626 cons=2.84e-02 core=0.13 t=100s
+[mixed_lam10] E= 12.500 loss_var=3.611e-01 Lam_strong=7.892e+00 mass=0.987 E_var=12.3036 E_strong=12.0869 E_weak=12.4080 cons=2.05e-02 core=0.00 t=108s
+[mixed_lam10] E= 13.500 loss_var=1.303e+00 Lam_strong=8.640e+00 mass=0.994 E_var=12.7868 E_strong=12.3075 E_weak=12.7416 cons=5.63e-02 core=0.05 t=111s
+[mixed_lam10] E= 14.500 loss_var=3.337e+00 Lam_strong=1.250e+01 mass=0.997 E_var=13.2220 E_strong=12.3802 E_weak=12.9620 cons=1.19e-01 core=0.07 t=105s
+[mixed_lam1000] E= 10.500 loss_var=3.443e+04 Lam_strong=8.030e+02 mass=0.000 E_var=13.3910 E_strong=16.0642 E_weak=17.9405 cons=3.25e+01 core=0.02 t=110s
+[mixed_lam1000] E= 11.500 loss_var=3.669e+04 Lam_strong=2.333e+03 mass=0.000 E_var=19.4035 E_strong=19.3795 E_weak=23.7057 cons=3.44e+01 core=0.03 t=103s
+[mixed_lam1000] E= 12.500 loss_var=2.886e+03 Lam_strong=6.377e+02 mass=0.000 E_var=13.0345 E_strong=11.9908 E_weak=18.1172 cons=2.46e+00 core=0.00 t=103s
+[mixed_lam1000] E= 13.500 loss_var=1.553e+02 Lam_strong=1.042e+02 mass=0.523 E_var=10.1841 E_strong=10.0691 E_weak=13.5566 cons=5.87e-02 core=0.08 t=99s
+[mixed_lam1000] E= 14.500 loss_var=1.224e+02 Lam_strong=9.550e+01 mass=0.615 E_var=10.1746 E_strong=10.0868 E_weak=13.1461 cons=3.95e-02 core=0.13 t=103s
+[wdown_k0.3] E= 10.500 loss_var=8.338e+00 Lam_strong=1.058e+01 mass=0.975 E_var=11.9346 E_strong=11.6444 core=0.30 t=239s
+[wdown_k0.3] E= 11.500 loss_var=2.072e+00 Lam_strong=3.035e+00 mass=0.985 E_var=12.0852 E_strong=11.9732 core=0.59 t=234s
+[wdown_k0.3] E= 12.500 loss_var=1.203e+00 Lam_strong=2.235e+00 mass=0.986 E_var=12.1873 E_strong=12.0920 core=0.77 t=250s
+[wdown_k0.3] E= 13.500 loss_var=2.052e+00 Lam_strong=2.893e+00 mass=0.993 E_var=12.3928 E_strong=12.3375 core=0.34 t=208s
+[wdown_k0.3] E= 14.500 loss_var=5.086e+00 Lam_strong=5.730e+00 mass=0.991 E_var=12.5646 E_strong=12.5376 core=0.22 t=235s
+[wdiv_k0.3] E= 10.500 loss_var=2.055e+01 Lam_strong=1.644e+01 mass=0.961 E_var=9.0081 E_strong=11.7988 core=0.82 t=211s
+[wdiv_k0.3] E= 11.500 loss_var=2.042e+01 Lam_strong=9.971e+00 mass=0.967 E_var=9.4725 E_strong=12.0306 core=0.89 t=227s
+[wdiv_k0.3] E= 12.500 loss_var=1.688e+01 Lam_strong=7.553e+00 mass=0.954 E_var=10.2957 E_strong=12.2069 core=0.92 t=208s
+[wdiv_k0.3] E= 13.500 loss_var=1.283e+01 Lam_strong=2.475e+01 mass=0.956 E_var=12.6822 E_strong=13.4944 core=0.43 t=233s
+[wdiv_k0.3] E= 14.500 loss_var=1.158e+01 Lam_strong=1.983e+01 mass=0.975 E_var=12.9725 E_strong=13.2981 core=0.47 t=194s
+[base_imp] E= 10.500 loss_var=9.818e+00 Lam_strong=9.818e+00 mass=0.970 E_var=11.6640 E_strong=11.6640 core=0.40 t=203s
+[base_imp] E= 11.500 loss_var=1.870e+00 Lam_strong=1.870e+00 mass=0.997 E_var=11.9977 E_strong=11.9977 core=0.65 t=193s
+[base_imp] E= 12.500 loss_var=1.392e+00 Lam_strong=1.392e+00 mass=0.983 E_var=12.1319 E_strong=12.1319 core=0.83 t=196s
+[base_imp] E= 13.500 loss_var=2.502e+00 Lam_strong=2.502e+00 mass=0.994 E_var=12.3635 E_strong=12.3635 core=0.42 t=207s
+[base_imp] E= 14.500 loss_var=5.346e+00 Lam_strong=5.346e+00 mass=0.980 E_var=12.5838 E_strong=12.5838 core=0.21 t=220s
+[base_mu1000] E= 10.500 loss_var=1.107e+01 Lam_strong=1.107e+01 mass=0.998 E_var=11.6836 E_strong=11.6836 core=0.40 t=220s
+[base_mu1000] E= 11.500 loss_var=2.688e+00 Lam_strong=2.688e+00 mass=0.991 E_var=11.9980 E_strong=11.9980 core=0.68 t=200s
+[base_mu1000] E= 12.500 loss_var=2.208e+00 Lam_strong=2.208e+00 mass=0.988 E_var=12.0933 E_strong=12.0933 core=0.82 t=195s
+[base_mu1000] E= 13.500 loss_var=2.995e+00 Lam_strong=2.995e+00 mass=0.998 E_var=12.3439 E_strong=12.3439 core=0.48 t=192s
+[base_mu1000] E= 14.500 loss_var=5.792e+00 Lam_strong=5.792e+00 mass=1.007 E_var=12.5622 E_strong=12.5622 core=0.26 t=201s
+[base_fine_P0] E= 11.000 loss_var=4.496e+00 Lam_strong=4.496e+00 mass=0.998 E_var=11.8013 E_strong=11.8013 core=0.53 t=290s
+[base_fine_P0] E= 11.250 loss_var=2.896e+00 Lam_strong=2.896e+00 mass=0.981 E_var=12.0249 E_strong=12.0249 core=0.39 t=206s
+[base_fine_P0] E= 11.500 loss_var=1.570e+00 Lam_strong=1.570e+00 mass=0.966 E_var=12.0154 E_strong=12.0154 core=0.55 t=113s
+[base_fine_P0] E= 11.750 loss_var=1.463e+00 Lam_strong=1.463e+00 mass=0.976 E_var=11.9855 E_strong=11.9855 core=0.59 t=94s
+[base_fine_P0] E= 12.000 loss_var=1.082e+00 Lam_strong=1.082e+00 mass=1.003 E_var=12.1135 E_strong=12.1135 core=0.82 t=113s
+[base_fine_P0] E= 12.250 loss_var=1.335e+00 Lam_strong=1.335e+00 mass=1.078 E_var=12.0882 E_strong=12.0882 core=0.73 t=81s
+[base_fine_P0] E= 12.500 loss_var=1.303e+00 Lam_strong=1.303e+00 mass=1.005 E_var=12.1669 E_strong=12.1669 core=0.79 t=53s
+[base_fine_P0] E= 12.750 loss_var=9.248e-01 Lam_strong=9.248e-01 mass=0.996 E_var=12.2335 E_strong=12.2335 core=0.57 t=72s
+[base_fine_P0] E= 13.000 loss_var=1.361e+00 Lam_strong=1.361e+00 mass=0.952 E_var=12.2882 E_strong=12.2882 core=0.53 t=73s
+[base_fine_P0] E= 13.250 loss_var=2.500e+00 Lam_strong=2.500e+00 mass=1.059 E_var=12.2842 E_strong=12.2842 core=0.39 t=87s
+[base_fine_P0] E= 13.500 loss_var=2.503e+00 Lam_strong=2.503e+00 mass=1.040 E_var=12.3704 E_strong=12.3704 core=0.37 t=69s
+[base_fine_P0] E= 13.750 loss_var=2.942e+00 Lam_strong=2.942e+00 mass=0.984 E_var=12.4112 E_strong=12.4112 core=0.32 t=80s
+[base_fine_P0] E= 14.000 loss_var=4.259e+00 Lam_strong=4.259e+00 mass=1.033 E_var=12.4689 E_strong=12.4689 core=0.31 t=61s
+[mixed_fine_P1] E= 11.000 loss_var=8.862e+01 Lam_strong=7.446e+01 mass=0.713 E_var=10.1510 E_strong=10.2318 E_weak=13.1206 cons=1.81e-01 core=0.04 t=100s
+[mixed_fine_P1] E= 11.250 loss_var=2.567e+00 Lam_strong=7.167e+00 mass=0.990 E_var=11.9353 E_strong=11.9710 E_weak=12.1291 cons=1.71e-02 core=0.14 t=104s
+[mixed_fine_P1] E= 11.500 loss_var=1.760e+00 Lam_strong=6.630e+00 mass=0.981 E_var=12.0047 E_strong=11.9510 E_weak=12.2489 cons=1.25e-02 core=0.14 t=116s
+[mixed_fine_P1] E= 11.750 loss_var=1.351e+00 Lam_strong=5.275e+00 mass=0.992 E_var=12.0576 E_strong=12.0784 E_weak=12.2097 cons=1.04e-02 core=0.13 t=113s
+[mixed_fine_P1] E= 12.000 loss_var=1.213e+00 Lam_strong=5.085e+00 mass=1.001 E_var=12.0837 E_strong=12.0655 E_weak=12.1082 cons=1.02e-02 core=0.07 t=106s
+[mixed_fine_P1] E= 12.250 loss_var=1.095e+00 Lam_strong=4.846e+00 mass=0.988 E_var=12.1594 E_strong=12.1226 E_weak=12.2560 cons=8.98e-03 core=0.03 t=97s
+[mixed_fine_P1] E= 12.500 loss_var=1.207e+00 Lam_strong=5.315e+00 mass=1.000 E_var=12.1969 E_strong=12.1483 E_weak=12.0741 cons=9.07e-03 core=0.01 t=108s
+[mixed_fine_P1] E= 12.750 loss_var=1.389e+00 Lam_strong=5.326e+00 mass=0.983 E_var=12.2364 E_strong=12.1928 E_weak=12.3537 cons=8.79e-03 core=0.02 t=104s
+[mixed_fine_P1] E= 13.000 loss_var=1.604e+00 Lam_strong=5.062e+00 mass=0.986 E_var=12.3093 E_strong=12.2635 E_weak=12.3111 cons=8.25e-03 core=0.03 t=105s
+[mixed_fine_P1] E= 13.250 loss_var=2.055e+00 Lam_strong=5.806e+00 mass=0.972 E_var=12.3398 E_strong=12.2615 E_weak=12.4781 cons=8.40e-03 core=0.05 t=101s
+[mixed_fine_P1] E= 13.500 loss_var=2.524e+00 Lam_strong=6.481e+00 mass=0.991 E_var=12.4108 E_strong=12.3154 E_weak=12.2495 cons=8.57e-03 core=0.05 t=103s
+[mixed_fine_P1] E= 13.750 loss_var=3.052e+00 Lam_strong=6.839e+00 mass=1.000 E_var=12.4606 E_strong=12.3783 E_weak=12.1050 cons=7.99e-03 core=0.06 t=98s
+[mixed_fine_P1] E= 14.000 loss_var=3.738e+00 Lam_strong=7.681e+00 mass=0.994 E_var=12.5375 E_strong=12.4129 E_weak=12.1653 cons=8.61e-03 core=0.06 t=96s
+[mixed_P0_s0] E= 10.500 loss_var=8.285e+04 Lam_strong=5.906e+04 mass=0.000 E_var=77.0009 E_strong=72.6117 E_weak=103.9748 cons=5.79e+02 core=0.03 t=38s
+[mixed_P0_s0] E= 11.500 loss_var=5.391e+00 Lam_strong=6.711e+00 mass=0.960 E_var=12.1490 E_strong=12.0288 E_weak=12.2173 cons=4.68e-02 core=0.15 t=119s
+[mixed_P0_s0] E= 12.500 loss_var=1.615e+00 Lam_strong=6.159e+00 mass=1.011 E_var=12.1069 E_strong=12.1127 E_weak=11.9687 cons=1.26e-02 core=0.03 t=72s
+[mixed_P0_s0] E= 13.500 loss_var=3.861e+00 Lam_strong=7.939e+00 mass=0.986 E_var=12.3999 E_strong=12.2944 E_weak=12.1252 cons=2.13e-02 core=0.06 t=36s
+[mixed_P0_s0] E= 14.500 loss_var=6.940e+00 Lam_strong=1.115e+01 mass=0.965 E_var=12.6397 E_strong=12.4796 E_weak=12.4100 cons=2.29e-02 core=0.07 t=88s
+[mixed_E2] E= 65.000 loss_var=2.638e+03 Lam_strong=2.968e+03 mass=0.005 E_var=14.8933 E_strong=10.0438 E_weak=17.1246 cons=2.64e+00 core=0.16 t=187s
+[mixed_E2] E= 67.000 loss_var=2.843e+03 Lam_strong=3.188e+03 mass=0.004 E_var=15.1245 E_strong=10.0618 E_weak=17.4652 cons=3.02e+00 core=0.15 t=95s
+[mixed_E2] E= 69.000 loss_var=3.021e+03 Lam_strong=3.388e+03 mass=0.004 E_var=15.2522 E_strong=10.1424 E_weak=18.1341 cons=3.12e+00 core=0.15 t=100s
+[mixed_E2] E= 71.000 loss_var=3.199e+03 Lam_strong=3.589e+03 mass=0.003 E_var=15.4743 E_strong=10.2331 E_weak=18.4924 cons=3.36e+00 core=0.15 t=96s
+[mixed_E2] E= 73.000 loss_var=3.455e+03 Lam_strong=3.869e+03 mass=0.003 E_var=15.7098 E_strong=10.1986 E_weak=17.7785 cons=3.46e+00 core=0.15 t=93s
+QUEUE DONE

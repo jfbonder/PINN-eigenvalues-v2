@@ -1,0 +1,22 @@
+=== 01:20:34 resume broad scan s0
+[mucost_scan_broad_mu450_s0] E=80.000 mu=450 res=1.976e+00 mass=1.008 r=1.400e+00 ep=479 t=72s
+[mucost_scan_broad_mu450_s0] E=85.000 mu=450 res=3.577e+01 mass=0.960 r=6.104e+00 ep=823 t=101s
+[mucost_scan_broad_mu450_s0] E=90.000 mu=450 res=1.054e+02 mass=0.854 r=1.111e+01 ep=445 t=54s
+[mucost_scan_broad_mu450_s0] E=95.000 mu=450 res=1.376e+01 mass=0.980 r=3.746e+00 ep=1753 t=216s
+[mucost_scan_broad_mu450_s0] E=100.000 mu=450 res=2.203e+00 mass=0.992 r=1.490e+00 ep=557 t=69s
+[mucost_scan_broad_mu450_s0] E=105.000 mu=450 res=3.876e+01 mass=0.959 r=6.357e+00 ep=397 t=49s
+=== 01:30:45 narrow mu=5000
+[mucost_t1_narrow5000] E=95.000 mu=5000 res=1.612e+03 mass=0.765 r=4.591e+01 ep=1086 t=137s
+[mucost_t1_narrow5000] E=96.750 mu=5000 res=1.748e+03 mass=0.770 r=4.766e+01 ep=339 t=41s
+[mucost_t1_narrow5000] E=98.500 mu=5000 res=1.818e+03 mass=0.747 r=4.934e+01 ep=753 t=94s
+[mucost_t1_narrow5000] E=100.250 mu=5000 res=3.632e+00 mass=1.015 r=1.892e+00 ep=4871 t=594s
+[mucost_t1_narrow5000] E=102.000 mu=5000 res=1.162e+01 mass=0.984 r=3.436e+00 ep=679 t=83s
+=== 01:47:08 RQ patience 3000
+[mucost_rq_s0_e3000_p3000] k=1 E=19.7514 exact=19.7392 relerr=6.15e-04 ep=3000 t=106s ov=0.00e+00
+[mucost_rq_s0_e3000_p3000] k=2 E=49.4125 exact=49.3480 relerr=1.31e-03 ep=3000 t=122s ov=9.79e-03
+[mucost_rq_s0_e3000_p3000] k=3 E=49.4034 exact=49.3480 relerr=1.12e-03 ep=3000 t=125s ov=1.59e-02
+[mucost_rq_s0_e3000_p3000] k=4 E=78.9744 exact=78.9568 relerr=2.22e-04 ep=3000 t=137s ov=4.29e-02
+[mucost_rq_s0_e3000_p3000] k=5 E=98.7469 exact=98.6960 relerr=5.15e-04 ep=3000 t=157s ov=1.20e-02
+[mucost_rq_s0_e3000_p3000] k=6 E=98.7382 exact=98.6960 relerr=4.27e-04 ep=3000 t=169s ov=2.22e-02
+total wall 817.2710944030002
+=== 02:01:17 DONE5

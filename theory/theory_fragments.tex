@@ -1,0 +1,1060 @@
+%% ============================================================================
+%% theory_fragments.tex  --  fragments for the round-2 revision (Reviewer #1,
+%% points 1, 3, 5, 6).  amsart style, notation and labels of FBS-rev2-arxiv.tex.
+%%
+%% Needed in the preamble (the paper only defines theorem/definition/remark):
+%%   \theoremstyle{plain}
+%%   \newtheorem{proposition}{Proposition}
+%%   \newtheorem{lemma}{Lemma}
+%%   \newtheorem{corollary}{Corollary}
+%%   \DeclareMathOperator{\dist}{dist}     % the paper uses \operatorname{dist}
+%% Placeholders to be filled by other agents: \texttt{[RUNTIME-TBD]},
+%% \texttt{[MU-TABLE-TBD]}, \texttt{[PLAP-TBD]}.
+%% New bibliography entries are collected at the end of this file.
+%% The fragments are independent; each block says where it is meant to go.
+%% ============================================================================
+
+
+%% ============================================================================
+%% FRAGMENT 0 -- standing notation (put at the beginning of the new
+%% "Analysis of the method" section, or merge into Section 2)
+%% ============================================================================
+
+\subsection*{Setting and notation}
+
+Throughout this section $L=-\Delta+V$ denotes the self-adjoint realization of the
+operator in \eqref{eigen} on $H=L^2(\Omega)$ with homogeneous Dirichlet boundary
+conditions, with domain $D(L)$; we assume that $L$ is bounded from below and has compact
+resolvent (this is the case for $\Omega$ bounded and $V\in L^\infty(\Omega)$, where
+$D(L)=H^2(\Omega)\cap H^1_0(\Omega)$ if $\Omega$ is convex or of class $C^{1,1}$).
+We denote by $\langle\cdot,\cdot\rangle$ and $\|\cdot\|$ the inner product and norm of
+$L^2(\Omega)$, by $E_1\le E_2\le\cdots$ the eigenvalues of $L$ repeated according to
+multiplicity, by $\{u_k\}_{k\in\N}$ an orthonormal basis of eigenfunctions, by
+$\sigma=\{E_k\}_{k\in\N}$ the spectrum, and
+\[
+d(E):=\dist(E,\sigma)=\min_k|E-E_k| .
+\]
+With this notation \eqref{Lambda} reads $\Lambda(u,E)=\|(L-E)u\|^2/\|u\|^2$ and
+\eqref{cota.igual} reads $\Lambda(E)=d(E)^2$.
+All the statements below remain valid verbatim if the Lebesgue measure is replaced by the
+normalized measure $dx/|\Omega|$, which is what a Monte Carlo average with uniformly
+distributed points approximates.
+
+
+%% ============================================================================
+%% FRAGMENT 1 -- answers R1.3 (choice of mu) and part of R1.6 (spurious minima)
+%% Suggested place: right after the definition of the penalized loss (lossmu),
+%% replacing the heuristic paragraph "One technical point ... scale mu ~ E^2".
+%% ============================================================================
+
+\subsection*{The penalized loss: exact loss curve and absence of spurious minima}
+
+In practice we do not minimize the quotient \eqref{Lambda} but the penalized loss
+\eqref{lossmu}, that is,
+\[
+\bar\Lambda_\mu(u,E)=\|(L-E)u\|^2+\mu\big(\|u\|^2-1\big)^2,\qquad u\in D(L).
+\]
+Its infimum, its minimizers and all its critical points can be computed explicitly.
+
+\begin{proposition}\label{prop.penalized}
+Let $\mu>0$, $E\in\R$ and $d=d(E)$. Let $N_E$ be the (finite dimensional) linear span of
+the eigenfunctions $u_k$ with $|E_k-E|=d$.
+\begin{enumerate}
+\item[(a)] (Loss curve.)
+\[
+\bar\Lambda_\mu(E):=\inf_{u\in D(L)}\bar\Lambda_\mu(u,E)=
+\begin{cases}
+d^2-\dfrac{d^4}{4\mu} & \text{if } d^2\le 2\mu,\\[2mm]
+\mu & \text{if } d^2\ge 2\mu .
+\end{cases}
+\]
+\item[(b)] (Minimizers.) If $d^2<2\mu$, the minimizers are exactly the functions
+$u=\sqrt{s_*}\,w$ with $w\in N_E$, $\|w\|=1$ and
+\[
+s_*=\|u\|^2=1-\frac{d^2}{2\mu}\in(0,1].
+\]
+For them the two terms of the loss are
+$\|(L-E)u\|^2=d^2\big(1-\frac{d^2}{2\mu}\big)$ and
+$\mu(\|u\|^2-1)^2=\frac{d^4}{4\mu}$, and $\Lambda(u,E)=d^2$.
+If $d^2\ge 2\mu$, the unique minimizer is the trivial function $u=0$.
+\item[(c)] (Critical points.) The critical points of $u\mapsto\bar\Lambda_\mu(u,E)$ in
+$D(L)$ are $u=0$ and the functions $u=\sqrt{1-\lambda/(2\mu)}\,w$, where
+$\lambda\in\{(E_k-E)^2\colon k\in\N\}$, $\lambda<2\mu$, and $w$ is a unit vector in the
+span of the eigenfunctions $u_k$ with $(E_k-E)^2=\lambda$. Among them, the only local
+minimizers are the global minimizers described in (b). In particular, $u=0$ is a local
+minimizer if and only if $d^2\ge 2\mu$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Write $u=\sum_k c_ku_k$ and $s=\|u\|^2=\sum_kc_k^2$. Then
+\begin{equation}\label{expansion}
+\|(L-E)u\|^2=\sum_k (E_k-E)^2c_k^2\ \ge\ d^2 s ,
+\end{equation}
+with equality if and only if $u\in N_E$. Hence
+$\bar\Lambda_\mu(u,E)\ge g(s):=d^2s+\mu(s-1)^2$, with equality if and only if $u\in N_E$.
+Since $g'(s)=d^2-2\mu+2\mu s$, if $d^2<2\mu$ the function $g$ attains its minimum over
+$[0,\infty)$ only at $s_*=1-d^2/(2\mu)>0$ and
+$g(s_*)=d^2s_*+\mu\,d^4/(4\mu^2)=d^2-d^4/(4\mu)$, while if $d^2\ge2\mu$ then $g$ is
+strictly increasing on $[0,\infty)$ and its minimum is $g(0)=\mu$. This proves (a) and (b)
+(for $d^2=2\mu$ both expressions in (a) agree).
+
+(c) For $u,v\in D(L)$,
+\[
+\frac{d}{dt}\bar\Lambda_\mu(u+tv,E)\Big|_{t=0}
+=2\langle (L-E)u,(L-E)v\rangle+4\mu(s-1)\langle u,v\rangle .
+\]
+Taking $v=u_k$ we see that $u$ is a critical point only if
+$\big[(E_k-E)^2-2\mu(1-s)\big]c_k=0$ for every $k$. Thus either $u=0$, or all the indices
+$k$ with $c_k\neq0$ share the same value $\lambda=(E_k-E)^2$, and
+$s=1-\lambda/(2\mu)$, which forces $\lambda<2\mu$. Conversely, such a $u$ is a finite
+combination of eigenfunctions with $(L-E)^2u=\lambda u$, and the derivative above equals
+$\big(2\lambda+4\mu(s-1)\big)\langle u,v\rangle=0$ for every $v$.
+
+Let now $u\ne0$ be a critical point with $\lambda>d^2$ and let $u_j$ be an eigenfunction
+with $|E_j-E|=d$; then $c_j=0$ and, by \eqref{expansion},
+\[
+\bar\Lambda_\mu(u+tu_j,E)=\|(L-E)u\|^2+t^2d^2+\mu(s+t^2-1)^2
+=\bar\Lambda_\mu(u,E)+t^2(d^2-\lambda)+\mu t^4,
+\]
+where we used $2\mu(s-1)=-\lambda$. The right-hand side is smaller than
+$\bar\Lambda_\mu(u,E)$ for small $t\neq0$, so $u$ is not a local minimizer. In the same
+way, $\bar\Lambda_\mu(tu_j,E)=\mu+t^2(d^2-2\mu)+\mu t^4$, so $u=0$ is not a local minimizer
+when $d^2<2\mu$; when $d^2\ge2\mu$ it is the global minimizer by (b). Finally, the critical
+points with $\lambda=d^2$ are the global minimizers of (b).
+\end{proof}
+
+\begin{remark}[No spurious minima at the continuous level]\label{rem.nospurious}
+Proposition \ref{prop.penalized}(c) shows that, before discretization, the loss landscape
+is benign: for every $E$ all local minimizers of $\bar\Lambda_\mu(\cdot,E)$ are global, and
+every other critical point is a saddle with an explicit descent direction (an
+eigenfunction of the eigenvalue closest to $E$). Consequently, the spurious minima that
+may be observed in practice are not a feature of the variational problem; they can only
+be produced by the three discretization steps discussed in Proposition
+\ref{prop.stability} below: the finite network (the parametrization
+$\theta\mapsto u_\theta$ is nonlinear, so the landscape in parameter space may have
+additional critical points), the finite number of optimization steps, and Monte Carlo
+sampling.
+\end{remark}
+
+\begin{corollary}[Admissible range of $\mu$]\label{cor.mu}
+Let $[E_*,E^*]$ be the scanned window and
+\[
+D:=\max_{E\in[E_*,E^*]}d(E)
+\]
+(so $D$ is at most half of the largest gap between consecutive distinct eigenvalues
+meeting the window, unless the maximum is attained at an endpoint of the window). Let
+$u_E$ be a minimizer of $\bar\Lambda_\mu(\cdot,E)$ and let
+$R_\mu(E):=\|(L-E)u_E\|^2$ be the residual term at the minimizer, which is the quantity
+recorded during the scan. Then:
+\begin{enumerate}
+\item[(i)] For every $\mu>0$, $\bar\Lambda_\mu(E)=0$ if and only if $E\in\sigma$, and the
+local minima of $E\mapsto\bar\Lambda_\mu(E)$ in the region $\{d(E)^2<2\mu\}$ are exactly
+the eigenvalues. Moreover
+$0\le d(E)^2-\bar\Lambda_\mu(E)\le d(E)^4/(4\mu)$ if $d(E)^2\le2\mu$.
+\item[(ii)] If $\mu\ge D^2$, then for every $E$ in the window $\|u_E\|^2\ge\frac12$ and
+\[
+R_\mu(E)=d(E)^2\Big(1-\frac{d(E)^2}{2\mu}\Big)\in\big[\tfrac12 d(E)^2,\,d(E)^2\big]
+\]
+is a strictly increasing function of $d(E)$; hence in the window the zeros and the local
+minima of $R_\mu$ are exactly the eigenvalues.
+\item[(iii)] If $\frac12D^2\le\mu<D^2$, then $R_\mu$ has spurious local minima at the points of the window where $d$ attains a local maximum larger than
+$\sqrt\mu$.
+\item[(iv)] If $\mu<\frac12D^2$, then for all $E$ in the window with $d(E)^2\ge2\mu$ the
+minimizer is $u_E=0$ and $R_\mu(E)=0$, although $E$ is not an eigenvalue: the residual
+curve has spurious zeros and $\bar\Lambda_\mu$ has a plateau at height $\mu$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+The function $\varphi_\mu(t)=t-t^2/(4\mu)$ is strictly increasing on $[0,2\mu]$, with
+$\varphi_\mu(0)=0$, and $\bar\Lambda_\mu(E)=\varphi_\mu(d(E)^2)$ there; since the local
+minima of $d$ are the points of $\sigma$, (i) follows from Proposition
+\ref{prop.penalized}(a). By Proposition \ref{prop.penalized}(b),
+$R_\mu(E)=\psi_\mu(d(E)^2)$ with $\psi_\mu(t)=t(1-t/(2\mu))_+$, which is strictly
+increasing on $[0,\mu]$, strictly decreasing on $[\mu,2\mu]$ and vanishes on
+$[2\mu,\infty)$; moreover $\|u_E\|^2=1-d(E)^2/(2\mu)$. This gives (ii)--(iv).
+\end{proof}
+
+\begin{remark}[A guideline for the choice of $\mu$]\label{rem.mu}
+Corollary \ref{cor.mu} and the following three observations lead to a quantitative rule.
+
+\emph{(1) Lower bound from the spectrum.} The condition $\mu\ge D^2$ is necessary and
+sufficient for the residual curve of the ideal problem to be free of artifacts, and
+$\mu<D^2/2$ produces the collapse $u\approx0$ described in the text. Here $D$ is half of
+the largest spectral gap in the window (or the distance from an endpoint of the window to
+the nearest eigenvalue, whichever is larger); it can be estimated a priori from Weyl's
+law, or a posteriori from a coarse preliminary scan. The value of $\mu$ does \emph{not}
+move the minima: by Proposition \ref{prop.penalized}(b) the quotient
+$\Lambda(u_E,E)=d(E)^2$ is independent of $\mu$. We therefore recommend recording the
+normalized residual $\Lambda(u,E)$ rather than the bare residual term, and discarding the
+nodes for which $\|u\|^2<\frac12$.
+
+\emph{(2) Lower bound from the initialization.} Let $w$ be a fixed profile with $\|w\|=1$
+and consider the loss along the ray $u=aw$, $a\ge0$:
+\[
+\bar\Lambda_\mu(aw,E)=a^2q+\mu(a^2-1)^2,\qquad q:=\Lambda(w,E).
+\]
+If $q\ge2\mu$ this function is increasing in $a$, so a descent method decreases the
+amplitude towards the trivial state; if $q<2\mu$ its minimum is attained at
+$a^2=1-q/(2\mu)>0$. For the profile $w_0$ of a freshly initialized network (a smooth
+function with a few oscillations), Proposition \ref{prop.rayleigh}(a) below gives
+\[
+q_0(E):=\Lambda(w_0,E)=\big(E-\rho(w_0)\big)^2+\eta(w_0)^2\ \le\ E^2+\|Lw_0\|^2
+\qquad(E\ge0,\ L\ge0),
+\]
+which is the precise form of the heuristic
+$\int(\Delta u+Eu)^2\sim c_1E^2+c_2$ used above. Hence, when the network is trained
+\emph{from scratch} at the level $E$, the amplitude does not initially collapse provided
+$\mu>\frac12q_0(E)$, i.e.\ $\mu\gtrsim\frac12E^2$ for large $E$. For instance, for
+$w_0\propto B(x)=1-|x|^2$ in the unit disk one finds $\rho(w_0)=6$ and
+$\eta(w_0)^2=12$, so $q_0(E)=(E-6)^2+12$. With a warm start the initial profile is the
+minimizer at the previous node, for which $q\approx d(E)^2$, and one is back to the much
+weaker condition of item (1). By Proposition \ref{prop.penalized}(c) the trivial state is a
+saddle whenever $d(E)^2<2\mu$, so a collapse is not irreversible, but escaping from it is
+slow; this explains why the constraint (2) matters for cold starts and periodic
+re-initializations but not along a warm-started scan.
+
+\emph{(3) Upper bound from sampling.} If $\hat s_N=\frac1N\sum_{i=1}^Nu(x_i)^2$ is the
+Monte Carlo estimate of $s=\|u\|^2$ (normalized measure, i.i.d.\ uniform points), then
+\begin{equation}\label{mc.floor}
+\mathbb E\big[\mu(\hat s_N-1)^2\big]=\mu(s-1)^2+\frac{\mu}{N}\operatorname{Var}\big(u(x)^2\big),
+\end{equation}
+so that the sampled penalty adds a noise floor $\mu\operatorname{Var}(u^2)/N$ to the total
+loss, and gradient noise of proportional size in the direction of the amplitude
+(for a normalized eigenfunction $\operatorname{Var}(u^2)=\int u^4\,dx/|\Omega|-1$ is of
+order one; it equals $5/4$ for the eigenfunctions of the square). Thus $\mu$ should not
+exceed a moderate multiple of $N\epsilon$, where $\epsilon$ is the detection threshold.
+
+\emph{Rule.} We take
+\begin{equation}\label{mu.rule}
+\mu=\max\big\{2D^2,\ q_0(E^*)\big\}\quad\text{(or node-wise } \mu(E)=\max\{2D^2,q_0(E)\}\text{)},
+\qquad \mu\lesssim N\epsilon,
+\end{equation}
+where $q_0(E^*)\le (E^*)^2+\|Lw_0\|^2$ is computable at initialization at no cost; when
+only warm starts are used, any $\mu\ge 2D^2$ is admissible. The values used in our
+experiments lie between the two lower bounds $2D^2$ and $q_0(E^*)$, see Table
+\texttt{[MU-TABLE-TBD]}; the empirical sensitivity study reported there
+(\texttt{[MU-TABLE-TBD]}: computed eigenvalue, residual and $\|u\|^2$ for
+$\mu\in\{\dots\}$) confirms the prediction that the location of the minima is insensitive
+to $\mu$ in the range \eqref{mu.rule}, while the collapse $u\approx0$ appears for
+$\mu<D^2/2$.
+\end{remark}
+
+
+%% ============================================================================
+%% FRAGMENT 2 -- answers R1.6 (optimization / approximation / sampling errors,
+%% spurious minima).  Suggested place: new subsection "Stability of the loss
+%% curve" after the description of the algorithm.
+%% NOTE: the paper calls the number of grid nodes "j"; here it is J.
+%% NOTE: \epsilon = detection threshold (paper), \varepsilon = early stopping.
+%% ============================================================================
+
+\subsection*{Stability of the detection under training and sampling errors}
+
+The identity $\Lambda(E)=d(E)^2$ concerns exact minimizers. The algorithm, instead,
+produces at each node of the grid
+\[
+E^i=E_*+(i-1)h,\qquad i=1,\dots,J,\qquad E^J=E^*,
+\]
+a trained network $u^i$ and a number $\tilde\Lambda_i$, the computed value of the
+(normalized) loss. The error splits as
+\begin{equation}\label{error.split}
+\tilde\Lambda_i-\Lambda(E^i)=
+\underbrace{\Lambda(u^i,E^i)-\inf_{u\in\mathcal N}\Lambda(u,E^i)}_{\text{optimization}\ \ge0}
++\underbrace{\inf_{u\in\mathcal N}\Lambda(u,E^i)-\Lambda(E^i)}_{\text{approximation}\ \ge0}
++\underbrace{\tilde\Lambda_i-\Lambda(u^i,E^i)}_{\text{sampling}},
+\end{equation}
+where $\mathcal N\subset D(L)$ is the set of functions $u=B\,\mathrm{NN}_\theta$
+representable by the chosen architecture. The first two terms are nonnegative, the third
+one has no sign. We do not assume anything on the origin of these errors, only a bound on
+their size:
+\begin{equation}\label{hyp.delta}
+\big|\tilde\Lambda_i-d(E^i)^2\big|\le\delta\qquad\text{for } i=1,\dots,J.
+\end{equation}
+We say that an interior node $E^m$ ($1<m<J$) is a \emph{discrete local minimum} if
+$\tilde\Lambda_m\le\min\{\tilde\Lambda_{m-1},\tilde\Lambda_{m+1}\}$.
+
+\begin{proposition}[Stability of the loss-curve characterization]\label{prop.stability}
+Assume \eqref{hyp.delta} and let $\epsilon>0$ be the detection threshold. Set
+\[
+\rho:=\sqrt{\epsilon+\delta},\qquad \tau:=\sqrt{\tfrac{h^2}{4}+2\delta}\ \le\ \tfrac h2+\sqrt{2\delta}.
+\]
+\begin{enumerate}
+\item[(a)] (No spurious detections away from the spectrum.) If
+$\tilde\Lambda_i\le\epsilon$, then $d(E^i)\le\rho$: the interval $[E^i-\rho,E^i+\rho]$
+contains an eigenvalue.
+\item[(b)] (No missed eigenvalues.) For every eigenvalue $E_k\in[E_*,E^*]$ there is a node
+with $|E^i-E_k|\le h/2$ and $\tilde\Lambda_i\le h^2/4+\delta$. Hence, if
+$\epsilon\ge h^2/4+\delta$, every eigenvalue in the window is detected by thresholding.
+\item[(c)] (Local minima are close to the spectrum.) Every discrete local minimum $E^m$
+satisfies
+\[
+d(E^m)\le\max\Big\{h,\ \frac h2+\frac\delta h\Big\},
+\]
+irrespective of its value $\tilde\Lambda_m$.
+\item[(d)] (Every isolated eigenvalue produces a local minimum.) Let $E_k$ be an
+eigenvalue with $[E_k-\tau-h,E_k+\tau+h]\subset[E_*,E^*]$ and
+\begin{equation}\label{gap.cond}
+\gamma_k:=\dist\big(E_k,\sigma\setminus\{E_k\}\big)>2\tau+h .
+\end{equation}
+Then there is a discrete local minimum $E^m$ with $|E^m-E_k|\le\tau$ and
+$\tilde\Lambda_m\le h^2/4+\delta$; $E_k$ is the only eigenvalue in
+$[E^m-\tau,E^m+\tau]$.
+\item[(e)] (Exact count.) Assume $\epsilon\ge h^2/4+\delta$ and that any two distinct
+eigenvalues at distance at most $\rho$ from the window are more than $4\rho$ apart.
+Declare two detected nodes (i.e.\ nodes with $\tilde\Lambda_i\le\epsilon$) equivalent if
+their distance is at most $2\rho$. This is an equivalence relation, each class consists of
+the detected nodes lying within $\rho$ of one and the same eigenvalue, every eigenvalue
+in $[E_*,E^*]$ has a nonempty class, and the node $E^{m}$ minimizing $\tilde\Lambda$ in
+the class of $E_k\in[E_*,E^*]$ satisfies $|E^m-E_k|\le\tau$.
+\end{enumerate}
+If the errors are one-sided, $0\le\tilde\Lambda_i-d(E^i)^2\le\delta$ (no sampling error),
+the statements hold with $\rho=\sqrt\epsilon$, $\tau=\sqrt{h^2/4+\delta}$ and with
+$\delta/(2h)$ in place of $\delta/h$ in (c).
+\end{proposition}
+
+\begin{proof}
+Write $d_i=d(E^i)$.
+
+(a) By \eqref{hyp.delta}, $d_i^2\le\tilde\Lambda_i+\delta\le\epsilon+\delta$.
+
+(b) Since $E^1\le E_k\le E^J$ and the grid has step $h$, some node satisfies
+$|E^i-E_k|\le h/2$; then $d_i\le h/2$ and
+$\tilde\Lambda_i\le d_i^2+\delta\le h^2/4+\delta$.
+
+(c) Let $E_k$ be an eigenvalue with $|E^m-E_k|=d_m$ and assume $d_m\ge h$ (otherwise
+there is nothing to prove). Let $E^{m'}$, $m'\in\{m-1,m+1\}$, be the neighbour of $E^m$
+on the side of $E_k$. Then $d_{m'}\le|E^{m'}-E_k|=d_m-h$, and by \eqref{hyp.delta} and
+the definition of discrete local minimum,
+\[
+d_m^2-\delta\le\tilde\Lambda_m\le\tilde\Lambda_{m'}\le(d_m-h)^2+\delta ,
+\]
+that is, $2hd_m\le h^2+2\delta$.
+
+(d) Let $I=[E_k-\tau-h,E_k+\tau+h]$ and let $E^m$ minimize $\tilde\Lambda$ among the nodes
+in $I$. By (b), $\tilde\Lambda_m\le h^2/4+\delta$, hence $d_m^2\le h^2/4+2\delta=\tau^2$.
+If the eigenvalue closest to $E^m$ were some $E_j\neq E_k$, we would have
+$|E^m-E_k|\ge\gamma_k-\tau>\tau+h$ by \eqref{gap.cond}, contradicting $E^m\in I$.
+Therefore $|E^m-E_k|=d_m\le\tau$; in particular the two neighbours of $E^m$ belong to
+$I$, so $\tilde\Lambda_m\le\tilde\Lambda_{m\pm1}$, and $E^m$ is an interior node because
+$I\subset[E_*,E^*]$. Any other eigenvalue is at distance at least
+$\gamma_k-\tau>\tau$ from $E^m$.
+
+(e) By (a) every detected node lies within $\rho$ of some eigenvalue, which is then at
+distance at most $\rho$ from the window and is unique by the separation assumption. Two
+detected nodes attached to the same eigenvalue are at distance at most $2\rho$; two
+detected nodes attached to different eigenvalues are at distance larger than
+$4\rho-2\rho=2\rho$. This proves that the relation is an equivalence relation whose
+classes are indexed by eigenvalues. By (b) the class of an eigenvalue $E_k$ in the window
+contains a node with $\tilde\Lambda_i\le h^2/4+\delta$; thus the minimizing node of the
+class satisfies $d_m^2\le h^2/4+2\delta$ and, since it is attached to $E_k$,
+$|E^m-E_k|=d_m\le\tau$.
+
+The one-sided case follows by repeating the arguments with $d_i^2\le\tilde\Lambda_i$ in
+place of $d_i^2-\delta\le\tilde\Lambda_i$.
+\end{proof}
+
+\begin{remark}[Interpretation]\label{rem.stability}
+(1) \emph{Spurious minima.} Imperfect training cannot create detections far from the
+spectrum: by (a) and (c) every node below the threshold, and every discrete local minimum
+whatsoever, lies within an explicit distance of a true eigenvalue. What imperfect
+training \emph{can} do is (i) produce several discrete local minima around the same
+eigenvalue, all of them within $\max\{h,h/2+\delta/h\}$ of it, which are merged by the
+grouping in (e); and (ii) raise the whole curve above the threshold, so that an
+eigenvalue is missed if $\epsilon<h^2/4+\delta$. The bound in (c) also shows that refining
+the grid below $h\simeq\sqrt{2\delta}$ does not improve the localization: the quantity
+$h/2+\delta/h$ is minimal, and equal to $\sqrt{2\delta}$, for $h=\sqrt{2\delta}$.
+
+(2) \emph{Resolution.} The eigenvalue is located within $\tau\le h/2+\sqrt{2\delta}$ by the
+grid alone; the sub-grid procedures of Propositions \ref{prop.rayleigh} and
+\ref{prop.parabola} improve on this.
+
+(3) \emph{Multiplicity.} The loss curve only sees the set $\sigma$: a multiple eigenvalue
+produces a single minimum, and the trained network converges to \emph{some} element of
+the eigenspace. Multiplicities have to be recovered separately, for instance by training
+at the detected value from several independent initializations and computing the
+numerical rank of the Gram matrix of the resulting functions.
+
+(4) \emph{Clusters of eigenvalues.} Two eigenvalues $E_k<E_{k+1}$ are separated by a bump
+of the loss curve of height $(E_{k+1}-E_k)^2/4$. If $E_{k+1}-E_k\le2\sqrt{2\delta}$
+(respectively $2\sqrt\delta$ for one-sided errors) this bump is below the error level:
+the constant data $\tilde\Lambda\equiv\delta$ (respectively
+$\tilde\Lambda\equiv(E_{k+1}-E_k)^2/4$) on the nodes of $[E_k,E_{k+1}]$ are compatible
+with \eqref{hyp.delta} for the true spectrum and also for any spectrum containing
+additional eigenvalues in $(E_k,E_{k+1})$. Hence the number of eigenvalues in a cluster
+of width below $2\sqrt{2\delta}$ cannot be determined from the loss curve; the method then
+returns the cluster as a single approximate eigenvalue, with the error bound of (a).
+
+(5) \emph{What is not proved.} Proposition \ref{prop.stability} is conditional on
+\eqref{hyp.delta}. We do not prove a bound for $\delta$ in terms of the width and depth of
+the network, the number of epochs and the number of sampling points. The approximation
+term in \eqref{error.split} tends to zero as the network grows (Remark
+\ref{rem.approx}), but quantitative rates for the minimizers at hand, and above all a
+convergence guarantee for the optimizer, are not available; in particular the spectral
+bias of gradient-based training \cite{Rahaman-etal} suggests that $\delta$ grows with the
+oscillation of the eigenfunction, i.e.\ with $E$, in agreement with the residuals in our
+tables. What can always be done is to \emph{measure} the error a posteriori, see
+Proposition \ref{prop.rayleigh}.
+\end{remark}
+
+\begin{remark}[Consistency of the network class]\label{rem.approx}
+Assume that the eigenfunction $u_k$ can be written as $u_k=Bv_k$ with
+$v_k\in C^2(\overline\Omega)$ and $B\in W^{2,\infty}(\Omega)$ (this holds, for instance,
+when $\partial\Omega$ and $V$ are smooth and $B$ is smooth with $\nabla B\neq0$ on
+$\partial\Omega$, and for the explicit eigenfunctions and polynomial factors $B$ of the
+square and of the right isosceles triangle). Since networks with one hidden layer and
+smooth non-polynomial activation are dense in $C^2(\overline\Omega)$
+\cite{Hornik1991,Pinkus1999}, there are networks $\mathrm{NN}_n\to v_k$ in
+$C^2(\overline\Omega)$; then $B\,\mathrm{NN}_n\to u_k$ in $H^2(\Omega)$, and by continuity
+of $\Lambda(\cdot,E)$ in $H^2(\Omega)\setminus\{0\}$,
+\[
+\inf_{\text{all widths}}\ \Lambda(B\,\mathrm{NN}_\theta,E)=\Lambda(E)\qquad\text{for all }E .
+\]
+For $\tanh$ networks explicit rates in Sobolev norms in terms of the width are given in
+\cite{DeRyck-Lanthaler-Mishra}; convergence of the minimizers of sampled PINN losses for
+linear elliptic source problems is studied in \cite{Shin-Darbon-Karniadakis}. Neither
+result covers the optimization error.
+\end{remark}
+
+
+%% ============================================================================
+%% FRAGMENT 3 -- answers R1.6 (a posteriori certificate) and explains
+%% "small eigenvalue error with large residual" rigorously.  Suggested place:
+%% replace the paragraph "Eigenvalue accuracy versus PDE residual".
+%% ============================================================================
+
+\subsection*{A posteriori certificates and the role of the Rayleigh quotient}
+
+For $u\in D(L)\setminus\{0\}$ let
+\[
+\rho(u):=\frac{\langle Lu,u\rangle}{\|u\|^2},\qquad
+\eta(u)^2:=\frac{\|Lu-\rho(u)u\|^2}{\|u\|^2}=\frac{\|Lu\|^2}{\|u\|^2}-\rho(u)^2 .
+\]
+
+\begin{proposition}\label{prop.rayleigh}
+Let $u\in D(L)\setminus\{0\}$ be arbitrary (for instance, a trained network).
+\begin{enumerate}
+\item[(a)] For every $E\in\R$,
+\[
+\Lambda(u,E)=\big(E-\rho(u)\big)^2+\eta(u)^2 .
+\]
+In particular, for fixed $u$, the function $E\mapsto\Lambda(u,E)$ is a parabola with
+leading coefficient $1$, whose minimum is attained at the Rayleigh quotient $\rho(u)$
+and equals $\eta(u)^2$.
+\item[(b)] (Weinstein.) For every $E\in\R$, $d(E)\le\Lambda(u,E)^{1/2}$. In particular
+$d(\rho(u))\le\eta(u)$.
+\item[(c)] (Kato--Temple \cite{Kato1949,Parlett1998}.) If $\alpha<\rho(u)<\beta$ and $E_k$ is the only point of
+$\sigma$ in $(\alpha,\beta)$, then
+\[
+\rho(u)-\frac{\eta(u)^2}{\beta-\rho(u)}\ \le\ E_k\ \le\ \rho(u)+\frac{\eta(u)^2}{\rho(u)-\alpha}.
+\]
+In particular, if $E_k$ is the only point of $\sigma$ in
+$(\rho(u)-\gamma,\rho(u)+\gamma)$, then
+\[
+|\rho(u)-E_k|\le\frac{\eta(u)^2}{\gamma}\le\frac{\Lambda(u,E)}{\gamma}\qquad\text{for every }E\in\R.
+\]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+We may assume $\|u\|=1$; write $u=\sum_jc_ju_j$ and $\rho=\rho(u)$, $\eta=\eta(u)$.
+
+(a) $\|(L-E)u\|^2=\|(L-\rho)u\|^2+2(\rho-E)\langle(L-\rho)u,u\rangle+(\rho-E)^2$, and
+$\langle(L-\rho)u,u\rangle=0$.
+
+(b) This is \eqref{expansion}: $\|(L-E)u\|^2=\sum_j(E_j-E)^2c_j^2\ge d(E)^2$.
+
+(c) Since $\sigma\cap(E_k,\beta)=\emptyset$, we have $(E_j-E_k)(E_j-\beta)\ge0$ for all $j$.
+Writing $E_j-E_k=(E_j-\rho)+(\rho-E_k)$, $E_j-\beta=(E_j-\rho)+(\rho-\beta)$ and using
+$\sum_jc_j^2=1$, $\sum_jc_j^2(E_j-\rho)=0$ and $\sum_jc_j^2(E_j-\rho)^2=\eta^2$, we get
+\[
+0\le\sum_jc_j^2(E_j-E_k)(E_j-\beta)=\eta^2+(\rho-E_k)(\rho-\beta),
+\]
+that is, $(\rho-E_k)(\beta-\rho)\le\eta^2$, which is the first inequality. The second one
+follows in the same way from $(E_j-\alpha)(E_j-E_k)\ge0$. The last assertion follows by
+taking $\alpha=\rho-\gamma$, $\beta=\rho+\gamma$, and from (a).
+\end{proof}
+
+\begin{remark}[Consequences for the method]\label{rem.certificate}
+(1) \emph{Certificate independent of the training.} Items (b) and (c) hold for
+\emph{any} $u\in D(L)$. Since $u=B\,\mathrm{NN}$ satisfies the boundary condition exactly
+and is smooth, the trained network is an admissible $u$, whatever the quality of the
+training. Hence each detected pair $(u^i,E^i)$ comes with the guaranteed enclosure
+\[
+\sigma\cap\big[E^i-r_i,\,E^i+r_i\big]\neq\emptyset,\qquad r_i:=\Lambda(u^i,E^i)^{1/2},
+\]
+which turns a possibly spurious minimum into a verified one: a detection is accepted
+when $r_i$ is small compared with the distance to the neighbouring detections. The
+quantity $\Lambda(u^i,E^i)$ is an integral that can be evaluated after the training with
+a fresh and arbitrarily large sample, see (4). (The column ``Residual'' of our tables
+reports $\Lambda(u^i,E^i)=r_i^2$.)
+
+(2) \emph{Local refinement is a Rayleigh quotient.} Once a node $E^{i_0}$ has been
+detected, minimizing $E\mapsto\Lambda(u^{i_0},E)$ with the network frozen needs no
+further training and, by (a), returns exactly $\rho(u^{i_0})$, which can be computed in
+closed form:
+\[
+\hat E=\rho(u^{i_0})=\frac{\int_\Omega u^{i_0}\,Lu^{i_0}\,dx}{\int_\Omega (u^{i_0})^2\,dx},
+\qquad \eta(u^{i_0})^2=\Lambda(u^{i_0},\hat E).
+\]
+
+(3) \emph{Why the eigenvalue is more accurate than the residual.} By (c), if $\gamma$ is
+(a lower bound for) the distance from $\hat E$ to the rest of the spectrum, then
+\[
+|\hat E-E_k|\le\frac{\eta(u^{i_0})^2}{\gamma},
+\]
+whereas the residual norm is $\eta(u^{i_0})$: the eigenvalue error is \emph{quadratic}
+in the residual. For example, a residual $\eta^2=10^{-1}$ and a gap $\gamma=10$ guarantee
+$|\hat E-E_k|\le10^{-2}$ although $\eta\approx0.32$. This replaces the heuristic argument
+of a ``constant floor'' and explains quantitatively the pattern observed in all the
+tables: accurate eigenvalues together with comparatively large residuals. The gap
+$\gamma$ can be bounded from below using the enclosures of the neighbouring detections
+given by (b), so the bound is computable.
+
+(4) \emph{Monte Carlo evaluation, variance and bias.} Let $x_1,\dots,x_N$ be i.i.d.\
+uniform in $\Omega$ and independent of $u$ (fresh points), and let
+$g=(Lu-Eu)^2$, $\hat R_N=\frac1N\sum_ig(x_i)$, $\hat s_N=\frac1N\sum_iu(x_i)^2$. Each
+average is an unbiased estimator of the corresponding (normalized) integral, with
+variance $\operatorname{Var}(g)/N$ and $\operatorname{Var}(u^2)/N$. The loss is, however, a
+nonlinear function of these averages, and this introduces a bias of order $1/N$:
+for the penalty term the bias is exactly the one in \eqref{mc.floor}, and for the
+quotient $\hat\Lambda_N=\hat R_N/\hat s_N$ the delta method gives, with $R=\mathbb E g$,
+$s=\mathbb E u^2$, $\Lambda=R/s$,
+\[
+\mathbb E\hat\Lambda_N-\Lambda=\frac1N\Big(\Lambda\,\frac{\operatorname{Var}(u^2)}{s^2}
+-\frac{\operatorname{Cov}(g,u^2)}{s^2}\Big)+O(N^{-2}),
+\qquad
+\operatorname{Var}\hat\Lambda_N=\frac{\operatorname{Var}(g-\Lambda u^2)}{Ns^2}+O(N^{-2}).
+\]
+Thus the bias ($O(1/N)$) is negligible with respect to the statistical error
+($O(N^{-1/2})$), and the latter can be estimated from the same sample: with
+$\hat\sigma_N^2$ the empirical variance of $g(x_i)-\hat\Lambda_Nu(x_i)^2$,
+\[
+d(E)\le\Big(\hat\Lambda_N+z\,\frac{\hat\sigma_N}{\hat s_N\sqrt N}\Big)^{1/2}
+\]
+holds with asymptotic confidence $\Phi(z)$ (e.g.\ $97.7\%$ for $z=2$). This is a
+statistical certificate, not a deterministic one. The same remark applies to
+$\rho(u)$, which is also a ratio of two averages. Two further points deserve mention.
+First, during the training the sample is redrawn at every epoch, and the value recorded
+at the last epoch is computed on a sample that has not yet been used to update the
+parameters; it is therefore an unbiased evaluation of the residual term for the current
+network, and no optimistic bias due to a fixed training sample is present. Second, the
+sub-grid refinement must not be performed by minimizing a \emph{re-sampled} objective
+$E\mapsto\hat\Lambda_N(u,E)$: by (a) this objective is flat to within its noise level
+$\nu\sim\hat\sigma_N/\sqrt N$ on an interval of half-width $\sqrt\nu$ around $\rho(u)$,
+so the returned minimizer has an error of order $\sqrt\nu$, much larger than the error
+$O(N^{-1/2})$ of the closed formula in (2) evaluated on a single sample.
+\end{remark}
+
+
+%% ============================================================================
+%% FRAGMENT 4 -- sub-grid accuracy by parabolic interpolation (R1.1, R1.6).
+%% Suggested place: cost subsection, or right after Fragment 3.
+%% ============================================================================
+
+\begin{proposition}[Three-point parabolic interpolation]\label{prop.parabola}
+Let $E^{m-1},E^m,E^{m+1}$ be three consecutive nodes and $y_-,y_0,y_+$ the corresponding
+computed values of the loss. Define
+\begin{equation}\label{parabola.vertex}
+\hat E:=E^m+\frac h2\,\frac{y_--y_+}{y_--2y_0+y_+},\qquad
+\hat a:=\frac{y_--2y_0+y_+}{2h^2}.
+\end{equation}
+Assume that the three nodes lie in $\{E\colon|E-E_k|=d(E)\}$, i.e.\ $E_k$ is the
+eigenvalue closest to each of them, and that for some constant $c\in\R$
+\[
+\big|y_\bullet-(E^{\bullet}-E_k)^2-c\big|\le\omega\qquad\text{at the three nodes, with } 2\omega<h^2 .
+\]
+Then, with $e:=E^m-E_k$,
+\[
+|\hat E-E_k|\le\frac{(4|e|+h)\,\omega}{2h^2-4\omega},\qquad|\hat a-1|\le\frac{2\omega}{h^2}.
+\]
+In particular, if $E^m$ is the node closest to $E_k$ ($|e|\le h/2$) and
+$\omega\le h^2/4$, then $|\hat E-E_k|\le3\omega/h$.
+\end{proposition}
+
+\begin{proof}
+Let $\varepsilon_\bullet=y_\bullet-(E^\bullet-E_k)^2-c$, so $|\varepsilon_\bullet|\le\omega$.
+Since $(e\mp h)^2$ are the exact values at $E^{m\mp1}$,
+\[
+y_--y_+=-4he+n,\quad y_--2y_0+y_+=2h^2+m,\qquad
+n:=\varepsilon_--\varepsilon_+,\quad m:=\varepsilon_--2\varepsilon_0+\varepsilon_+,
+\]
+with $|n|\le2\omega$, $|m|\le4\omega$ (the constant $c$ cancels). Therefore
+\[
+\hat E-E_k=e+\frac h2\,\frac{-4he+n}{2h^2+m}=\frac{em+hn/2}{2h^2+m},
+\]
+and the estimates follow from $2h^2+m\ge2h^2-4\omega>0$.
+\end{proof}
+
+\begin{remark}\label{rem.parabola}
+For exact data $y=(E-E_k)^2+c$ the formula \eqref{parabola.vertex} returns $E_k$ exactly,
+for any $h$: a constant error floor $c$ (the same excess loss at the three nodes) does
+not affect the result, only its oscillation $\omega$ does. With the grid alone the error
+is $h/2$; with three nodes it is $3\omega/h$, which is smaller as soon as
+$\omega<h^2/6$. This allows the use of coarse grids. The number $\hat a$ is a useful
+diagnostic: in the linear case it must be close to $1$ (for the unnormalized loss
+$\bar\Lambda_\mu$ the leading coefficient is $1-3d^2/(2\mu)$ up to $O(h^2/\mu)$, by
+Proposition \ref{prop.penalized}(a)), and a value far from $1$ reveals that the three nodes do not belong to the same parabola, i.e.\ that the
+training has not converged at some of them or that two eigenvalues are involved.
+\end{remark}
+
+
+%% ============================================================================
+%% FRAGMENT 5 -- answers R1.1 (cost of the scan, comparison with Rayleigh PINNs)
+%% Suggested place: new subsection "Computational cost".
+%% ============================================================================
+
+\subsection*{Computational cost of the scan}
+
+\emph{Cost model.} Let $W$ be the number of parameters of the network, $N$ the number of
+sampling points and $d$ the space dimension. One evaluation of $u_\theta$ at the $N$
+points costs $c_0NW$ operations. The loss \eqref{lossmu} requires $\Delta u_\theta$,
+which by reverse-mode automatic differentiation costs one backward pass for
+$\nabla u_\theta$ and $d$ further backward passes for the diagonal of the Hessian;
+differentiating the result with respect to $\theta$ multiplies the cost by a constant.
+Hence one epoch costs
+\[
+c_{\rm ep}=\kappa\,(d+2)\,NW
+\]
+with $\kappa$ independent of $d$, $N$ and $W$: the cost per epoch grows linearly, not
+exponentially, with the dimension. If $n_i$ denotes the number of epochs spent at the node
+$E^i$, the cost of the scan of $[E_*,E^*]$ with $J=1+(E^*-E_*)/h$ nodes is
+\begin{equation}\label{cost.scan}
+C_{\rm scan}=c_{\rm ep}\sum_{i=1}^Jn_i\ \le\ \kappa\,(d+2)\,N\,W\,J\,n_{\max},
+\end{equation}
+where $n_{\max}$ is the maximal number of epochs. Three features reduce this bound.
+\begin{enumerate}
+\item \emph{Warm start.} The minimizer at $E^{i-1}$ is an eigenfunction of the eigenvalue
+closest to $E^{i-1}$, which is also the minimizer at $E^i$ unless the midpoint between
+two eigenvalues lies in $(E^{i-1},E^i]$. Thus, with warm start and early stopping, only
+the nodes following such a midpoint (at most one per eigenvalue) require a full
+training, and $\sum_in_i\approx K_In_{\max}+(J-K_I)\,\bar n$, where $K_I$ is the number
+of distinct eigenvalues in the window and $\bar n\ll n_{\max}$ is the average number of
+epochs at the remaining nodes; in our experiments $\bar n/n_{\max}\approx$
+\texttt{[RUNTIME-TBD]}.
+\item \emph{Coarse grids with sub-grid refinement.} By Proposition \ref{prop.stability}
+the grid only has to \emph{separate} the eigenvalues: it suffices that
+$h<\gamma_{\min}-2\tau$, i.e.\ essentially $h\lesssim\gamma_{\min}/2$, where
+$\gamma_{\min}$ is the smallest gap between distinct eigenvalues in the window. The
+accuracy is then obtained without further training from the Rayleigh quotient of the
+detected network (Remark \ref{rem.certificate}(2)) or from the three-point formula
+\eqref{parabola.vertex}, and it is not limited by $h$. Hence
+$J\approx2(E^*-E_*)/\gamma_{\min}$, that is, a small number of nodes per eigenvalue when
+the eigenvalues in the window are well separated. If only an accuracy $h$ were sought by
+refining the grid, the cost would be proportional to $1/h$; an adaptive strategy (coarse
+scan, then local grids around the detected nodes) reduces this to
+$O(K_I\log(1/h))$ trainings by bisection, and to $O(K_I)$ with the formulas above.
+\item \emph{Parallelism.} The trainings at different values of $E$ are independent. With
+$P$ processors the window is split into $P$ subwindows scanned simultaneously (each one
+with its own warm start), and the wall-clock time is $C_{\rm scan}/P$ up to the cost of
+$P-1$ additional cold starts. Measured times: \texttt{[RUNTIME-TBD]}.
+\end{enumerate}
+
+\emph{Comparison with Rayleigh-quotient PINNs.} In the methods based on the Rayleigh
+quotient described in the Introduction (see
+\cite{Rowan-Evans-Maute-Dootsan,Holliday-Lindner-Ditto}, and \cite{E-Yu} for the Deep Ritz
+formulation) the $k$-th eigenpair is obtained by minimizing $L(u)$ plus penalties enforcing orthogonality
+to the $k-1$ previously computed networks. One epoch needs only first derivatives of
+$u_\theta$ (cost $\kappa'NW$, independent of $d$), plus the evaluation of the previous
+$k-1$ networks at the sampling points (cost $c_0(k-1)NW$). Therefore the computation of
+the first $K$ eigenpairs costs
+\begin{equation}\label{cost.rq}
+C_{\rm RQ}(K)=\sum_{k=1}^Kn_k\big(\kappa'+c_0(k-1)\big)NW
+\ \approx\ \bar n_{\rm RQ}\,NW\Big(\kappa'K+\frac{c_0}{2}K^2\Big),
+\end{equation}
+and it is intrinsically sequential: the $k$-th training cannot start before the previous
+ones have finished, and its result depends on their accuracy. Indeed, by the
+Courant--Fischer principle,
+\[
+\min\big\{L(u)\colon u\perp\tilde u_1,\dots,\tilde u_{k-1}\big\}\le E_k
+\]
+for \emph{any} functions $\tilde u_1,\dots,\tilde u_{k-1}$, with equality when they span
+the first $k-1$ eigenfunctions; hence, already for exactly enforced constraints, errors
+in the computed eigenfunctions bias all the subsequent eigenvalues downwards and
+accumulate with $k$. In the scan, on the contrary,
+each node is an independent problem and comes with its own a posteriori bound
+(Proposition \ref{prop.rayleigh}).
+
+Comparing \eqref{cost.scan} and \eqref{cost.rq} we obtain the following picture. Let
+$K_-$ be the number of eigenvalues below $E_*$ and $K_I$ the number of eigenvalues in the
+window, counted with multiplicity. The deflation approach needs $K_-+K_I$ trainings and
+a cost growing quadratically in $K_-+K_I$, while the scan needs $J\approx cK_I$ nodes
+($c$ a small constant depending on the ratio between the average and the minimal gap),
+of which only about $K_I$ are full trainings, at a cost per epoch larger by the factor
+$\kappa(d+2)/\kappa'$ due to the second derivatives:
+\[
+\frac{C_{\rm scan}}{C_{\rm RQ}}\approx
+\frac{\kappa(d+2)\,\big(K_In_{\max}+(J-K_I)\bar n\big)}
+{\bar n_{\rm RQ}\big(\kappa'(K_-+K_I)+\tfrac{c_0}{2}(K_-+K_I)^2\big)} .
+\]
+Consequently the scan is \emph{not} competitive for the lowest few eigenvalues
+($K_-=0$, $K_I$ small), for which the Rayleigh quotient is cheaper per epoch and needs no
+grid; it becomes advantageous for windows located high in the spectrum, since by Weyl's
+law $K_-\sim c_d|\Omega|E_*^{d/2}$ grows with $E_*$ and with the dimension while the cost
+of the scan depends only on the window, and whenever parallel resources are available.
+For the examples of this paper, the measured wall-clock times are
+\texttt{[RUNTIME-TBD]} (scan, $J=\ $\texttt{[RUNTIME-TBD]} nodes) versus
+\texttt{[RUNTIME-TBD]} (Rayleigh quotient with deflation, same network and sample size).
+We stress that the scan does not provide multiplicities (Remark
+\ref{rem.stability}(3)), which the deflation approach does, and that it is the only one
+of the two that applies to the nonlinear problems of Section \ref{sec.nolin}, where no
+orthogonality is available.
+
+
+%% ============================================================================
+%% FRAGMENT 6 -- answers R1.5 (p-Laplacian: error sources, what is and is not
+%% proved).  Suggested place: Section "Nonlinear problems", after the definition
+%% of Lambda_p, replacing the paragraph "As in the linear case, define ...".
+%% ============================================================================
+
+\subsection*{The loss curve for the $p$-Laplacian: what can be proved}
+
+Let $\Omega\subset\R^d$ be a bounded domain, $1<p<\infty$, and write
+$\Delta_pu=\nabla\cdot(|\nabla u|^{p-2}\nabla u)$,
+$\mathcal R_E(u):=\Delta_pu+E|u|^{p-2}u$. We say that $E$ is an eigenvalue if
+\eqref{p-eigen} has a weak solution $u\in W^{1,p}_0(\Omega)\setminus\{0\}$, and denote by
+$\sigma_p$ the set of eigenvalues. We recall that $\sigma_p\subset(0,\infty)$ is closed,
+that the first eigenvalue
+$E_1=\min\{\int_\Omega|\nabla u|^p\,dx\colon \|u\|_p=1\}$ is simple and isolated
+\cite{Anane1987,Lindqvist1990}, that there is a sequence of variational eigenvalues given
+by the Lusternik--Schnirelmann minimax principle \cite{GarciaAzorero-Peral}, and that the
+second eigenvalue $E_2=\min(\sigma_p\setminus\{E_1\})$ coincides with the second
+variational eigenvalue \cite{Anane-Tsouli} and admits a mountain-pass characterization
+\cite{Cuesta-deFigueiredo-Gossez}, which is the basis of the algorithm of \cite{HJ11}.
+It is not known whether the variational eigenvalues exhaust $\sigma_p$. Eigenfunctions
+are bounded and of class $C^{1,\alpha}$ \cite{DiBenedetto,Tolksdorf}, but in general not
+of class $C^2$.
+
+The natural class for the residual loss is
+\[
+\mathcal D_p:=\big\{u\in W^{1,p}_0(\Omega)\cap L^{2(p-1)}(\Omega)\colon
+\Delta_pu\in L^2(\Omega)\big\},
+\]
+where $\Delta_pu$ is understood in the sense of distributions. Every eigenfunction belongs
+to $\mathcal D_p$, since it is bounded and $\Delta_pu=-E|u|^{p-2}u$.
+
+\begin{proposition}\label{prop.plap}
+Let $p\ge\frac{2d}{d+2}$, $p>1$ (so that $W^{1,p}_0(\Omega)\subset L^2(\Omega)$; this is
+no restriction if $d=2$).
+\begin{enumerate}
+\item[(a)] (Homogeneity.) For $t\in\R$ and $u\in\mathcal D_p$,
+$\mathcal R_E(tu)=|t|^{p-2}t\,\mathcal R_E(u)$. Hence, if $u$ is an eigenfunction so is
+$tu$, with the same eigenvalue, and the quotient
+\[
+Q_p(u,E):=\frac{\int_\Omega\mathcal R_E(u)^2\,dx}{\big(\int_\Omega|u|^p\,dx\big)^{2(p-1)/p}}
+\]
+is homogeneous of degree zero. Let $q_*(E):=\inf\{Q_p(u,E)\colon u\in\mathcal D_p\setminus\{0\}\}$.
+\item[(b)] (Reduction of the penalized loss.) For $\mu>0$,
+\[
+\Lambda_p(E)=\inf_{u\in\mathcal D_p}\Lambda_p(u,E)=\Psi_\mu\big(q_*(E)\big),\qquad
+\Psi_\mu(q):=\min_{t\ge0}\Big[t^{2(p-1)}q+\mu(t^p-1)^2\Big].
+\]
+The function $\Psi_\mu$ is nondecreasing, $\Psi_\mu(0)=0$, and
+$0<\Psi_\mu(q)\le\min\{q,\mu\}$ for $q>0$.
+\item[(c)] (Upper bound.) If $u_k$ is an eigenfunction with eigenvalue $E_k$ and
+$\|u_k\|_p=1$, then $Q_p(u_k,E)=c_k(E-E_k)^2$ with
+$c_k=\int_\Omega|u_k|^{2(p-1)}dx$. Hence
+\[
+\Lambda_p(E)\le q_*(E)\le\inf_kc_k(E-E_k)^2 ,
+\]
+the infimum being taken over all normalized eigenfunctions.
+\item[(d)] (The zeros of the loss curve are exactly the eigenvalues.)
+$q_*(E)=0$ if and only if $E\in\sigma_p$. Equivalently,
+\[
+\Lambda_p(E)=0\iff E\in\sigma_p ,
+\]
+and $\Lambda_p(E)>0$ for every $E\notin\sigma_p$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) is immediate from $\Delta_p(tu)=|t|^{p-2}t\Delta_pu$.
+
+(b) Every $u\in\mathcal D_p\setminus\{0\}$ can be written as $u=tw$ with $t=\|u\|_p>0$
+and $\|w\|_p=1$, and by (a)
+$\Lambda_p(tw,E)=t^{2(p-1)}Q_p(w,E)+\mu(t^p-1)^2$, while $\Lambda_p(0,E)=\mu$, which is
+the value of the same expression at $t=0$. For each $t\ge0$ the expression is
+nondecreasing and affine in $Q_p(w,E)$, so taking first the infimum over $w$ and then
+over $t$ gives the formula. The choices $t=1$ and $t=0$ give
+$\Psi_\mu(q)\le\min\{q,\mu\}$; if $q>0$, the continuous function
+$t\mapsto t^{2(p-1)}q+\mu(t^p-1)^2$ is positive on $[0,\infty)$ and tends to infinity, so
+its minimum is positive.
+
+(c) Since $\Delta_pu_k=-E_k|u_k|^{p-2}u_k$, we have
+$\mathcal R_E(u_k)=(E-E_k)|u_k|^{p-2}u_k$. The first inequality is contained in (b).
+
+(d) If $E\in\sigma_p$ then $q_*(E)=0$ by (c). Conversely, let $q_*(E)=0$ and take
+$w_n\in\mathcal D_p$ with $\|w_n\|_p=1$ and
+$f_n:=-\mathcal R_E(w_n)=-\Delta_pw_n-E|w_n|^{p-2}w_n\to0$ in $L^2(\Omega)$. Testing the
+equation $-\Delta_pw_n=E|w_n|^{p-2}w_n+f_n$ with $w_n\in W^{1,p}_0(\Omega)\subset
+L^2(\Omega)$ and using the Sobolev inequality $\|w\|_2\le C_S\|\nabla w\|_p$,
+\[
+\|\nabla w_n\|_p^p=E+\int_\Omega f_nw_n\,dx\le E+C_S\|f_n\|_2\|\nabla w_n\|_p ,
+\]
+so $\{w_n\}$ is bounded in $W^{1,p}_0(\Omega)$. Up to a subsequence, $w_n\rightharpoonup w$
+weakly in $W^{1,p}_0(\Omega)$ and strongly in $L^p(\Omega)$; thus $\|w\|_p=1$ and
+$|w_n|^{p-2}w_n\to|w|^{p-2}w$ in $L^{p'}(\Omega)$, hence in $W^{-1,p'}(\Omega)$. Moreover
+$f_n\to0$ in $L^2(\Omega)\hookrightarrow W^{-1,p'}(\Omega)$ (the adjoint of the Sobolev
+embedding). Therefore $-\Delta_pw_n\to E|w|^{p-2}w$ in $W^{-1,p'}(\Omega)$, and since
+$(-\Delta_p)^{-1}\colon W^{-1,p'}(\Omega)\to W^{1,p}_0(\Omega)$ is continuous,
+$w_n$ converges strongly in $W^{1,p}_0(\Omega)$; the limit is $w$ and it satisfies
+$-\Delta_pw=E|w|^{p-2}w$ with $w\neq0$. Thus $E\in\sigma_p$. The equivalence with
+$\Lambda_p(E)=0$ follows from (b).
+\end{proof}
+
+\begin{remark}[What is lost with respect to the linear case]\label{rem.plap.lost}
+Proposition \ref{prop.plap}(d) is the rigorous justification of the method in the
+nonlinear case: the loss curve vanishes exactly on the spectrum, no orthogonality being
+needed. However, the three quantitative tools of the linear theory are missing.
+
+(1) \emph{No lower bound.} The proof of (d) is by compactness and gives no estimate of
+the form $q_*(E)\ge c\,\dist(E,\sigma_p)^2$. Consequently there is no analogue of the
+Weinstein bound (Proposition \ref{prop.rayleigh}(b)): a small value of the loss at $E$
+does not come with a computable bound on $\dist(E,\sigma_p)$, the stability result
+(Proposition \ref{prop.stability}) is not available, and a low minimum of the computed
+curve for which no independent value is known (such as the third row of Table
+\ref{table.5}) must be regarded as a candidate, not as a certified eigenvalue. Likewise,
+only the zeros, and not the positive local minima, of $\Lambda_p$ are characterized, and
+the existence of a minimizer for $E\notin\sigma_p$ is not known.
+
+(2) \emph{The curve is not a universal parabola.} The constants $c_k$ in (c) depend on
+the eigenfunction and on $p$ (for $p\ge2$, $c_k\le\|u_k\|_\infty^{p-2}$), and the upper
+bound need not be attained; hence the curvature of the wells is not known a priori and
+the diagnostic $\hat a\approx1$ of Remark \ref{rem.parabola} is lost.
+
+(3) \emph{The refined eigenvalue is only first-order accurate.} For a fixed function $u$
+the map $E\mapsto\int\mathcal R_E(u)^2dx$ is still a parabola, minimized at
+\[
+\rho_p^*(u)=\frac{-\int_\Omega\Delta_pu\,|u|^{p-2}u\,dx}{\int_\Omega|u|^{2(p-1)}dx},
+\]
+which is the value returned by the local refinement. For $p=2$ this is the Rayleigh
+quotient, whose error is quadratic in the error of the eigenfunction (Proposition
+\ref{prop.rayleigh}(c)). For $p\neq2$, $\rho_p^*$ is \emph{not} the variational quotient
+$\mathcal R_p(u)=\int|\nabla u|^p/\int|u|^p$: eigenfunctions are critical points of
+$\mathcal R_p$ but in general not of $\rho_p^*$, so the error of $\rho_p^*(u)$ is
+generically of first order in $u-u_k$. This is, in our opinion, the main reason for the
+loss of accuracy observed in Tables \ref{table.5} and \ref{table.6} with respect to the
+linear examples at comparable residuals. A natural remedy, which we adopt in
+\texttt{[PLAP-TBD]}, is to report also $\mathcal R_p(u)$ for the trained network; for
+the first eigenvalue this number is moreover a guaranteed upper bound,
+$E_1\le\mathcal R_p(u)$ for every $u\in W^{1,p}_0(\Omega)\setminus\{0\}$.
+
+(4) \emph{Role of the normalization.} Because of (a), the equation determines $u$ only up
+to a multiplicative constant, and the penalty $\mu(\int|u|^p-1)^2$ only fixes this
+constant; by (b), it does not move the zeros of the loss curve. It is essential, however,
+that the exponents in the equation and in the constraint be the homogeneous ones: for
+the non-homogeneous problem $-\Delta_pu=Eu$ the function $tu$ solves the equation with
+$E$ replaced by $|t|^{p-2}E$, so that the computed ``eigenvalue'' would depend on the
+normalization chosen and on $|\Omega|$.
+\end{remark}
+
+\begin{lemma}[Degeneracy at critical points]\label{lem.critical}
+Let $p>2$, $u\in C^2$ in a neighbourhood of $x_0$ and $\nabla u(x_0)=0$. Then
+$|\nabla u|^{p-2}\nabla u$ is of class $C^1$ near $x_0$ and $\Delta_pu(x_0)=0$.
+Consequently $\mathcal R_E(u)(x_0)=E|u(x_0)|^{p-2}u(x_0)$, and an eigenfunction with
+eigenvalue $E$ cannot be of class $C^2$ near a critical point at which it does not
+vanish; in particular, the first eigenfunction is not $C^2$ near its maximum points.
+\end{lemma}
+
+\begin{proof}
+For $p>2$ the map $\Phi(\xi)=|\xi|^{p-2}\xi$ is of class $C^1(\R^d;\R^d)$ with
+$D\Phi(0)=0$. Hence $\Phi(\nabla u)$ is $C^1$ and
+$\Delta_pu(x_0)=\operatorname{tr}\big(D\Phi(\nabla u(x_0))D^2u(x_0)\big)=0$. If $u$ were a
+$C^2$ eigenfunction near $x_0$, the equation would give
+$0=-\Delta_pu(x_0)=E|u(x_0)|^{p-2}u(x_0)$ with $E>0$.
+\end{proof}
+
+\begin{remark}[Sources of error in the $p$-Laplacian experiments]\label{rem.plap.errors}
+In addition to Remark \ref{rem.plap.lost}(3), the following facts explain why the
+residuals and the errors are larger than for $p=2$.
+
+(1) \emph{Limited regularity of the target.} By Lemma \ref{lem.critical} the
+eigenfunctions are not $C^2$ at their nonzero critical points when $p>2$. For the radial
+first eigenfunction in a ball one finds from \eqref{radial.ode} below
+\[
+u(r)=u(0)-\frac{p-1}{p}\Big(\frac{E\,u(0)^{p-1}}{d}\Big)^{\frac1{p-1}}r^{\frac p{p-1}}+o\big(r^{\frac p{p-1}}\big),
+\]
+so $u\in C^{1,1/(p-1)}$ and $|D^2u|\sim r^{-(p-2)/(p-1)}$ is unbounded at the origin if
+$p>2$. The networks used here ($\tanh$ activation times a polynomial $B$) are smooth, so
+at each of their critical points the pointwise residual equals $E|u|^{p-2}u$, which at
+the maximum of the first eigenfunction is of the order of $E\|u\|_\infty^{p-1}$ and
+cannot be reduced by training. The $L^2$ norm of the residual can still be made small,
+but only by confining this defect to a small ball of radius $\varepsilon$ around the
+critical point, which requires second derivatives of size
+$\varepsilon^{-(p-2)/(p-1)}$ there; the contribution of the defect to the loss is of
+order $E^2\|u\|_\infty^{2(p-1)}\varepsilon^{d}$. This difficulty is mild for $p$ close to
+$2$ and becomes more severe as $p$ increases, and it is absent for $p=2$. Higher
+eigenfunctions have more critical points, hence more such defects.
+
+(2) \emph{Integrability of the strong residual.} For a smooth function $u$,
+\[
+\Delta_pu=|\nabla u|^{p-2}\Big(\Delta u+(p-2)\frac{\langle D^2u\nabla u,\nabla u\rangle}{|\nabla u|^2}\Big)
+\qquad\text{where }\nabla u\ne0 .
+\]
+If $p\ge2$ this is bounded, so $\Lambda_p(u,E)<\infty$ for every network. If $1<p<2$,
+$|\Delta_pu|$ behaves in general like $|x-x_0|^{p-2}$ near a nondegenerate critical point
+$x_0$;
+then $(\Delta_pu)^2$ is integrable near $x_0$ if and only if $p>2-\frac d2$ (always for
+$d\ge2$, only for $p>\frac32$ if $d=1$), but its Monte Carlo estimator has finite variance
+only if $p>2-\frac d4$ (that is, $p>\frac32$ for $d=2$). If $\nabla u$ vanishes
+transversally on a hypersurface, $(\Delta_pu)^2$ is integrable only for $p>\frac32$.
+Our experiments are restricted to $p>2$.
+
+(3) \emph{Differentiation of $|\nabla u|^{p-2}\nabla u$.} The field
+$\Phi(\nabla u_\theta)$ is differentiated automatically, once with respect to $x$ and
+once more with respect to the parameters. The second operation involves
+$D^2\Phi(\xi)=O(|\xi|^{p-3})$, which is unbounded at the critical points of $u_\theta$
+when $p<3$: the gradient of the sampled loss then has heavy tails (its second moment is
+finite only if $p>3-\frac d2$, i.e.\ $p>2$ for $d=2$), which penalizes the stochastic
+optimization when $2<p<3$. A regularization
+$(|\nabla u|^2+\varsigma^2)^{(p-2)/2}$ with $\varsigma>0$ fixed removes the singularity at
+the price of a consistency error; in our implementation only a safeguard of size
+$10^{-12}$ is added to $|\nabla u|$, so no consistency error is introduced, and the
+singular set is hit with probability zero.
+
+(4) \emph{No a posteriori control.} In the linear case the eigenvalue error is bounded by
+$\eta^2/\gamma$; here no such bound exists and the error of the reported eigenvalue is of
+the same order as the error of the eigenfunction, cf.\ Remark \ref{rem.plap.lost}(3).
+The behaviour of the errors under refinement of the $E$-grid and under an increase of the
+network size and of $N$ is reported in \texttt{[PLAP-TBD]}.
+\end{remark}
+
+\begin{remark}[A benchmark in any dimension: the first eigenvalue of a ball]\label{rem.radial}
+The first eigenfunction of the ball $B_R\subset\R^d$ is radial (by simplicity of $E_1$
+and rotation invariance), positive and decreasing, and solves
+\begin{equation}\label{radial.ode}
+\big(r^{d-1}|u'|^{p-2}u'\big)'+E\,r^{d-1}|u|^{p-2}u=0\quad\text{in }(0,R),\qquad u'(0)=0,\quad u(R)=0 .
+\end{equation}
+By homogeneity one may take $u(0)=1$, and $E_1(B_R)$ is the value of $E$ for which the
+first zero of the solution of the initial value problem is $r=R$; it can be computed to
+high accuracy by a shooting method applied to the first-order system
+\[
+u'=\operatorname{sign}(w)\,\big|w\,r^{1-d}\big|^{\frac1{p-1}},\qquad
+w'=-E\,r^{d-1}|u|^{p-2}u,\qquad w=r^{d-1}|u'|^{p-2}u',
+\]
+started at $r=r_0\ll1$ with $w(r_0)=-Er_0^d/d$. Moreover, if $u$ is an eigenfunction in
+$B_1$ with eigenvalue $E$, then $u(x/R)$ is an eigenfunction in $B_R$ with eigenvalue
+$E/R^p$, so
+\[
+E_1(B_R)=\frac{E_1(B_1)}{R^p}.
+\]
+This provides reference values in dimensions where no numerical results are available
+in the literature. We obtain
+\[
+\begin{array}{c|cccc}
+(p,d) & (2.2,\,2) & (2.5,\,2) & (2.2,\,3) & (2.5,\,3)\\\hline
+E_1(B_1) & 6.5317 & 7.7102 & 11.4699 & 14.1112
+\end{array}
+\]
+(for $p=2$ the same code returns $5.78319$ and $9.86960$ for $d=2,3$; the value for
+$(p,d)=(2.2,2)$ agrees with the value $6.5320$ of \cite{HJ11}). The higher zeros of the
+shooting function give the radial eigenvalues, e.g.\ $41.7886$ for $(p,d)=(2.2,2)$; they
+are eigenvalues but not the lowest ones: the second eigenfunction of the disk is not
+radial \cite{Benedikt-Drabek-Girg}.
+\end{remark}
+
+
+%% ============================================================================
+%% FRAGMENT 7 -- corrected proof detail for the Appendix (Theorem teo.min)
+%% ============================================================================
+%% In the proof of Theorem \ref{teo.min}, with ab <= eps a^2 + b^2/(4 eps) and
+%% eps = 1/(4E) one gets 2E \int u \Delta u >= -(1/2)\int(\Delta u)^2 - 2E^2, hence
+%% the correct form of \eqref{cota.Lambda2} is
+\begin{equation*}
+\Lambda(u_j,E)\ \ge\ \frac12\int_\Omega(\Delta u_j)^2\,dx-E^2 ,
+\end{equation*}
+%% (not "+E^2-E"); for E=0 the estimate is trivial.  The conclusion (boundedness
+%% of \Delta u_j in L^2) is unchanged.  Boundedness in H^2 then uses the elliptic
+%% estimate \|u\|_{H^2} <= C\|\Delta u\|_2 on H^2\cap H^1_0, valid for \Omega convex
+%% or C^{1,1}; this hypothesis should be added to the statement.  The restriction
+%% E >= 0 is not needed.  Alternatively the theorem follows at once from
+%% \eqref{expansion}: the minimizers are the eigenfunctions of the eigenvalue(s)
+%% closest to E.
+
+
+%% ============================================================================
+%% NEW BIBLIOGRAPHY ENTRIES (paper's style)
+%% ============================================================================
+%
+% \bibitem{Anane1987}
+% A.~Anane,
+% Simplicit\'e et isolation de la premi\`ere valeur propre du $p$-laplacien avec poids,
+% C. R. Acad. Sci. Paris S\'er. I Math. \textbf{305}, 725 (1987).
+%
+% \bibitem{Anane-Tsouli}
+% A.~Anane and N.~Tsouli,
+% On the second eigenvalue of the $p$-Laplacian,
+% in \textit{Nonlinear Partial Differential Equations (F\`es, 1994)},
+% Pitman Res. Notes Math. Ser. \textbf{343} (Longman, Harlow, 1996), pp.~1--9.
+%
+% \bibitem{Benedikt-Drabek-Girg}
+% J.~Benedikt, P.~Dr\'abek, and P.~Girg,
+% The second eigenfunction of the $p$-Laplacian on the disk is not radial,
+% Nonlinear Anal. \textbf{75}, 4422 (2012).
+%
+% \bibitem{Cuesta-deFigueiredo-Gossez}
+% M.~Cuesta, D.~de Figueiredo, and J.-P.~Gossez,
+% The beginning of the Fu\v{c}ik spectrum for the $p$-Laplacian,
+% J. Differential Equations \textbf{159}, 212 (1999).
+%
+% \bibitem{DeRyck-Lanthaler-Mishra}
+% T.~De Ryck, S.~Lanthaler, and S.~Mishra,
+% On the approximation of functions by tanh neural networks,
+% Neural Networks \textbf{143}, 732 (2021).
+%
+% \bibitem{DiBenedetto}
+% E.~DiBenedetto,
+% $C^{1+\alpha}$ local regularity of weak solutions of degenerate elliptic equations,
+% Nonlinear Anal. \textbf{7}, 827 (1983).
+%
+% \bibitem{E-Yu}
+% W.~E and B.~Yu,
+% The Deep Ritz method: a deep learning-based numerical algorithm for solving variational problems,
+% Commun. Math. Stat. \textbf{6}, 1 (2018).
+%
+% \bibitem{GarciaAzorero-Peral}
+% J.~P.~Garc\'ia Azorero and I.~Peral Alonso,
+% Existence and nonuniqueness for the $p$-Laplacian: nonlinear eigenvalues,
+% Comm. Partial Differential Equations \textbf{12}, 1389 (1987).
+%
+% \bibitem{Hornik1991}
+% K.~Hornik,
+% Approximation capabilities of multilayer feedforward networks,
+% Neural Networks \textbf{4}, 251 (1991).
+%
+% \bibitem{Kato1949}
+% T.~Kato,
+% On the upper and lower bounds of eigenvalues,
+% J. Phys. Soc. Japan \textbf{4}, 334 (1949).
+%
+% \bibitem{Lindqvist1990}
+% P.~Lindqvist,
+% On the equation $\operatorname{div}(|\nabla u|^{p-2}\nabla u)+\lambda|u|^{p-2}u=0$,
+% Proc. Amer. Math. Soc. \textbf{109}, 157 (1990).
+%
+% \bibitem{Pinkus1999}
+% A.~Pinkus,
+% Approximation theory of the MLP model in neural networks,
+% Acta Numer. \textbf{8}, 143 (1999).
+%
+% \bibitem{Rahaman-etal}
+% N.~Rahaman, A.~Baratin, D.~Arpit, F.~Draxler, M.~Lin, F.~Hamprecht, Y.~Bengio, and A.~Courville,
+% On the spectral bias of neural networks,
+% in \textit{Proceedings of the 36th International Conference on Machine Learning},
+% Proc. Mach. Learn. Res. \textbf{97}, 5301 (2019).
+%
+% \bibitem{Shin-Darbon-Karniadakis}
+% Y.~Shin, J.~Darbon, and G.~E.~Karniadakis,
+% On the convergence of physics informed neural networks for linear second-order elliptic
+% and parabolic type PDEs,
+% Commun. Comput. Phys. \textbf{28}, 2042 (2020).
+%
+% \bibitem{Tolksdorf}
+% P.~Tolksdorf,
+% Regularity for a more general class of quasilinear elliptic equations,
+% J. Differential Equations \textbf{51}, 126 (1984).
+%
+% (Kato1949 is to be cited next to "Kato--Temple" in Proposition prop.rayleigh(c),
+%  together with the already present \cite{Parlett1998}; E-Yu is to be cited where the
+%  Rayleigh/Deep Ritz approach is mentioned in the cost comparison.)

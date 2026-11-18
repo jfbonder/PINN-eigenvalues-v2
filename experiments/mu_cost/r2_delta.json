@@ -1,0 +1,65 @@
+{
+ "mucost_t1_sweep": {
+  "n": 80,
+  "max_all": 1749.0084759591498,
+  "n_excl": 9,
+  "n_collapsed": 5,
+  "n_switch": 4,
+  "max_clean": 2.3507262610526993,
+  "med_clean": 0.25940964108588815
+ },
+ "mucost_scan_broad_mu450_s0<= 55": {
+  "n": 9,
+  "max_all": 9.774346793809826,
+  "n_excl": 0,
+  "n_collapsed": 0,
+  "n_switch": 0,
+  "max_clean": 9.774346793809826,
+  "med_clean": 0.21274830110724818
+ },
+ "mucost_scan_broad_mu450_s1<= 55": {
+  "n": 9,
+  "max_all": 7.7943686302855895,
+  "n_excl": 0,
+  "n_collapsed": 0,
+  "n_switch": 0,
+  "max_clean": 7.7943686302855895,
+  "med_clean": 0.15410985587756443
+ },
+ "mucost_scan_broad_mu450_s2<= 55": {
+  "n": 9,
+  "max_all": 12.050681645463243,
+  "n_excl": 0,
+  "n_collapsed": 0,
+  "n_switch": 0,
+  "max_clean": 12.050681645463243,
+  "med_clean": 0.2533512073852755
+ },
+ "mucost_scan_broad_off_s0": {
+  "n": 18,
+  "max_all": 3.4748615511236096,
+  "n_excl": 0,
+  "n_collapsed": 0,
+  "n_switch": 0,
+  "max_clean": 3.4748615511236096,
+  "med_clean": 0.4226717577447747
+ },
+ "mucost_scan_broad_off_s1": {
+  "n": 18,
+  "max_all": 2.9183060868595305,
+  "n_excl": 0,
+  "n_collapsed": 0,
+  "n_switch": 0,
+  "max_clean": 2.9183060868595305,
+  "med_clean": 0.4126721188370057
+ },
+ "mucost_scan_broad_off_s2": {
+  "n": 18,
+  "max_all": 2.5635966603692566,
+  "n_excl": 0,
+  "n_collapsed": 0,
+  "n_switch": 0,
+  "max_clean": 2.5635966603692566,
+  "med_clean": 0.4806673203659493
+ }
+}

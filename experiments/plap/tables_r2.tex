@@ -1,0 +1,67 @@
+% ---------------- Round 2 ----------------
+\begin{table}[ht]
+\centering
+\begin{tabular}{lcccccc}
+\toprule
+Eigenvalue & $E_{\rm ref}$ & $E_{\rm PINN}$ (seeds 0, 1, 2) & mean & spread & max.\ $|$err.$|$ (\%) & $E_{\rm curve}$ (seeds 0, 1, 2) \\
+\midrule
+disk $E_1$ & 6.5317 & 6.5320, 6.5329, 6.5285 & 6.5311 & 0.0044 & 0.05 & 6.54, 6.54, 6.54 \\
+disk $E_2$ & 18.3929 & 18.4069, 18.3890, 18.3968 & 18.3976 & 0.0179 & 0.08 & 18.41, 18.45, 18.46 \\
+square $E_1$ & 5.4950 & 5.4902, 5.4867, 5.4966 & 5.4912 & 0.0100 & 0.15 & 5.52, 5.49, 5.41 \\
+square $E_2$ & 15.1429 / 15.2808 & 15.1440, 15.2467, 15.1396 & -- & -- & 0.22 & 15.16, 15.51, 15.42 \\
+\bottomrule
+\end{tabular}
+\caption{Seed dependence of the corrected-loss results for $p=2.2$ (three seeds, local three-node scans with $h=0.5$, baseline settings). For the second eigenvalue of the square the two close eigenvalues $15.1429$ (diagonal nodal line) and $15.2808$ (midline) lie in the same minimum of the loss curve; each seed converges to one of them and the error is measured to the nearer one.}
+\label{tab.plap.seeds}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+Setting & $\bar\Lambda_p(18.0)$ & $\bar\Lambda_p(18.5)$ & $\bar\Lambda_p(19.0)$ & $E_{\rm curve}$ (err.\ \%) & $E_{\rm PINN}$ (err.\ \%) \\
+\midrule
+baseline, seed 0 & 1.056 & 0.832 & 1.292 & 18.41 ($+0.11$) & 18.4069 ($+0.08$) \\
+baseline, seed 1 & 1.066 & 0.890 & 1.160 & 18.45 ($+0.30$) & 18.3890 ($-0.02$) \\
+baseline, seed 2 & 1.144 & 0.876 & 1.259 & 18.46 ($+0.34$) & 18.3968 ($+0.02$) \\
+P0 (constant lr, early stop) & 1.103 & 0.937 & 1.226 & 18.43 ($+0.22$) & 18.3867 ($-0.03$) \\
+network $2\\times64$ & 1.576 & 1.123 & 1.284 & 18.62 ($+1.23$) & 18.3823 ($-0.06$) \\
+5000 epochs & 1.087 & 0.712 & 0.753 & 18.70 ($+1.68$) & 18.3857 ($-0.04$) \\
+\bottomrule
+\end{tabular}
+\caption{Convergence study for the second eigenvalue of the $p$-Laplacian, $p=2.2$, in the unit disk (reference $18.3929$: finite elements on the half disk; $18.395$ in \cite{HJ11}). Nodes $E=18.0,18.5,19.0$; $E_{\rm PINN}$ from the network trained at $E=18.5$.}
+\label{tab.plap.conv2}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ccccc}
+\toprule
+$p$ & $E_1$ (shooting) & $E_{\rm PINN}$ at the grid minimum (seeds 0, 1, 2) & max.\ $|$err.$|$ (\%) & range of $E_{\rm PINN}$ over nodes and seeds (err.\ \%) \\
+\midrule
+2.2 & 6.5317 & 6.5320, 6.5329, 6.5285 & 0.05 & 6.526--6.538 ($-0.09$ to $+0.10$) \\
+3 & 9.8315 & 9.801, 9.827, 9.814 & 0.31 & 9.76--9.91 ($-0.77$ to $+0.81$) \\
+4 & 14.6816 & 14.895, 14.613, 14.533 & 1.45 & 14.31--14.90 ($-2.56$ to $+1.48$); 2 of 15 trainings collapsed to $u\equiv0$ \\
+\bottomrule
+\end{tabular}
+\caption{First eigenvalue of the $p$-Laplacian in the unit disk for $p=2.2,3,4$: three seeds, and dependence of $E_{\rm PINN}$ on the node $E$ at which the network was trained (three central nodes of the local grid, all seeds; step $h=0.5$, $0.75$, $1$ for $p=2.2,3,4$).}
+\label{tab.plap.p.seeds}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{cccccccc}
+\toprule
+$p$ & $\varepsilon$ & $E_\varepsilon$ (shooting) & $E_{\rm PINN}$ & err.\ vs $E_\varepsilon$ (\%) & err.\ vs $E_1$ (\%) & $E_{\rm curve}$ & $\bar\Lambda^{1/2}$ \\
+\midrule
+1.5 & 0 & -- & 5.29 (no minimum) & -- & $+31.63$ & -- & 4.92 \\
+1.5 & 0.3 & 3.9572 & 3.9480 & $-0.23$ & $-1.74$ & 3.97 & 0.31 \\
+1.5 & 0.1 & 4.0099 & 3.9988 & $-0.28$ & $-0.47$ & 4.01 & 0.32 \\
+1.5 & 0.03 & 4.0170 & 4.0054 & $-0.29$ & $-0.31$ & 4.02 & 0.35 \\
+4 & 0.1 & 14.7490 & 14.9459 & $+1.33$ & $+1.80$ & 15.92 & 2.47 \\
+\bottomrule
+\end{tabular}
+\caption{Regularized operator $\mathrm{div}\big((|\nabla u|^2+\varepsilon^2)^{(p-2)/2}\nabla u\big)$ in the loss, unit disk, first eigenvalue ($E_1=4.0178$ for $p=1.5$, $14.6816$ for $p=4$). $E_\varepsilon$: radial shooting for the regularized problem with $\int|u|^p=1$ (the regularized problem is not homogeneous, so $E_\varepsilon$ depends on this normalization). Row $\varepsilon=0$: unregularized loss.}
+\label{tab.plap.reg}
+\end{table}
+

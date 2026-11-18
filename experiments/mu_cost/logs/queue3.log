@@ -1,0 +1,7 @@
+=== 23:04:01 narrow window [95,102], cold start, mu=450, 5000 ep
+[mucost_t1_narrow] E=95.000 mu=450 res=5.981e-05 mass=0.000 r=3.501e+01 ep=573 t=104s
+[mucost_t1_narrow] E=96.750 mu=450 res=3.858e-05 mass=0.000 r=3.069e+01 ep=395 t=74s
+[mucost_t1_narrow] E=98.500 mu=450 res=2.260e-05 mass=0.000 r=2.811e+01 ep=302 t=52s
+[mucost_t1_narrow] E=100.250 mu=450 res=3.313e-05 mass=0.000 r=2.777e+01 ep=384 t=65s
+[mucost_t1_narrow] E=102.000 mu=450 res=4.906e-05 mass=0.000 r=2.860e+01 ep=302 t=52s
+=== 23:10:36 DONE3

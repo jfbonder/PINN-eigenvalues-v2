@@ -1,0 +1,2 @@
+cross E=26.1 beta=100_dec: rho_res=26.8851 rho_var=17.6772+-0.0535 r=1.415 mass=0.961 bdry_int_u2=2.24e+00 (rel 2.9e-01) wall=249s
+cross E=26.1 beta=1000_dec: rho_res=30.5093 rho_var=22.6391+-0.0787 r=9.786 mass=0.463 bdry_int_u2=7.13e-01 (rel 1.9e-01) wall=242s

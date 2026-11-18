@@ -1,0 +1,120 @@
+% booktabs snippets generated for the revision (experiments/mu_cost)
+\begin{table}[H]\centering\small
+\begin{tabular}{rrcccc}
+\toprule
+$\mu$ & $\mu/D^2$ & collapsed nodes (obs./pred.) & detected min. & $\hat E$ near $5\pi^2$ & rel.\ err.\\
+\midrule
+1 & 0.009 & 11/10 & spurious & -- & --\\
+10 & 0.09 & 11/7 & spurious & -- & --\\
+30 & 0.26 & 5/3 & 42 (spurious), 50 & 49.3465 & $<10^{-4}$\\
+60 & 0.53 & 1--2/1 & 50 & 49.3474 & $<10^{-4}$\\
+100 & 0.88 & 0/0 & 50 & 49.3476 & $<10^{-4}$\\
+113 & 1.0 & 0/0 & 50 & 49.3479 & $<10^{-4}$\\
+300 & 2.6 & 0/0 & 50 & 49.3478 & $<10^{-4}$\\
+1000 & 8.8 & 0/0 & 50 & 49.3485 & $<10^{-4}$\\
+10000 & 88 & 0/0 & 50 & 49.358 & $2\times10^{-4}$\\
+\bottomrule
+\end{tabular}
+\caption{Sensitivity to $\mu$ in the window $[40,60]$ (unit square, $D^2=113.5$, step 2, two seeds, reduced network).}
+\end{table}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{cccccc}
+\toprule
+$(m,n)$ & exact & computed & rel.\ error & Residual & $r$\\
+\midrule
+(1,1) & 19.7392 & 19.7399 & $3.5\times10^{-5}$ & $9.7\times10^{-2}$ & 0.31\\
+(1,2) & 49.3480 & 49.3482 & $3.0\times10^{-6}$ & $7.3\times10^{-2}$ & 0.27\\
+(2,2) & 78.9568 & 78.9562 & $9.0\times10^{-6}$ & $2.0\times10^{-1}$ & 0.44\\
+(1,3) & 98.6960 & 98.6960 & $1.0\times10^{-6}$ & $9.3\times10^{-2}$ & 0.30\\
+\bottomrule
+\end{tabular}
+\caption{Unit square, scan of 80 nodes on $[0,105]$, $\mu=500$; $E$ by closed-form Rayleigh quotient; Residual=fresh-sample mean $res^2$, $r=\sqrt{\text{Residual}/\overline{u^2}}$.}
+\end{table}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{lrrr}
+\toprule
+refinement & median err. & mean err. & max err.\\
+\midrule
+re-sampled Brent (\texttt{refine}) & $6.6\times10^{-3}$ & $1.7\times10^{-2}$ & $1.3\times10^{-1}$\\
+closed-form RQ, fixed MC sample & $1.1\times10^{-3}$ & $1.4\times10^{-3}$ & $5.5\times10^{-3}$\\
+closed-form RQ, midpoint grid & $6.6\times10^{-4}$ & $1.4\times10^{-3}$ & $5.8\times10^{-3}$\\
+3-point parabola of $r^2$ & $9.7\times10^{-3}$ & $9.1\times10^{-2}$ & $1.0$\\
+\bottomrule
+\end{tabular}
+\caption{Absolute eigenvalue error of refinement estimators on 14 detected minima.}
+\end{table}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{lrrl}
+\toprule
+method & wall time (s) & eigenvalues & max rel.\ error\\
+\midrule
+Rayleigh + deflation, $K=6$, early stop & 241--317 & 6 (incl.\ multiplicity) & $3\times10^{-2}$\\
+Rayleigh + deflation, $K=6$, no early stop & 817 & 6 & $1.3\times10^{-3}$\\
+Scan $[15,105]$, $h=5$ & 2077 (+99) & 4 distinct & $2.4\times10^{-5}$\\
+Scan $[0,105]$, 80 nodes & 6534 (+413) & 4 distinct & $3.5\times10^{-5}$\\
+Scan $[95,102]$ only, 5 nodes, $\mu=5000$ & 950 (+24) & $10\pi^2$ & $2.1\times10^{-5}$\\
+Rayleigh, first 5 eigenvalues (reach $10\pi^2$) & 253 / 647 & 5 & $3\times10^{-2}$ / $1.3\times10^{-3}$\\
+\bottomrule
+\end{tabular}
+\caption{Cost (1 thread, 3$\times$128 network, 5000 points/epoch) on the unit square.}
+\end{table}
+
+% ---------------- Round 2 ----------------
+\begin{table}[H]\centering\small
+\begin{tabular}{rrcccc}
+\toprule
+$\mu$ & $\mu/D^2$ & regime & spurious min.\ of recorded residual & collapsed nodes (obs./pred.) & $\hat E(5\pi^2)$\\
+\midrule
+30 & 0.14 & collapse & 3 / 1 (E=28--41) & 6/6 & 49.3482, 49.3477\\
+75 & 0.34 & collapse & 1 / 1 (E=33--36) & 2/2 & 49.3487, 49.3476\\
+150 & 0.68 & (iii) & 1 / 1 (E=35.6) & 0/0 & 49.3473, 49.3478\\
+219 & 1.0 & (i) & none & 0/0 & 49.3487, 49.3483\\
+300 & 1.4 & (i) & none & 0/0 & 49.3479, 49.3481\\
+1000 & 4.6 & (i) & none & 0/0 & 49.3475, 49.3475\\
+\bottomrule
+\end{tabular}
+\caption{Window $[15,55]$ of the unit square ($D^2=219.1$), offset grid $E=15.6+2.5j$, two seeds (seed 0 / seed 1), reduced network. Spurious: interior local minimum of the recorded residual more than $2.5$ from an eigenvalue.}
+\end{table}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{lrl}
+\toprule
+method (3 seeds) & wall time (s) mean [min,max] & max rel.\ error\\
+\midrule
+scan, 18 nodes on $[17.3,102.3]$, offset grid & 2082 [2023,2135] (+93 refinement) & $4.1\times10^{-5}$\\
+deflation $K=6$, early stopping & 247 [229,262] & $3.1\times10^{-2}$\\
+deflation $K=6$, no early stopping & 813 [796,830] & $2.3\times10^{-3}$\\
+\bottomrule
+\end{tabular}
+\caption{Cost and accuracy, unit square, 1 thread (shared machine); the scan resolves each distinct eigenvalue once, deflation all six with multiplicity.}
+\end{table}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{rcccc}
+\toprule
+$\mu$ (cold start $[95,102]$) & seeds & runs reaching $10\pi^2$ & nodes on $10\pi^2$ & other nodes\\
+\midrule
+450 & 1 & 0/1 & 0/5 & collapse\\
+3000 & 1 & 1/1 & 1/5 & $5\pi^2$ branch\\
+5000 & 3 & 3/3 & 8/15 & $5\pi^2$ branch (first nodes)\\
+20000 & 3 & 0/3 & 0/15 & stuck at $2\pi^2$\\
+\bottomrule
+\end{tabular}
+\caption{Cold start at $10\pi^2$ (5 nodes, fresh network at the first node).}
+\end{table}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{lrrrr}
+\toprule
+scan & nodes & max $\delta$ (all) & excluded & max $\delta$ (clean)\\
+\midrule
+Table 1 scan, 80 nodes & 80 & 1749 & 9 & 2.35\\
+$[15,55]$, seeds 0/1/2 & 9 & 9.8/7.8/12.1 & 0 & same\\
+offset scan, seeds 0/1/2 & 18 & 3.5/2.9/2.6 & 0 & same\\
+\bottomrule
+\end{tabular}
+\caption{$\delta=\max_i|r^2_i-d(E^i)^2|$; excluded: collapsed ($\overline{u^2}<0.1$) or branch-switched nodes.}
+\end{table}

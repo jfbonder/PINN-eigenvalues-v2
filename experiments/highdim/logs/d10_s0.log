@@ -1,0 +1,4 @@
+/home/user/PINN-eigenvalues-v2/experiments/highdim/run_d10.py:27: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  rho_var = float((g ** 2).sum(1).mean() / u2); rho_res = float(-(u * lap).mean() / u2)
+d=10 E= 51.000 res=1.183e-02 mass=0.000 r=87.451 rho_var=91.6449 rho_res=92.5155 ep=2000 t=1081s  [E1=57.5829 E2=76.9389]
