@@ -137,7 +137,7 @@ values and independent finite element computations in dimensions $2$--$4$, with 
 (Section~\ref{sec.examples}), quantify its cost and compare it with a Rayleigh-quotient PINN with
 deflation (Section~\ref{sec.cost}). (v) For the $p$-Laplacian we prove that the zeros of the loss
 curve are exactly the eigenvalues and that the curve satisfies the upper bound
-$\Lambda_p(E)\le\inf_kc_k(E-E_k)^2$, so that every eigenvalue lies at the bottom of a well; no lower
+$\Lambda_p(E)\le\inf_kc_k(E-E_k)^2$, so that every isolated eigenvalue lies at the bottom of a well; no lower
 bound (and hence no a posteriori certificate) is available. We compute eigenvalues beyond the second
 one, compare them with independent references and analyse the sources of error
 (Section~\ref{sec.nolin}).
@@ -446,7 +446,9 @@ different nodes carry different training floors. All the eigenvalues reported in
 computed with the closed form. We use the form $-\int u(\Delta u-Vu)/\int u^2$: on $4\times10^5$
 Monte Carlo points its standard error was $2\times10^{-4}$--$2.4\times10^{-3}$ in the examples of
 Section~\ref{sec.fem}, whereas the variational form $\int(|\nabla u|^2+Vu^2)/\int u^2$ had a standard
-error $50$--$300$ times larger.
+error $50$--$300$ times larger. Tables~\ref{table.2} and \ref{table.4} give the standard error of each
+value; the quotients of Table~\ref{table.1} are evaluated on a midpoint grid, and no standard errors
+were computed for them or for the scans of Section~\ref{sec.analysis}.
 
 \noindent\emph{Certificate.} Items (b) and (c) hold for \emph{any} $u\in \mathrm{Dom}(L)$, whatever the quality
 of the training. Hence each detected pair comes with the enclosure
@@ -849,7 +851,7 @@ of the loss curve are exactly the eigenvalues, and the curve satisfies the upper
 \[
 \Lambda_p(E)\le\inf_kc_k(E-E_k)^2,\qquad c_k=\int_\Omega|u_k|^{2(p-1)}dx,
 \]
-so that it lies below a parabola $c_k(E-E_k)^2$ near each eigenvalue $E_k$ and every eigenvalue
+so that it lies below a parabola $c_k(E-E_k)^2$ near each eigenvalue $E_k$ and every isolated eigenvalue
 produces a well. No lower bound of the form $\Lambda_p(E)\ge c\,\dist(E,\sigma_p)^2$ (an analogue of
 the Weinstein bound) is available.
 
@@ -895,9 +897,8 @@ $W^{1,p}_0(\Omega)\hookrightarrow L^q(\Omega)$ and $c_k\le S_q^{\,q}E_k^{q/p}=S_
 \end{enumerate}
 \end{proposition}
 The proof is given in Appendix~\ref{app.proofs}. The examples of this section satisfy the hypotheses
-of (c): $d=2$, $p=2.2>d$, and $d=3$, $p=2.5$, with $q=3\le p^*=15$. For $p<d$ the constants $S_*$ and
-$S_q$ can be taken independent of $\Omega$ when $q=p^*$, whereas for $p\ge d$ the constant $S_q$ depends on
-$\Omega$. By Proposition~\ref{prop.plap}(a) every eigenvalue lies under a parabola $c_k(E-E_k)^2$, so
+of (c): $d=2$, $p=2.2>d$, and $d=3$, $p=2.5$, with $q=3\le p^*=15$. The constant $S_*$ depends only on $d$ and $p$, whereas $S_q$ depends in general on
+$\Omega$ (in particular when $p\ge d$). By Proposition~\ref{prop.plap}(a) the loss curve lies under the parabola $c_k(E-E_k)^2$ near every eigenvalue, so
 every isolated eigenvalue produces a well of the loss curve. For $1<p<2$ the curvature of these bounding
 parabolas is bounded above uniformly in $k$ but may decrease as $k$ grows (the bounding parabolas may
 flatten), while for $p>2$ it is bounded below uniformly but the upper bound grows like
@@ -1300,7 +1301,7 @@ $E_1=5\pi^2$, so $D=5\pi^2$ and $D^2\approx2435<\mu=15000$.
 \emph{Test of the rule.} We used a reduced network ($3\times64$, 3000 points, at most 2000 epochs;
 at $\mu=1000$ it gave the same normalized loss values and Rayleigh quotients as the full network to
 within the training noise), warm start and two seeds. On the window $[15,55]$ of the unit square,
-which contains $2\pi^2$ and $5\pi^2$ (double), $D=14.8$ at the mid-gap $34.5$ and $D^2=219$, we used an
+which contains $2\pi^2$ and $5\pi^2$ (double), $D=14.8$ at the mid-gap $34.5$ and $D^2=219.2$, we used an
 offset grid $E=15.6,18.1,\dots,53.1$ (no node on an eigenvalue) and six values of $\mu$
 (Table~\ref{table.mu}). The predicted effect is observed: for $\mu<D^2$ the recorded residual has a
 spurious interior minimum in the gap ($E\approx33$--$36$, next to the mid-gap) in all six runs, and for
@@ -1321,7 +1322,7 @@ A single eigenvalue gives a single basin, so this window cannot distinguish $\mu
 \begin{table}[tbp]
 \centering\small
 \color{blue}
-\caption{Test of the rule $\mu\ge D^2$: window $[15,55]$ of the unit square ($D^2=219$), offset grid of 16 nodes, two seeds, reduced network. Spurious minima: interior local minima of the recorded residual more than $2.5$ away from an eigenvalue, seed 0 / seed 1. Collapsed: nodes with $\overline{u^2}<0.1$, observed / predicted by Proposition~\ref{prop.penalized}. $\hat E$: Rayleigh quotient near $5\pi^2=49.3480$ (seeds 0, 1).}
+\caption{Test of the rule $\mu\ge D^2$: window $[15,55]$ of the unit square ($D^2=219.2$; the value $\mu=219$ is $\approx D^2$), offset grid of 16 nodes, two seeds, reduced network. Spurious minima: interior local minima of the recorded residual more than $2.5$ away from an eigenvalue, seed 0 / seed 1. Collapsed: nodes with $\overline{u^2}<0.1$, observed / predicted by Proposition~\ref{prop.penalized}. $\hat E$: Rayleigh quotient near $5\pi^2=49.3480$ (seeds 0, 1).}
 \label{table.mu}
 \begin{tabular}{rrcccc}
 \toprule
