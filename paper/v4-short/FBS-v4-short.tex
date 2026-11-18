@@ -823,7 +823,7 @@ used are smooth, vanish exactly on $\partial\Omega$ and are comparable to the di
 condition exactly and is smooth, every network function belongs to $\mathrm{Dom}(L)$; this is what
 makes the a posteriori bounds of Section~\ref{sec.certificate} applicable to the trained networks.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=.35\columnwidth]{NN-Tikz.png}
 \caption{A fully connected feedforward NN with a $d$-dimensional input and a 1-dimensional output.}
@@ -858,7 +858,7 @@ The window, the grid step, $\mu$, $N_{\rm ep}$, the type of start and the number
 example are listed in Table~\ref{table.settings}, together with the regime of $\mu$ with respect to
 Corollary~\ref{cor.mu}.
 
-\begin{table}[tbp]
+\begin{table}[H]
 \centering\scriptsize
 \caption{Settings of the linear examples ($3\times128$ network, Adam with learning rate $10^{-3}$,
 early stopping 300/$10^{-5}$). $h$: grid step; $N_{\rm ep}$: maximal number of epochs per node;
@@ -940,7 +940,7 @@ In all examples the windows start at or below the first eigenvalue, or the netwo
 nodes close to the target; training from scratch at a high value of $E$ is unreliable
 (Appendix~\ref{sec.analysis}).
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \begin{tabular}{cccc}
 \includegraphics[width=.14\columnwidth]{eigen1-1.png} & \includegraphics[width=.14\columnwidth]{eigen1-2.png} &
@@ -952,7 +952,7 @@ nodes close to the target; training from scratch at a high value of $E$ is unrel
 \label{func.fig}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \begin{minipage}[t]{.4\textwidth}
 \centering
@@ -987,7 +987,7 @@ training value across the window ($14.507$, $14.712$, $14.963$ at $E=13.78$, $14
 epochs the network has not fully converged to an eigenfunction, and the quotient is reliable only at
 the node of smallest loss.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering\small
 \caption{Eigenvalues of \eqref{eigen2} in the unit balls of $\R^3$ and $\R^4$ (three-node windows, seed 0). $\hat E$: Rayleigh quotient at the node of smallest normalized loss, with its Monte Carlo standard error in the last digits ($4\times10^5$ points); $r$: Weinstein radius. In $\R^4$ the quotient drifts with the node ($14.51$, $14.71$, $14.96$ for the first eigenvalue); the value at the node of smallest loss is given. The higher eigenvalues in the windows of Fig.~\ref{loss3D.fig} were not recomputed in this way and are shown only in that figure.}
 \label{table.2}
@@ -1006,7 +1006,7 @@ $d$ & $(m,n)$ & mult. & $E_{(m,n)}$ & $\hat E$ & rel.\ error & $r$\\
 \end{tabular}
 \end{table}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=.4\columnwidth]{loss_n=3_V=0_p=2_mu=100_reseteo_cada_15_iteraciones.png}
 \includegraphics[width=.4\columnwidth]{loss_n=4_p=2_V=0_mu=200.png}
@@ -1027,7 +1027,7 @@ Fig.~\ref{loss.lap.triang.fig}, but all rows satisfy the Weinstein bound. In the
 $\{0.5<|x|<1\}$ (Fig.~\ref{loss.lap.annulus.fig}) the scan followed the radial branch and missed two
 eigenvalues, an instance of a branch-switched (lagging) scan (Appendix~\ref{sec.analysis}).
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering\small
 \caption{Eigenvalues of problem \eqref{eigen2} in the triangle with vertices $(0,0)$, $(1,0)$, $(0,1)$ compared with the exact values (three-node windows, $\mu=15000$, seed 0). All the eigenvalues listed are simple; these are all the eigenvalues in $[0,180]$. $\hat E$ with Monte Carlo standard error; $r$: Weinstein radius.}
 \label{table.4}
@@ -1043,7 +1043,7 @@ $(4,1)$ & $17\pi^2\approx 167.7833$ & 167.7923(35) & $5.4\times10^{-5}$ & 2.51\\
 \end{tabular}
 \end{table}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \begin{minipage}[t]{.4\textwidth}
 \centering
@@ -1062,7 +1062,7 @@ $(4,1)$ & $17\pi^2\approx 167.7833$ & 167.7923(35) & $5.4\times10^{-5}$ & 2.51\\
 \end{minipage}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=.26\columnwidth]{loss_n=2_p=2_V=0_annulus.png}
 \includegraphics[width=.26\columnwidth]{eigen1-annulus.png}
@@ -1091,7 +1091,7 @@ $
 Fig.~\ref{fig.well-two}. In the harmonic, double-well and four-well examples we used $\mu=100$, $400$ and
 $1000$, respectively (2000 sampling points for the four-well potential).
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=.26\columnwidth]{loss_p=2_n=2_V=harmonic_omega=1_disco.png}
 \includegraphics[width=.26\columnwidth]{egen_p=2_n=2_V=harmonic_omega=1_disco_1.png}
@@ -1100,7 +1100,7 @@ $1000$, respectively (2000 sampling points for the four-well potential).
 \label{pot2.fig}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=.26\columnwidth]{loss_n=2_V=harmonic_p=2.png}
 \includegraphics[width=.26\columnwidth]{eigen_n=2_V=harmonic_p=2_1.png}
@@ -1109,7 +1109,7 @@ $1000$, respectively (2000 sampling points for the four-well potential).
 \label{pot1.fig}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=.24\columnwidth]{well-1.png}
 \includegraphics[width=.24\columnwidth]{well-1-plot.png}
@@ -1136,7 +1136,7 @@ blind detection (the blind scan is Table~\ref{table.blind}). Table~\ref{table.fe
 show the results. Since the reference values are themselves approximations, we speak of relative
 differences.
 
-\begin{table}[tbp]
+\begin{table}[H]
 \centering\footnotesize
 \caption{PINN versus finite elements (FEM) for the potentials of Appendix~\ref{sec.potentials}. FEM: extrapolated value $\pm$ estimated uncertainty (multiplicity); $^\dagger$: other FEM eigenvalues within $0.75$, i.e.\ a cluster that the scan does not resolve (the reference is then the cluster member nearest to the computed value). $\hat E$: Rayleigh quotient of the trained network for each seed. Rel.\ diff.: of the seed mean, and largest over single seeds.}
 \label{table.fem}
@@ -1164,7 +1164,7 @@ harmonic $\omega=10$, disk & $14.2847$ (1) & 14.2899, 14.2904 & $+0.038$ & 0.040
 \end{tabular}
 \end{table}
 
-\begin{figure}[tbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=.62\textwidth]{pinn_vs_fem_double_well.png}\\
 \includegraphics[width=.62\textwidth]{pinn_vs_fem_four_well.png}\\
@@ -1231,7 +1231,7 @@ produces a spurious zero at $E=42$); the relative error of the eigenvalue is at 
 $60\le\mu\le1000$ and $2.0\times10^{-4}$ for $\mu=10^4$, where the curve is distorted (stiff penalty). A
 single eigenvalue gives a single basin, so this window cannot distinguish $\mu=60$ from $\mu=113$.
 
-\begin{table}[tbp]
+\begin{table}[H]
 \centering\small
 \caption{Test of the rule $\mu\ge D^2$: window $[15,55]$ of the unit square ($D^2=219.2$; the value $\mu=219$ is $\approx D^2$), offset grid of 16 nodes, two seeds, reduced network. Spurious minima: interior local minima of the recorded residual more than $2.5$ away from an eigenvalue, seed 0 / seed 1. Collapsed: nodes with $\overline{u^2}<0.1$, observed / predicted by Proposition~\ref{prop.penalized}. $\hat E$: Rayleigh quotient near $5\pi^2=49.3480$ (seeds 0, 1).}
 \label{table.mu}
@@ -1249,7 +1249,7 @@ $\mu$ & $\mu/D^2$ & regime & spurious minima & collapsed & $\hat E$\\
 \end{tabular}
 \end{table}
 
-\begin{figure}[tbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=.45\textwidth]{mu_loss_curves.png}
 \caption{Total penalized loss at the trained networks (dots, two seeds) and the closed form $\ell^2-\ell^4/(4\mu)$ of Proposition~\ref{prop.penalized} (solid line), window $[40,60]$ of the unit square, for nine values of $\mu$ between $1$ and $10^4$.}
@@ -1330,7 +1330,7 @@ and a large $r$, and are invisible in the residual term alone. The same happens 
 (Appendix~\ref{sec.mu}). We therefore record, at each node, the normalized loss $\Lambda(u,E)=r^2$, the
 mass $\overline{u^2}$ and the Rayleigh quotient, and discard nodes with $\overline{u^2}<\frac12$.
 
-\begin{figure}[tbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=.6\textwidth]{paper_sweep_curve.png}
 \caption{The scan of Table~\ref{table.1} (80 nodes on $[0,105]$, $\mu=500$). Left: recorded residual term and normalized loss $r^2$ (dotted lines: eigenvalues). Right: mean of $u^2$. After the re-initialization at $E=99.7$ the network collapses to $u\equiv0$: the recorded residual drops to $10^{-5}$ while $r^2$ jumps to $\approx10^3$.}
@@ -1429,7 +1429,7 @@ relative difference $0.15\%$, whereas the vertex $E_{\rm curve}$ is much less re
 to $-1.64\%$ for the first eigenvalue of the square). For the second eigenvalue of the square, seeds 0
 and 2 gave the diagonal mode and seed 1 the midline mode.
 
-\begin{table}[tbp]
+\begin{table}[H]
 \centering\small
 \caption{Seed dependence for $p=2.2$ (seeds 0, 1, 2; local three-node windows, $h=0.5$, settings of Table~\ref{tab.plap}). For the second eigenvalue of the square the close eigenvalues $15.1429$ (diagonal nodal line) and $15.2808$ (midline) lie in the same minimum of the loss curve; each seed converges to one of them, no mean is given, and the difference is measured to the nearer one.}
 \label{tab.plap.seeds}
@@ -1500,7 +1500,7 @@ $+0.08\%$ over the three nodes), whereas $E_{\rm curve}$ ranged from $+0.11\%$ t
 improve with longer training; the floor ($\approx0.85$) is about seven times that of the first
 eigenvalue.
 
-\begin{table}[tbp]
+\begin{table}[H]
 \centering\small
 \caption{Convergence study for the first eigenvalue of the $p$-Laplacian, $p=2.2$, in the unit disk ($E_1=6.53174$). Each row changes one setting of the baseline ($3\times128$, $N=5000$, 1500 epochs with learning-rate decay, $\mu=200$, $h=0.5$); the loss is sampled at $E=6.0,6.5,7.0$ on $4\cdot10^4$ fresh points. P0: constant learning rate $10^{-3}$ with early stopping. Single runs (seed 0) except where the seed is given.}
 \label{tab.plap.conv}
@@ -1529,7 +1529,7 @@ $h=0.125$ & -- & 0.116 & -- & -- (monotone) & 6.5337 ($+0.03$)\\
 \end{tabular}
 \end{table}
 
-\begin{table}[tbp]
+\begin{table}[H]
 \centering\small
 \caption{Convergence study for the second eigenvalue of the $p$-Laplacian, $p=2.2$, in the unit disk (reference $18.3929$: finite elements on the half disk; $18.395$ in \cite{HJ11}). Nodes $E=18.0,18.5,19.0$; $E_{\rm PINN}$ from the network trained at $E=18.5$; single runs (seed 0) except the three baseline seeds.}
 \label{tab.plap.conv2}
@@ -1558,7 +1558,7 @@ $p=4$ the curve is flat ($\bar\Lambda_p=4.4$--$8.0$ between $E=14$ and $16$) and
 collapsed to $u\equiv0$. The method is therefore validated for $p\in[2.2,3]$ (and $p=2.5$ in three
 dimensions); $p=4$ is marginal.
 
-\begin{table}[tbp]
+\begin{table}[H]
 \centering\small
 \caption{First eigenvalue of the $p$-Laplacian in the unit disk (reference by radial shooting; settings of Table~\ref{tab.plap}; steps $h=0.5$, $0.75$, $1$ for $p=2.2,3,4$). $E_{\rm PINN}$ at the grid minimum for seeds 0, 1, 2, and range of $E_{\rm PINN}$ over the three central nodes and all seeds. $p=1.5$: unregularized loss, seed 0, no minimum near $E_1$.}
 \label{tab.plap.p}
@@ -1591,7 +1591,7 @@ regularization shift ($\le0.2\%$). For $p=4$ the regularization ($\nu=0.1$) brin
 expected: for $p>2$ the difficulty is the defect at the critical points (Lemma~\ref{lem.critical}), not a
 singularity of the operator.
 
-\begin{table}[tbp]
+\begin{table}[H]
 \centering\small
 \caption{Regularized operator $\operatorname{div}((|\nabla u|^2+\nu^2)^{(p-2)/2}\nabla u)$ in the loss, unit disk, first eigenvalue, seed 0 ($E_1=4.0178$ for $p=1.5$, $14.6816$ for $p=4$). $E_\nu$: radial shooting for the regularized problem with $\int|u|^p=1$. Row $\nu=0$: unregularized loss.}
 \label{tab.plap.reg}
@@ -1624,8 +1624,6 @@ approved the final version of the manuscript.
 
 \noindent\textbf{Acknowledgement:} JFB thanks Pablo Groisman for encouraging him to teach a course on
 the Mathematical Foundations of Deep Learning in the fall semester of 2025, which inspired this work.
-This work was partially supported by grants UBACYT Prog.\ 2018 20020170100445BA and ANPCyT PICT
-2019-00985.
 
 \noindent\textbf{Data availability statement:} No external data were used. The Python code, the scripts
 of all the experiments reported here and their raw results are openly accessible at
