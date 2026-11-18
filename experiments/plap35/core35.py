@@ -187,6 +187,13 @@ def run_job(job):
             continue
         torch.manual_seed(seed * 100003 + i)
         ep = job.get("epochs0", job["epochs"]) if i == 0 else job["epochs"]
+        if i == 0 and job.get("premass"):
+            # anti-collapse start: fit only the normalisation int|u|^p = 1 for a few epochs (for p > 2 the penalty has a
+            # vanishing gradient at u = 0, so a small random initial u may never leave the trivial state)
+            o = torch.optim.Adam(model.parameters(), lr=1e-3)
+            for _ in range(int(job["premass"])):
+                x, wq = sample(int(job.get("N", 5000)), job); o.zero_grad()
+                u, _ = model(x); l = (VOL * (u.abs() ** float(job["p"])).mean() - 1.0) ** 2; l.backward(); o.step()
         info = train_node(model, E, job, ep)
         ev = evaluate(model, E, job)
         recs.append(dict(E=E, **info, **ev))
