@@ -1,0 +1,16 @@
+[feat0_s0] E= 10.500 loss_var=5.203e+00 Lam_strong=5.203e+00 mass=0.986 E_var=11.8025 E_strong=11.8025 core=0.21 t=181s
+[feat0_s0] E= 11.500 loss_var=6.389e-01 Lam_strong=6.389e-01 mass=0.993 E_var=12.0450 E_strong=12.0450 core=0.31 t=184s
+[feat0_s0] E= 12.500 loss_var=2.205e-01 Lam_strong=2.205e-01 mass=0.984 E_var=12.2409 E_strong=12.2409 core=0.31 t=193s
+[feat0_s0] E= 13.500 loss_var=1.671e+00 Lam_strong=1.671e+00 mass=0.988 E_var=12.4380 E_strong=12.4380 core=0.07 t=192s
+[feat0_s0] E= 14.500 loss_var=4.874e+00 Lam_strong=4.874e+00 mass=0.996 E_var=12.5543 E_strong=12.5543 core=0.10 t=185s
+[featc_s0] E= 10.500 loss_var=5.194e+00 Lam_strong=5.194e+00 mass=0.986 E_var=11.8040 E_strong=11.8040 core=0.21 t=188s
+[featc_s0] E= 11.500 loss_var=6.172e-01 Lam_strong=6.172e-01 mass=0.993 E_var=12.0432 E_strong=12.0432 core=0.30 t=188s
+[featc_s0] E= 12.500 loss_var=2.187e-01 Lam_strong=2.187e-01 mass=0.984 E_var=12.2408 E_strong=12.2408 core=0.30 t=181s
+[featc_s0] E= 13.500 loss_var=1.674e+00 Lam_strong=1.674e+00 mass=0.988 E_var=12.4405 E_strong=12.4405 core=0.07 t=203s
+[featc_s0] E= 14.500 loss_var=4.876e+00 Lam_strong=4.876e+00 mass=0.995 E_var=12.5546 E_strong=12.5546 core=0.10 t=192s
+[feat0_s1] E= 10.500 loss_var=2.545e+00 Lam_strong=2.545e+00 mass=0.991 E_var=11.8855 E_strong=11.8855 core=0.12 t=182s
+[feat0_s1] E= 11.500 loss_var=4.383e-01 Lam_strong=4.383e-01 mass=1.006 E_var=12.0717 E_strong=12.0717 core=0.22 t=180s
+[feat0_s1] E= 12.500 loss_var=1.502e-01 Lam_strong=1.502e-01 mass=1.009 E_var=12.2092 E_strong=12.2092 core=0.28 t=199s
+[feat0_s1] E= 13.500 loss_var=1.636e+00 Lam_strong=1.636e+00 mass=0.992 E_var=12.3692 E_strong=12.3692 core=0.11 t=181s
+[feat0_s1] E= 14.500 loss_var=4.883e+00 Lam_strong=4.883e+00 mass=0.980 E_var=12.6381 E_strong=12.6381 core=0.08 t=179s
+[feat0_s2] E= 10.500 loss_var=1.981e+01 Lam_strong=1.981e+01 mass=0.927 E_var=11.6600 E_strong=11.6600 core=0.31 t=188s
