@@ -122,3 +122,85 @@ strongly for k<=6 here (error accumulation through deflation does: 2nd eigenvalu
 * queue3 (narrow mu=450) was by mistake started concurrently with the 80-node sweep for ~6 min (the sweep's wall time is slightly affected, 4-core machine); a container restart interrupted the broad scan s0 (resumed).
 * 3-point parabola was evaluated on coarse spacings only. Early-stopping makes wall times seed dependent (epochs per node 300-5000).
 * Certificate r computed with 5e4 fresh points: noise ~1%.
+
+---
+# Round 2 (referee H follow-ups). Added 2026-11-18; two single-thread processes ran concurrently on a *shared* 4-core machine
+(load average recorded at the start of each scan: 0.01 for the first scan, ~4.0 afterwards because other agents were running; all wall times below are therefore
+mildly contention-affected, but scan and deflation runs were interleaved under the same conditions). Code: `analyze_r2.py`, `r2_q*.sh`; results `r2_*.json`.
+
+## R2-a. mu test where the D^2 rule matters (item 6): window [15,55], OFFSET grid
+Unit square, two eigenvalues in the window (2pi^2=19.74, 5pi^2=49.35 (double); next 78.96), D = 14.8 at the mid-gap 34.54, **D^2 = 219.1**, D^2/2 = 109.5.
+Grid E = 15.6, 18.1, ..., 53.1 (16 nodes, step 2.5, none on an eigenvalue), warm start, reduced network (3x64, 3000 pts, 2000 ep), 2 seeds.
+Interior local minima of the *recorded residual* R_mu(E) (what sweep() thresholds) that are > 2.5 away from an eigenvalue are called spurious:
+
+| mu | mu/D^2 | regime | spurious interior minima of recorded residual (seed0 / seed1) | spurious minima of normalised r^2 | collapsed nodes obs./pred. | RQ at 2pi^2, 5pi^2 |
+|---|---|---|---|---|---|---|
+| 30 | 0.14 | collapse | 28.1, 35.6, 40.6 / 35.6 | 30.6, 35.6 (both seeds) | 6/6 (both) | 19.7394, 49.3482 (ok) |
+| 75 | 0.34 | collapse | 33.1 / 35.6 | none | 2/2 | 19.7390, 49.3487 |
+| 150 | 0.68 | spurious mid-gap minima (D^2/2<=mu<D^2) | 35.6 / 35.6 | none | 0/0 | 19.7392, 49.3473 |
+| 219 (=D^2) | 1.0 | faithful | none | none | 0/0 | 19.7394, 49.3487 |
+| 300 | 1.4 | faithful | none | none | 0/0 | 19.7391, 49.3479 |
+| 1000 | 4.6 | faithful | none | none | 0/0 | 19.7413, 49.3475 |
+
+Outcome: **the predicted effect is observed.** For mu < D^2 (30, 75, 150) the recorded residual has a spurious interior minimum in the gap between 2pi^2 and 5pi^2 (E~33-36, at/next to the mid-gap 34.5) in
+every one of 6 runs (value of the residual there is *smaller* than at neighbouring nodes although d is ~14); for mu >= D^2 (219, 300, 1000; 6 runs) none appears. The eigenvalues themselves
+are located correctly for all mu (Rayleigh quotient at the node of smallest r^2 within 2.6 of the eigenvalue: error <= 2e-3 at 2pi^2 for mu=1000, <= 1e-3 elsewhere), i.e. the effect is on the *recorded residual curve* (detection by thresholding it), not on the eigenvalue estimate. The normalised quotient r^2 (loss_res/mean u^2) is free of the spurious minima for mu >= 75
+(mu=30: collapse also contaminates it). Caveat: at mu=30 collapse of warm-started nodes is as predicted here (6/6 nodes), unlike the contaminated E=42 case in the [40,60] study (item 1), which is a warm-start effect.
+Relative deviation of the recorded residual from the closed form d^2(1-d^2/2mu): <= 0.06 for mu <= 219 and up to 0.14-0.44 for mu=300-1000 (optimiser noise floor, grows with mu).
+Window [40,60] (earlier table) cannot distinguish mu=60..113 (one eigenvalue, single basin) - this two-eigenvalue window does.
+
+## R2-b. Cost with offset grid and 3 seeds (item 8)
+Scan: nodes E = 17.3, 22.3, ..., 102.3 (step 5, none on 20/50/80/100), mu=450, paper settings (3x128, <=3000 ep, ES 300/1e-5), warm start, seeds 0,1,2. Deflation: K=6, same settings as R1 (beta=200), 3 seeds, with early stopping (ES) and without (patience 3000).
+
+| method | wall time (s), mean [min,max] over 3 seeds | accuracy (rel. error to nearest exact eigenvalue) |
+|---|---|---|
+| scan, 18 nodes (+ refinement) | 2082 [2023, 2135] (+93, 77, 110 s refinement) | 3 interior minima (5pi^2, 8pi^2, 10pi^2) + 2pi^2 at the window-start node (RQ 19.740 at E=17.3): errors 5pi^2: 2.8e-7, 2.8e-5, 4.4e-6; 8pi^2: 1.1e-6, 1.6e-6, 2.2e-5; 10pi^2: 2.3e-6, 1.8e-7, 4.1e-5; max 4.1e-5 |
+| deflation K=6, ES | 247 [229, 262] (first 5: 191) | median per k: 6.9e-4, 3.0e-2, 8.6e-3, 1.9e-3, 2.8e-3, 3.6e-3; max 3.1e-2 |
+| deflation K=6, no ES | 813 [796, 830] (first 5: 647) | median per k: 6.2e-4, 1.3e-3, 1.1e-3, 6.8e-4, 5.2e-4, 7.3e-4; max 2.3e-3 |
+
+Speed ratio: scan / deflation = 2.6x (no ES) to 8.4x (ES) slower for the full six; with the correct statement range "2.6-8.4x slower" (earlier "7-29x" was against single runs). The scan sees each *distinct* eigenvalue once (multiplicities not resolved), deflation returns all 6 with multiplicity.
+**Equal-accuracy comparison**: no deflation setting reached the scan's accuracy: its best errors are ~2e-4..2e-3 (no ES), the scan's closed-form refinement gives 1e-7..4e-5 on the same eigenvalues. The accuracy of deflation was not pushed further (more epochs / lower learning rate not run), so we can only state: at ~4e-5 the scan costs 2082 s (all 4 distinct), deflation at ~1e-3 costs 813 s; the cost needed by deflation for 1e-5 is unknown (not measured). The "many eigenvalues in a large interval" regime (e.g. 50+ eigenvalues) was not run (only K=6 / window [17,102]); we disclaim it.
+
+## R2-c. Cold start at 10pi^2 (item 1) and the delta of Prop. 5
+Narrow window [95,102], 5 nodes (95, 96.75, 98.5, 100.25, 102), cold start (fresh network at the first node, then warm), 5000 epochs max; which eigenvalue does the network end on (RQ)? "hit" = RQ within 0.05 of 98.696 and mass>0.5:
+
+| mu | seeds | runs finding 10pi^2 at >=1 node | nodes on 10pi^2 | what the other nodes converge to |
+|---|---|---|---|---|
+| 450 | 1 | 0/1 | 0/5 | collapse u=0 (mass 0) |
+| 3000 | 1 | 1/1 | 1/5 (last node only) | 5pi^2 branch (RQ 49.4, mass 0.55-0.65) at the first 4 nodes (earlier: also 4/5 failed in `mucost_t1_13`, 5/5 for 8pi^2 in `_t1_22`) |
+| 5000 | 3 | 3/3 | 2/5, 3/5, 3/5 (8/15) | first 2-3 nodes on 5pi^2 (RQ 49.41-49.48, mass 0.75-0.8), then 98.69-98.70 |
+| 20000 | 3 | 0/3 | 0/15 | all nodes stuck at 2pi^2 (RQ 19.99, mass 0.84, residual ~5000) |
+
+So cold start can reach 10pi^2, but **not reliably per node**: success needs the network to leave the lower branch it falls into (here 5pi^2, which has multiplicity 2), only about half of the nodes do so at mu=5000 (E^2/2 = 5100), and a larger mu (20000) is worse (stiff). mu >~ E^2/2 is therefore neither sufficient nor
+shown to be necessary beyond the collapse at mu=450; the statement "any window can be targeted" is supported only with warm-start continuation from a lower window (item 4: scan from 0) or with luck/cheap multiple restarts. Wall times 818-950 s (mu=5000), 349-434 s (mu=20000).
+
+Delta = |r^2 - d^2| per node (r^2 = fresh-sample normalised residual, d = distance to nearest exact eigenvalue), hypothesis (10) of Prop. 5 requires delta << gap^2/8 (gap^2/8 = 48.7 for gap 19.7, 109.6 for gap 29.6):
+
+| scan | nodes | max delta, all nodes | excluded nodes (collapsed / branch-switched) | max delta, clean nodes | median (clean) |
+|---|---|---|---|---|---|
+| Table 1 scan (80 nodes, [0,105], mu=500, reset 25) | 80 | 1749 | 9 (5 collapsed, 4 switched) | 2.35 (E=69.1) | 0.26 |
+| [15,55] seeds 0/1/2 (step 5, mu=450) | 9 each | 9.8 / 7.8 / 12.1 (at E=35, mid-gap) | 0 | same | 0.21 / 0.15 / 0.25 |
+| offset scan [17.3,102.3] seeds 0/1/2 | 18 each | 3.5 / 2.9 / 2.6 | 0 | same | 0.42 / 0.41 / 0.48 |
+
+("Branch-switched" = the RQ of the node is nearest to a different eigenvalue than E is, collapsed = mean u^2<0.1.) The huge values (up to 1749) occur exactly at the nodes after the re-initialisations (E=66.5.., E>=99.7); on clean nodes delta <= 12 << gap^2/8 for the gaps in these windows (but delta is not << h^2/4-type thresholds of the grid: e.g. 12 > 6.25 at h=5 in the mid-gap, dominated by the optimiser floor at large d). The 2-3 mid-window nodes with delta ~7-12 are the *far-from-eigenvalue* nodes (d ~ 14.8), where a relative error of ~3% in r^2=219 gives delta ~ 7.
+
+## R2-d. Data for items 7, 11, 12
+**Item 7 table (v4 settings; D computed for the stated window; "cold-start scale" = E^2/2 at the largest cold/re-initialised level):**
+
+| example | window | D^2 | mu | warm/cold | regime / comment |
+|---|---|---|---|---|---|
+| square, Fig. [44,55] | [44,55] | 31.9 (d(44)=5.35, d(55)=5.65) | 3000 | cold at first node (E^2/2=968), then warm | (i) faithful, mu = 94 D^2 (far above need; MC floor mu*Var/N larger) |
+| square, Table 1 | [0,105] | 389.6 (d(0)=19.74) | 500 | warm, re-init every 25 nodes (E=33,66,99) | (i) for D^2; **but re-inits at E=66, 99 have E^2/2 = 2178, 4900 >> 500**: observed branch switch (66.5) and collapse (>=99.7) |
+| unit disk | [0,~32] | 33.4 (d(0)=5.78) | 100 | warm from E=0 | (i) (mu=3 D^2) |
+| ball R^3 | [0,~70] | 97.4 (d(0)=pi^2) | 100 | warm, reset every 15 | (i) marginal (mu/D^2 = 1.03) |
+| ball R^4 | [0,55] | 215.6 (d(0)=14.68) | 200 | warm | (iii) D^2/2=108 <= mu < D^2: spurious mid-gap minima / distortion possible near E=0 (no collapse predicted) |
+| triangle | [0,180] | 2435 (d(0)=5pi^2) | 15000 | warm, reset? | (i) mu=6 D^2; cold-start scale E^2/2 = 16200 at E=180 > mu |
+| harmonic omega=10 (unit disk) | starts at 0 | >= 204 (d(0)^2=204, paper) | 100 | warm | (ii) collapse: mu < D^2/2 = 102 -> u=0 at E=0 (stated in the caption), i.e. violates the rule; unaffected nodes near eigenvalues |
+| double well / four well | 7 nodes, step 0.5, centred at FEM values | <= ~10 | 400 / 1000 | cold at first node, warm | (i) mu >> D^2; window of width 3 |
+| p-Laplacian examples | [3,58], [3,37], [8,46] | no rule (linear theory only) | 200 | warm | heuristic only |
+
+(Windows of the disk/ball examples are the ones of the notebooks and approximate; entries for the annulus are not available - mu not stated in v4.) Summary: the rule mu >= D^2 is satisfied in most examples (not all: R^4 ball, omega=10); the cold-start condition is violated at the re-initialisations of Table 1.
+
+**Item 11 (Kato-Temple overestimation).** KT bound r^2/gap divided by the actual error (non-collapsed minima): 2.7-66, median 7.5 over the 14 minima (3 seeds [15,55]/[0,105]/cold rows: 2.7-17 for the 2pi^2/5pi^2 rows; 8pi^2: 15 (sweep), 46 (broad s0); 10pi^2: 11 (broad s0), 66 (sweep)). The Weinstein radius r exceeds the actual error by 120-4300x (Weinstein bound is far from sharp: certificates are very conservative). So "KT exceeds the error by 3-66x (median 7.5)".
+
+**Item 12 (mu study numbers, from `mu_summary.json`).** Eigenvalue error of the closed-form RQ (relative) over seeds {0,1}: mu=30: 3.2e-5/2.4e-5; 60: 1.2e-5/1.1e-5; 100: 8.9e-6/7.7e-6; 113: 1.6e-6/2.6e-6; 300: 3.5e-6/**2.9e-5**; 1000: 1.0e-5/9.8e-6; 10^4: **2.02e-4**/4.7e-6. So for 60<=mu<=1000 all errors are <= 2.9e-5 (not 2e-6..1e-5 for seed 0 only), and the largest error in the study is 2.02e-4 (mu=10^4, seed 0), i.e. not "below 2e-4".

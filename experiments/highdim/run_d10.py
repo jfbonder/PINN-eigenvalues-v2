@@ -15,7 +15,7 @@ pe.set_threads(1)
 d = a.d
 E1 = jn_zeros(d / 2 - 1, 1)[0] ** 2; E2 = jn_zeros(d / 2, 1)[0] ** 2
 lo, hi, h = map(float, a.grid.split(":")); grid = np.arange(lo, hi + 1e-9, h)
-out = f"experiments/results/highdim_d{d}_s{a.seed}.json"
+out = f"experiments/results/highdim_d{d}_mu{int(a.mu)}_s{a.seed}.json"
 def sampler(n):
     x = torch.randn(n, d); x = x / x.norm(dim=1, keepdim=True)
     return x * torch.rand(n, 1) ** (1.0 / d)
@@ -23,8 +23,8 @@ def quotients(m, n=20000):
     x = sampler(n).requires_grad_(True); u = m(x).squeeze(-1)
     g = torch.autograd.grad(u.sum(), x, create_graph=True)[0]
     lap = sum(torch.autograd.grad(g[:, i].sum(), x, retain_graph=True)[0][:, i] for i in range(d))
-    u2 = (u ** 2).mean()
-    rho_var = float((g ** 2).sum(1).mean() / u2); rho_res = float(-(u * lap).mean() / u2)
+    u2 = (u.detach() ** 2).mean()
+    rho_var = float((g.detach() ** 2).sum(1).mean() / u2); rho_res = float(-(u.detach() * lap.detach()).mean() / u2)
     return rho_var, rho_res
 rec = json.load(open(out)) if os.path.exists(out) else dict(d=d, seed=a.seed, mu=a.mu, epochs=a.epochs,
        grid=grid.tolist(), exact=dict(E1=E1, E2=E2, mult2=d), net="3x128 tanh", n_samples=5000, records=[])
