@@ -12,7 +12,7 @@ CORNERS_CROSS = [(sx * A, sy * A) for sx in (-1, 1) for sy in (-1, 1)]
 CORNERS_L = [(0.0, 0.0)]
 
 # ---------------------------------------------------------------- boundary factors
-def B_cross(x, eps=0.0, scale=True):
+def B_cross(x, eps=0.0, scale=True, power=0):
     """R-disjunction of the two rectangle functions: phi1=(1-x^2)(a^2-y^2), phi2=(a^2-x^2)(1-y^2);
     B = phi1+phi2+sqrt(phi1^2+phi2^2+eps^2).  eps>0 smooths the kink at the re-entrant corners."""
     X, Y = x[:, 0:1], x[:, 1:2]
@@ -21,6 +21,8 @@ def B_cross(x, eps=0.0, scale=True):
     s = torch.sqrt(p1 ** 2 + p2 ** 2 + eps ** 2)
     sm = torch.where(small < 0, (big ** 2 + eps ** 2) / (s - small), small + s)    # small+s, cancellation-free
     B = big + sm
+    if power:                         # B * (phi1^2+phi2^2)^(power/2): vanishes ~ r^(1+power) at the corners -> bounded Laplacian for power>=1
+        B = B * (p1 ** 2 + p2 ** 2 + 1e-30) ** (power / 2) / (0.06 ** power)
     return B / 0.25 if scale else B
 
 def B_L(x, eps=0.0):
@@ -92,11 +94,11 @@ class Enriched(nn.Module):
     Re-entrant corner c of angle 3pi/2 at (sx*a, sy*a); theta_c is measured clockwise from the boundary ray along +x'
     in coordinates reflected so that the excluded quadrant is {dx'>0,dy'>0}.  The Laplacian of the singular part is analytic:
     Delta(chi s) = s (chi'' + 7/3 chi'/r), bounded (no autograd cancellation of r^{-4/3} terms)."""
-    def __init__(self, B, corners, R=0.2, hidden=128, n_hidden=3, enrich=True, sym=False):
+    def __init__(self, B, corners, R=0.2, hidden=128, n_hidden=3, enrich=True, sym=False, kmax=1):
         super().__init__()
         self.core = pe.EigenFunctionNN(dim=2, boundary_fn=B, hidden_size=hidden, n_hidden=n_hidden)
         self.corners = corners; self.R = R; self.enrich = enrich
-        self.c = nn.Parameter(torch.zeros(len(corners)))
+        self.kmax = kmax; self.c = nn.Parameter(torch.zeros(kmax, len(corners)))
     def sing(self, x):
         """returns (value, laplacian) of the singular part (no autograd needed)."""
         val = torch.zeros(x.shape[0], 1); lap = torch.zeros(x.shape[0], 1)
@@ -105,13 +107,14 @@ class Enriched(nn.Module):
             dx = sx * (x[:, 0:1] - cx); dy = sy * (x[:, 1:2] - cy)
             r = torch.sqrt(dx ** 2 + dy ** 2 + 1e-14)
             th = torch.remainder(-torch.atan2(dy, dx), 2 * math.pi)          # clockwise from +x' ray, in [0,2pi)
-            s = r ** (2.0 / 3) * torch.sin(2 * th / 3)
             rho2 = (r / self.R) ** 2; on = (r < self.R).float()
             chi = on * (1 - rho2) ** 2
             chi1 = on * (-4 * r / self.R ** 2 * (1 - rho2))
             chi2 = on * (-4 / self.R ** 2 * (1 - rho2) + 8 * r ** 2 / self.R ** 4)
-            val = val + self.c[k] * chi * s
-            lap = lap + self.c[k] * s * (chi2 + 7.0 / 3 * chi1 / r)
+            for kk in range(1, self.kmax + 1):
+                s = r ** (2.0 * kk / 3) * torch.sin(2 * kk * th / 3)
+                val = val + self.c[kk - 1, k] * chi * s
+                lap = lap + self.c[kk - 1, k] * s * (chi2 + (1 + 4.0 * kk / 3) * chi1 / r)
         return val, lap
     def u_res(self, x, E):
         x = x.requires_grad_(True)
@@ -128,8 +131,8 @@ def make_enriched(B, corners, R=0.2, enrich=True):
     return Enriched(B, corners, R=R, enrich=enrich)
 
 # ---------------------------------------------------------------- model / training
-def make_model(B, hidden=128, n_hidden=3, corners=None, enrich=False, R=0.2):
-    return Enriched(B, corners or [], R=R, hidden=hidden, n_hidden=n_hidden, enrich=enrich and bool(corners))
+def make_model(B, hidden=128, n_hidden=3, corners=None, enrich=False, R=0.2, kmax=1):
+    return Enriched(B, corners or [], R=R, hidden=hidden, n_hidden=n_hidden, enrich=enrich and bool(corners), kmax=kmax)
 
 def train(model, E, sampler, mu, n_samples=5000, n_epochs=2000, lr=1e-3, patience=300, tol=1e-5, lr_decay=None,
           fixed_sample=False, record=True, seed=None):

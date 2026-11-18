@@ -13,3 +13,11 @@
 [mixed_s2] E= 12.500 loss_var=1.926e+00 Lam_strong=7.055e+00 mass=1.003 E_var=12.1825 E_strong=12.1420 E_weak=12.0377 cons=1.53e-02 core=0.01 t=99s
 [mixed_s2] E= 13.500 loss_var=3.119e+00 Lam_strong=8.112e+00 mass=0.984 E_var=12.3829 E_strong=12.3236 E_weak=12.3401 cons=1.34e-02 core=0.03 t=97s
 [mixed_s2] E= 14.500 loss_var=6.240e+00 Lam_strong=1.120e+01 mass=0.975 E_var=12.6342 E_strong=12.4775 E_weak=12.3076 cons=1.53e-02 core=0.05 t=106s
+[mixed_lam10] E= 10.500 loss_var=1.949e+00 Lam_strong=1.053e+01 mass=1.000 E_var=11.3401 E_strong=11.9344 E_weak=11.5072 cons=9.32e-02 core=0.12 t=102s
+[mixed_lam10] E= 11.500 loss_var=5.555e-01 Lam_strong=7.380e+00 mass=0.994 E_var=11.8568 E_strong=12.0457 E_weak=11.9626 cons=2.84e-02 core=0.13 t=100s
+[mixed_lam10] E= 12.500 loss_var=3.611e-01 Lam_strong=7.892e+00 mass=0.987 E_var=12.3036 E_strong=12.0869 E_weak=12.4080 cons=2.05e-02 core=0.00 t=108s
+[mixed_lam10] E= 13.500 loss_var=1.303e+00 Lam_strong=8.640e+00 mass=0.994 E_var=12.7868 E_strong=12.3075 E_weak=12.7416 cons=5.63e-02 core=0.05 t=111s
+[mixed_lam10] E= 14.500 loss_var=3.337e+00 Lam_strong=1.250e+01 mass=0.997 E_var=13.2220 E_strong=12.3802 E_weak=12.9620 cons=1.19e-01 core=0.07 t=105s
+[mixed_lam1000] E= 10.500 loss_var=3.443e+04 Lam_strong=8.030e+02 mass=0.000 E_var=13.3910 E_strong=16.0642 E_weak=17.9405 cons=3.25e+01 core=0.02 t=110s
+[mixed_lam1000] E= 11.500 loss_var=3.669e+04 Lam_strong=2.333e+03 mass=0.000 E_var=19.4035 E_strong=19.3795 E_weak=23.7057 cons=3.44e+01 core=0.03 t=103s
+[mixed_lam1000] E= 12.500 loss_var=2.886e+03 Lam_strong=6.377e+02 mass=0.000 E_var=13.0345 E_strong=11.9908 E_weak=18.1172 cons=2.46e+00 core=0.00 t=103s
