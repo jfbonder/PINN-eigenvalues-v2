@@ -96,3 +96,5 @@ total wall 796.4840941100028
 [mucost_r2_rq_s2_es] k=6 E=99.0791 exact=98.6960 relerr=3.88e-03 ep=777 t=41s ov=1.74e-02
 total wall 249.11407835199861
 === 07:12:42 (b) RQ seed 2 noES
+[mucost_r2_rq_s2_noes] k=1 E=19.7555 exact=19.7392 relerr=8.26e-04 ep=3000 t=114s ov=0.00e+00
+[mucost_r2_rq_s2_noes] k=2 E=49.4329 exact=49.3480 relerr=1.72e-03 ep=3000 t=113s ov=1.22e-02
