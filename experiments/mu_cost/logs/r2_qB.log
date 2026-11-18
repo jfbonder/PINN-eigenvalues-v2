@@ -91,3 +91,8 @@ total wall 796.4840941100028
 [mucost_r2_rq_s2_es] k=1 E=19.7504 exact=19.7392 relerr=5.68e-04 ep=969 t=35s ov=0.00e+00
 [mucost_r2_rq_s2_es] k=2 E=50.8562 exact=49.3480 relerr=3.06e-02 ep=465 t=19s ov=2.05e-02
 [mucost_r2_rq_s2_es] k=3 E=49.7719 exact=49.3480 relerr=8.59e-03 ep=1023 t=44s ov=9.46e-03
+[mucost_r2_rq_s2_es] k=4 E=79.0531 exact=78.9568 relerr=1.22e-03 ep=1527 t=70s ov=3.16e-02
+[mucost_r2_rq_s2_es] k=5 E=98.9712 exact=98.6960 relerr=2.79e-03 ep=807 t=40s ov=4.73e-02
+[mucost_r2_rq_s2_es] k=6 E=99.0791 exact=98.6960 relerr=3.88e-03 ep=777 t=41s ov=1.74e-02
+total wall 249.11407835199861
+=== 07:12:42 (b) RQ seed 2 noES
