@@ -55,9 +55,9 @@ excludes spurious local minima and yields an explicit rule for the penalty param
 the detection is stable under training and sampling errors, provided the measured training error is
 small compared with the squared gaps, and in the linear case every computed eigenvalue carries an
 a posteriori Weinstein and Kato--Temple enclosure. For the $p$-Laplacian the zeros of the loss curve
-are exactly the eigenvalues and the curve lies below a parabola at each of them. Experiments in
-dimensions two to four agree with exact values and with independent finite element and shooting
-computations, including $p$-Laplacian eigenvalues beyond the second; in dimension ten, where
+are exactly the eigenvalues and the curve lies below a parabola at each of them. Experiments
+agree with exact values in dimensions two to four and with independent finite element (dimensions
+two and three) and shooting computations, including $p$-Laplacian eigenvalues beyond the second; in dimension ten, where
 mesh-based methods are not practical, the method locates the first two eigenvalues to within $1\%$
 (single run, weak certificate). The method does not resolve
 multiplicities and, for the lowest eigenvalues of linear problems, it is more expensive than
@@ -1450,7 +1450,8 @@ $\mu\ge D^2$ along warm-started scans, confirmed on a window with two eigenvalue
 stable under training and sampling errors whenever the measured error level is small compared with
 the squared gaps, which holds at all nodes except collapsed or branch-switched ones, and these are
 visible in the network; each eigenvalue comes with an a posteriori enclosure. The method was
-validated against exact values and independent finite element computations in dimensions two to four
+validated against exact values in dimensions two to four and independent finite element computations in
+dimensions two and three
 (and tested in dimension ten, where the cost per epoch grows only linearly with the dimension: a
 single run on a window chosen around the known eigenvalues, with a quotient depending on the node,
 $+0.07\%$ to $+1.0\%$, $r=4.7$--$7$ and no Monte Carlo standard error computed),

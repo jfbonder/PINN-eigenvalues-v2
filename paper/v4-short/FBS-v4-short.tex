@@ -48,8 +48,8 @@ has no spurious local minima and yields an explicit rule for the penalty paramet
 stable under training and sampling errors that are small compared with the squared spectral gaps,
 and in the linear case every computed eigenvalue carries an a posteriori Weinstein and Kato--Temple
 enclosure. For the $p$-Laplacian the zeros of the loss curve are exactly the eigenvalues and the
-curve lies below a parabola at each of them. Experiments in dimensions two to four agree with exact
-values and with independent finite element and shooting computations, including $p$-Laplacian
+curve lies below a parabola at each of them. Experiments agree with exact values in dimensions two to four and with independent finite element
+(dimensions two and three) and shooting computations, including $p$-Laplacian
 eigenvalues beyond the second; in dimension ten, where mesh-based methods are not practical, the
 method locates the first two eigenvalues to within $1\%$ (single run, weak certificate). The method
 does not resolve multiplicities and, for the lowest eigenvalues of linear problems, it is more
@@ -766,8 +766,8 @@ curve is the squared distance to the spectrum; the penalized loss used in practi
 loss curve without spurious local minima, which yields the rule $\mu\ge D^2$; the detection is stable
 whenever the measured error level is small compared with the squared gaps; and, once a minimum is
 detected, the Rayleigh quotient of the frozen network gives an accurate value with a Weinstein and
-Kato--Temple enclosure. The method agrees with exact values and independent finite element
-computations in dimensions two to four (seed means within $0.1\%$ of FEM for the potentials), and is
+Kato--Temple enclosure. The method agrees with exact values in dimensions two to four and with independent finite element
+computations in dimensions two and three (seed means within $0.1\%$ of FEM for the potentials), and is
 feasible in dimension ten. Because the mechanism needs no orthogonality, it extends to the
 $p$-Laplacian: the zeros of the loss curve are exactly the eigenvalues, and eigenvalues beyond the
 second one are detected in a single scan and agree with independent references.
