@@ -257,7 +257,9 @@ $\mu$ & $\mu/D^2$ & regime & spurious minima & collapsed & $\hat E$\\
 \end{table}
 
 \subsection{The algorithm}
-Fix a window $[E_*,E^*]$ and a uniform grid $E_*=E^1<\cdots<E^J=E^*$ of step $h$. For each $E^i$ the
+Fix a window $[E_*,E^*]$ and a grid $E_*=E^1<\cdots<E^J=E^*$. The grid need not be uniform (it can,
+for instance, be refined near candidate minima); for simplicity we use a uniform step $h$, and the
+stability result below is stated in that case. For each $E^i$ the
 network is trained to minimize $\bar\Lambda(\cdot,E^i)$, initialized with the weights obtained at
 $E^{i-1}$ (warm start). At each node we record the normalized loss $\Lambda(u^i,E^i)$, the mass
 $\overline{u^2}$ and the Rayleigh quotient, and discard nodes with $\overline{u^2}<\frac12$ (collapse to
