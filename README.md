@@ -11,7 +11,7 @@ Julián Fernández Bonder & Ariel Salort
 | path | content |
 |---|---|
 | `pinn_eigen.py` | core module with all reusable components (see below) |
-| `FBS_PINN_notebook_v2.ipynb` | notebook reproducing the examples of the first version of the paper |
+| `examples/` | every example of the current version of the paper (`paper/v4`), with the settings stated there: `configs.py` (one entry per figure/table), `run.py` (command line), `core.py` (driver), `references.py` (exact/reference eigenvalues), `FBS_PINN_examples.ipynb` (notebook, one section per section of the paper) |
 | `paper/v3/`, `paper/v4/` | LaTeX source of the previous arXiv version (unchanged) and of the revised manuscript (changes in blue) |
 | `experiments/` | all the numerical experiments of the revised manuscript, with their raw results (see below) |
 | `theory/` | notes, LaTeX fragments and checks used for the analysis of the method (stability, choice of the penalty, p-Laplacian) |
@@ -63,31 +63,68 @@ Dependencies for the experiments: `torch numpy scipy matplotlib scikit-fem meshi
 | `loss_fn` | PINN loss for linear (Laplacian) and nonlinear (p-Laplacian) problems |
 | `train_one` | Train for a single E value with early stopping |
 | `sweep` | Scan a range of E values with warm initialization |
-| `refine` | Detect and locally refine minima of the loss curve |
-| `sample_disk`, `sample_square`, `sample_triangle`, `sample_ball_3d`, `sample_ball_4d`, `sample_annulus` | Domain samplers |
+| `refine` | Detect and locally refine minima of the loss curve (re-sampled scalar minimization, earlier version) |
+| `local_minima`, `a_posteriori` | Detection of the minima; closed-form refinement (Rayleigh quotient of the frozen network, or E_PINN for p ≠ 2) with Monte Carlo standard errors, r, η and the Weinstein enclosure |
+| `kato_temple`, `temple_bracket`, `cosine_lr` | Kato–Temple bound, Temple bracket for E₁, learning-rate decay of the p-Laplacian protocol |
+| `sample_disk`, `sample_square`, `sample_triangle`, `sample_ball_3d`, `sample_ball_4d`, `sample_ball`, `sample_annulus` | Domain samplers (`sample_ball(n, dim)`: any dimension) |
 | `boundary_disk`, `boundary_square`, `boundary_triangle`, `boundary_annulus`, `boundary_ball` | Boundary factor functions |
 | `V_zero`, `V_harmonic`, `V_double_well_gaussian`, `V_four_well_bump` | Potential functions |
 | `plot_loss_curve`, `plot_eigenfunction_disk`, `plot_eigenfunction_square`, `plot_eigenfunction_triangle` | Plotting utilities |
 
-## Usage (Google Colab)
+## Examples of the paper
 
-Upload `pinn_eigen.py` alongside the notebook, or add to your Colab session:
+The `examples/` package reproduces every example of the paper (`paper/v4/FBS-v4.tex`). Each example is one entry
+of `examples/configs.py` with the settings stated in the paper (domain, boundary factor, potential, p, μ, window,
+grid step, epochs, points, type of start, threshold, reference eigenvalues, figure/table it corresponds to). A run
+trains along the E-grid, detects the minima of the loss curve, refines each one with the closed-form Rayleigh
+quotient of the frozen network and computes the a posteriori quantities of Section 3.1 (residual norm r, η,
+Weinstein enclosure, Kato–Temple and Temple bounds with the gap taken from the reference spectrum); for the
+p-Laplacian it runs the local three-node scans of Section 5 and reports E_PINN and E_curve. It writes a JSON file,
+the loss curve and the computed eigenfunctions, and prints a comparison with the exact/reference values and with
+the values reported in the paper.
+
+```bash
+python -m examples.run --list                      # list the examples
+python -m examples.run disk --quick                # smoke test: tiny settings, a few seconds
+python -m examples.run disk                        # settings of the paper
+python -m examples.run ball4_windows --windows 0   # only the first window of an example
+python -m examples.run all --quick                 # every example, smoke test (about 2 minutes)
+python -m examples.run square --seed 1 --threads 2 --out my_runs/ --mu 1000   # overrides
+```
+
+Output goes to `examples_out/` (`<name>_s<seed>.json`, `_loss.png`, `_eigenfunctions.png`).
+
+| example | paper | example | paper |
+|---|---|---|---|
+| `disk` | Fig. lossNN (Sec. 3) | `annulus` | Fig. loss.lap.annulus |
+| `square_44_55` | Fig. eigen55 | `harmonic_w1`, `harmonic_w10` | Figs. pot2, pot1 |
+| `square` | Table 1 | `double_well`, `four_well` | Fig. well-two / well-four |
+| `ball3`, `ball4` | Fig. loss3D | `double_well_windows`, `four_well_windows`, `harmonic_w10_windows` | Table fem, Fig. fem |
+| `ball3_windows`, `ball4_windows` | Table 2 | `double_well_blind` | Table blind |
+| `ball10` | Sec. 4.2 (ball of R¹⁰) | `plap_disk`, `plap_square`, `plap_ball3` | Table plap, Fig. plap |
+| `triangle`, `triangle_windows` | Fig. loss.lap.triang, Table 4 | `plap_disk_p3`, `plap_disk_p4` | Table plap.p |
+
+The notebook `examples/FBS_PINN_examples.ipynb` walks through the same examples, one section per section of the
+paper; it runs in quick mode by default (a few minutes in total) and with the paper's settings when
+`PAPER_SETTINGS = True`. Its last section shows how to modify an example (`dataclasses.replace`) and how to set up a
+new domain (sampler + boundary factor). Full runs take from minutes (three-node windows) to hours (full scans) on
+one CPU thread; the cost of each experiment is recorded in `experiments/`.
+
+Using the module directly:
 
 ```python
-import pinn_eigen as pe
+import numpy as np, pinn_eigen as pe
 from functools import partial
-import numpy as np
 
-# Example: Laplacian eigenvalues on the unit disk
+# Laplacian eigenvalues in the unit disk
 sampler  = partial(pe.sample_disk, radius=1.0)
-V_fn     = pe.V_zero
 model_fn = lambda: pe.EigenFunctionNN(dim=2, boundary_fn=pe.boundary_disk)
+E_values = np.arange(0.0, 32.01, 0.5)
 
-E_values = np.linspace(0, 30, 60)
-
-residuals, models = pe.sweep(model_fn, E_values, sampler, V_fn, mu=100.0)
-pe.plot_loss_curve(E_values, residuals)
-eigenvalues, idx = pe.refine(models, E_values, residuals, sampler, V_fn, threshold=0.5)
+residuals, models = pe.sweep(model_fn, E_values, sampler, pe.V_zero, mu=100.0, reset_every=10**9)
+for i in pe.local_minima(residuals, threshold=1.0):
+    ev = pe.a_posteriori(models[i], sampler, pe.V_zero, E_values[i])
+    print(ev["rho_res"], ev["weinstein"])     # refined eigenvalue and Weinstein enclosure
 ```
 
 ## Requirements

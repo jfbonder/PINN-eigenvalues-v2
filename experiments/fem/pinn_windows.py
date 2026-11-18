@@ -3,7 +3,8 @@
 usage: python -m experiments.fem.pinn_windows CASE --centers 9.58 32.8 [--half 1.5 --step 0.5] [--seed 0]
 Each window = chain of warm-started trainings on E = c-half, ..., c+half (first node: fresh network).
 Settings follow the paper/notebook: 3x128 tanh, Adam lr 1e-3, early stop patience 300 tol 1e-5,
-fresh MC batch each epoch; per-case mu, n_epochs, n_samples as in FBS_PINN_notebook_v2.ipynb.
+fresh MC batch each epoch; per-case mu, n_epochs, n_samples as in Table `table.settings` of the paper
+(the same values as the earlier notebook FBS_PINN_notebook_v2.ipynb, now replaced by examples/).
 Records per E (saved incrementally in experiments/results/fem_pinn_<case>_s<seed>.json):
   loss_res (last training batch), eval_* on fresh 20000 pts, r2 = mean(res^2)/mean(u^2) (normalised Lambda),
   rho_var = (mean|grad u|^2 + V u^2)/mean u^2 and rho_res = -mean(u (Lap u - V u))/mean(u^2) on a fixed
