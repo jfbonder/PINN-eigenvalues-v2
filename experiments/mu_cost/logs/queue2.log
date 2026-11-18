@@ -92,3 +92,4 @@
 [mucost_scan_broad_mu450_s0] E=60.000 mu=450 res=1.009e+02 mass=0.885 r=1.067e+01 ep=473 t=49s
 [mucost_scan_broad_mu450_s0] E=65.000 mu=450 res=1.788e+02 mass=0.726 r=1.570e+01 ep=953 t=99s
 [mucost_scan_broad_mu450_s0] E=70.000 mu=450 res=7.626e+01 mass=0.926 r=9.076e+00 ep=3000 t=370s
+[mucost_scan_broad_mu450_s0] E=75.000 mu=450 res=1.620e+01 mass=0.964 r=4.100e+00 ep=784 t=99s

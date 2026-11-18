@@ -76,3 +76,4 @@ harm_w10 s1 c=45.7 E= 46.200 res=1.320e+00 r2=1.275e+00 rho_var=45.1167 rho_res=
 harm_w10 s1 c=45.7 E= 46.700 res=2.561e-01 r2=2.584e-01 rho_var=46.3788 rho_res=46.2900 ep=1968 t=247s
 harm_w10 s1 c=45.7 E= 47.200 res=8.477e-01 r2=8.516e-01 rho_var=46.3799 rho_res=46.2906 ep=397 t=54s
 harm_w10 s1 c=62.58 E= 61.080 res=2.362e+00 r2=2.565e+00 rho_var=62.6504 rho_res=62.5770 ep=3000 t=375s
+harm_w10 s1 c=62.58 E= 61.580 res=1.176e+00 r2=1.150e+00 rho_var=62.6506 rho_res=62.5787 ep=1630 t=191s

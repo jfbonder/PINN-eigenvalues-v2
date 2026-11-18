@@ -81,44 +81,47 @@ def main():
     for k, v in fem.items():
         md.append(f"| {v['domain']} | {v['p']} | {v['finest']:.5f} | {v['extrap']:.5f} | {v['order']:.2f} |")
 
-    # ---------- corrected re-runs ----------
+    # ---------- corrected re-runs: every detected minimum of the (merged) coarse curves, local 3-point scans ----
+    cross = fx("tri_diag_p2.2") * 2 ** 1.1 if fx("tri_diag_p2.2") else None
+    REFS = dict(
+        disk=[(refs["p2.2_d2"]["E1"], "radial shooting (1st eigenvalue)"), (fx("halfdisk_p2.2"), "FEM half disk (1 nodal diameter); Horak 18.395"),
+              (fx("sector_pi/2_p2.2"), "FEM sector pi/2 (2 nodal diameters)"), (refs["p2.2_d2"]["E_rad2"], "radial shooting, 1 nodal circle"),
+              (fx("sector_pi/3_p2.2"), "FEM sector pi/3 (3 nodal diameters)")],
+        square=[(fx("square2_p2.2"), "FEM square (1st eigenvalue); Horak 5.4952"), (fx("tri_diag_p2.2"), "FEM half square, diagonal nodal line; Horak 15.144"),
+                (fx("rect1x2_p2.2"), "FEM rectangle 1x2 (midline nodal line)"), (fx("unit_square_p2.2"), "FEM [0,1]^2 = 2^p E1 (2x2 cells)"),
+                (cross, "scaled FEM triangle (both diagonals nodal), 2^{p/2} x 15.1429"), (fx("strip3_p2.2"), "FEM strip 2/3 x 2 (3 strips)")])
+    S["mode_refs"] = {k: [dict(E=a, type=b) for a, b in v] for k, v in REFS.items()}
     rows = []
-    def add(label, name, ref, i=None, lit=None):
-        e = est(name, ref, i)
+    for dom, base, window, coarse in [("disk", "disk22_loc", "[3,58]", ["disk22_coarse_P1", "disk22_coarse2_P1"]),
+                                      ("square", "square22_loc", "[3,37]", ["square22_coarse_P1", "square22_coarse2_P1"])]:
+        for k in range(12):
+            e = est(f"{base}{k}")
+            if not e: continue
+            cand = [(a, b) for a, b in REFS[dom] if a]
+            j = int(np.argmin([abs(e["E_ls"] - a) for a, _ in cand]))
+            e.update(label=f"{dom} p=2.2, window {window}, minimum {k+1}", dom=dom, k=k + 1, ref=cand[j][0], ref_type=cand[j][1],
+                     coarse_vertex=load(f"{base}{k}")["config"].get("coarse_vertex"))
+            for q in ("E_grid", "E_vertex", "E_ls", "RQ"):
+                e["err_" + q] = (e[q] - e["ref"]) / e["ref"]
+            e["err_coarse_vertex"] = (e["coarse_vertex"] - e["ref"]) / e["ref"]
+            rows.append(e)
+    for k, (nm, ref, typ) in enumerate([("ball25_E1_local", R["ball_E1"], "radial shooting (1st eigenvalue)"),
+                                        ("ball25_E2_local", R["ball_E2"], "FEM axisymmetric half ball (nodal plane)")]):
+        e = est(nm, ref)
         if e:
-            e["label"] = label; e["lit"] = lit; rows.append(e)
-    c = curve("disk22_coarse_P1")
-    if c is not None:
-        m = minima(c[0], c[1])
-        for k, i in enumerate(m[:2]):
-            add(f"disk p=2.2, E{k+1}, coarse h=1", "disk22_coarse_P1", [R["disk22_E1"], R["disk22_E2"]][k], i,
-                [6.5320, 18.395][k])
-    add("disk p=2.2, E1, local h=0.5", "conv_base_s0", R["disk22_E1"], lit=6.5320)
-    add("disk p=2.2, E1, local h=0.25", "conv_h025", R["disk22_E1"], lit=6.5320)
-    add("disk p=2.2, E2, local h=0.5", "disk22_E2_local", R["disk22_E2"], lit=18.395)
-    c = curve("square22_coarse_P1")
-    if c is not None:
-        m = minima(c[0], c[1])
-        for k, i in enumerate(m[:2]):
-            add(f"square p=2.2, E{k+1}, coarse h=1", "square22_coarse_P1", [R["sq_E1"], R["sq_E2"]][k], i,
-                [5.4952, 15.144][k])
-    add("square p=2.2, E1, local h=0.5", "square22_E1_local", R["sq_E1"], lit=5.4952)
-    add("square p=2.2, E2, local h=0.5", "square22_E2_local", R["sq_E2"], lit=15.144)
-    c = curve("ball25_coarse_P1")
-    if c is not None:
-        m = minima(c[0], c[1])
-        for k, i in enumerate(m[:2]):
-            add(f"ball3 p=2.5, E{k+1}, coarse h=2", "ball25_coarse_P1", [R["ball_E1"], R["ball_E2"]][k], i)
-    add("ball3 p=2.5, E1, local h=1", "ball25_E1_local", R["ball_E1"])
-    add("ball3 p=2.5, E2, local h=1", "ball25_E2_local", R["ball_E2"])
+            e.update(label=f"ball3 p=2.5, minimum {k+1}", dom="ball3", k=k + 1, ref_type=typ,
+                     coarse_vertex=load(nm)["config"].get("coarse_vertex"))
+            if ref: e["err_coarse_vertex"] = (e["coarse_vertex"] - ref) / ref
+            rows.append(e)
     S["main"] = rows
-    md.append("\n### Corrected loss (protocol P1)\n\n| case | ref | E (3-pt vertex) | err % | E_ls | err % | RQ | err % | "
-              "Lam_min (fresh) | r=sqrt | core frac | wall min |\n|---|---|---|---|---|---|---|---|---|---|---|---|")
+    md.append("\n### Corrected loss (protocol P1): detected eigenvalues\n\n| case | reference (type) | coarse 3-pt vertex | err % | local 3-pt vertex | err % | E_ls | err % | "
+              "Lam_min (fresh) | r=sqrt | core frac |\n|---|---|---|---|---|---|---|---|---|---|---|")
     for e in rows:
         ref = e.get("ref")
-        md.append(f"| {e['label']} | {ref if ref is None else round(ref, 4)} | {e['E_vertex']:.4f} | {pct(e.get('err_E_vertex'))} | "
-                  f"{e['E_ls']:.4f} | {pct(e.get('err_E_ls'))} | {e['RQ']:.4f} | {pct(e.get('err_RQ'))} | "
-                  f"{e['Lam_min']:.3f} | {e['r_min']:.3f} | {e['core_frac']:.2f} | {e['wall_s']/60:.0f} |")
+        md.append(f"| {e['label']} | {'--' if ref is None else f'{ref:.4f}'} ({e['ref_type']}) | {e['coarse_vertex']:.3f} | {pct(e.get('err_coarse_vertex'))} | "
+                  f"{e['E_vertex']:.3f} | {pct(e.get('err_E_vertex'))} | "
+                  f"{e['E_ls']:.4f} | {pct(e.get('err_E_ls'))} | "
+                  f"{e['Lam_min']:.3f} | {e['r_min']:.3f} | {e['core_frac']:.2f} |")
 
     # ---------- paper protocol / legacy ----------
     rows2 = []
@@ -170,7 +173,7 @@ def main():
                          E_ls_all=[x["E_ls"] for x in r], Lam_all=L.tolist(), E=E.tolist(),
                          wall_s=sum(x["wall_time"] for x in r), epochs=[x["epochs_run"] for x in r]))
     S["convergence"] = conv
-    md.append("\n### Convergence study, disk p=2.2, E1 = %.5f (grid 6.0, 6.5, 7.0 unless stated)\n\n| setting | Lam(6.0) | Lam(6.5) | Lam(7.0) | core frac | 3-pt vertex | err % | E_ls | err % | RQ | err % | wall min |\n|---|---|---|---|---|---|---|---|---|---|---|---|" % ref)
+    md.append("\n### Convergence study, disk p=2.2, E1 = %.5f (grid 6.0, 6.5, 7.0 unless stated)\n\n| setting | Lam(6.0) | Lam(6.5) | Lam(7.0) | core frac | 3-pt vertex | err %% | E_ls | err %% | RQ | err %% | wall min |\n|---|---|---|---|---|---|---|---|---|---|---|---|" % ref)
     for e in conv:
         Ls = dict(zip(e["E"], e["Lam_all"]))
         g = lambda x: f"{Ls[x]:.3f}" if x in Ls else "--"
@@ -199,24 +202,27 @@ def main():
     json.dump(S, open(RES / "plap_summary.json", "w"), indent=1)
     open(HERE / "tables_auto.md", "w").write("\n".join(md) + "\n")
     print("\n".join(md))
-    figures(R, refs)
+    figures(R, refs, REFS)
 
 
-def figures(R, refs):
+def figures(R, refs, S_REFS):
     # Fig 1: disk loss curves, P0 vs P1
     for dom, names, rr, fn, title in [
-        ("disk", ["disk22_coarse_P0", "disk22_coarse_P1"], [R["disk22_E1"], R["disk22_E2"]], "plap_disk_curves.png",
+        ("disk", ["disk22_coarse_P0", "disk22_coarse_P1"], [a for a, _ in S_REFS["disk"]], "plap_disk_curves.png",
          "unit disk, p = 2.2"),
-        ("square", ["square22_coarse_P0", "square22_coarse_P1"], [R["sq_E1"], R["sq_E2"]], "plap_square_curves.png",
+        ("square", ["square22_coarse_P0", "square22_coarse_P1"], [a for a, _ in S_REFS["square"]], "plap_square_curves.png",
          r"square $[0,2]^2$, p = 2.2"),
         ("ball", ["ball25_coarse_P1"], [R["ball_E1"], R["ball_E2"]], "plap_ball_curves.png", "unit ball in R^3, p = 2.5")]:
-        fig, ax = plt.subplots(figsize=(6.4, 4))
+        fig, ax = plt.subplots(figsize=(8, 4))
         ok = False
         for n, st, lab in zip(names[::-1], ["o-", "s--"], ["lr decay (P1)", "constant lr + early stop (P0)"] if len(names) == 2 else ["lr decay (P1)"]):
             c = curve(n)
             if c is None: continue
             ok = True
             ax.plot(c[0], c[1], st, ms=4, lw=1.2, label=lab, color="C0" if "P1" in n else "C1")
+            c2 = curve(n.replace("coarse_", "coarse2_"))
+            if c2 is not None and "P1" in n:
+                ax.plot(c2[0], c2[1], st, ms=4, lw=1.2, color="C0", alpha=0.6)
         for k, x in enumerate(rr):
             if x: ax.axvline(x, color="k", lw=0.8, ls=":", label="reference" if k == 0 else None)
         ax.set_yscale("log"); ax.set_xlabel("E"); ax.set_ylabel(r"$\bar\Lambda_p(E)$ (fresh sample)")
