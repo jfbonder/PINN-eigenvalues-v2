@@ -1,0 +1,63 @@
+% booktabs snippets generated for the revision (experiments/mu_cost)
+\begin{table}[H]\centering\small
+\begin{tabular}{rrcccc}
+\toprule
+$\mu$ & $\mu/D^2$ & collapsed nodes (obs./pred.) & detected min. & $\hat E$ near $5\pi^2$ & rel.\ err.\\
+\midrule
+1 & 0.009 & 11/10 & spurious & -- & --\\
+10 & 0.09 & 11/7 & spurious & -- & --\\
+30 & 0.26 & 5/3 & 42 (spurious), 50 & 49.3465 & $<10^{-4}$\\
+60 & 0.53 & 1--2/1 & 50 & 49.3474 & $<10^{-4}$\\
+100 & 0.88 & 0/0 & 50 & 49.3476 & $<10^{-4}$\\
+113 & 1.0 & 0/0 & 50 & 49.3479 & $<10^{-4}$\\
+300 & 2.6 & 0/0 & 50 & 49.3478 & $<10^{-4}$\\
+1000 & 8.8 & 0/0 & 50 & 49.3485 & $<10^{-4}$\\
+10000 & 88 & 0/0 & 50 & 49.358 & $2\times10^{-4}$\\
+\bottomrule
+\end{tabular}
+\caption{Sensitivity to $\mu$ in the window $[40,60]$ (unit square, $D^2=113.5$, step 2, two seeds, reduced network).}
+\end{table}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{cccccc}
+\toprule
+$(m,n)$ & exact & computed & rel.\ error & Residual & $r$\\
+\midrule
+(1,1) & 19.7392 & 19.7399 & $3.5\times10^{-5}$ & $9.7\times10^{-2}$ & 0.31\\
+(1,2) & 49.3480 & 49.3482 & $3.0\times10^{-6}$ & $7.3\times10^{-2}$ & 0.27\\
+(2,2) & 78.9568 & 78.9562 & $9.0\times10^{-6}$ & $2.0\times10^{-1}$ & 0.44\\
+(1,3) & 98.6960 & 98.6960 & $1.0\times10^{-6}$ & $9.3\times10^{-2}$ & 0.30\\
+\bottomrule
+\end{tabular}
+\caption{Unit square, scan of 80 nodes on $[0,105]$, $\mu=500$; $E$ by closed-form Rayleigh quotient; Residual=fresh-sample mean $res^2$, $r=\sqrt{\text{Residual}/\overline{u^2}}$.}
+\end{table}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{lrrr}
+\toprule
+refinement & median err. & mean err. & max err.\\
+\midrule
+re-sampled Brent (\texttt{refine}) & $6.6\times10^{-3}$ & $1.7\times10^{-2}$ & $1.3\times10^{-1}$\\
+closed-form RQ, fixed MC sample & $1.1\times10^{-3}$ & $1.4\times10^{-3}$ & $5.5\times10^{-3}$\\
+closed-form RQ, midpoint grid & $6.6\times10^{-4}$ & $1.4\times10^{-3}$ & $5.8\times10^{-3}$\\
+3-point parabola of $r^2$ & $9.7\times10^{-3}$ & $9.1\times10^{-2}$ & $1.0$\\
+\bottomrule
+\end{tabular}
+\caption{Absolute eigenvalue error of refinement estimators on 14 detected minima.}
+\end{table}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{lrrl}
+\toprule
+method & wall time (s) & eigenvalues & max rel.\ error\\
+\midrule
+Rayleigh + deflation, $K=6$, early stop & 241--317 & 6 (incl.\ multiplicity) & $3\times10^{-2}$\\
+Rayleigh + deflation, $K=6$, no early stop & 817 & 6 & $1.3\times10^{-3}$\\
+Scan $[15,105]$, $h=5$ & 2077 (+99) & 4 distinct & $2.4\times10^{-5}$\\
+Scan $[0,105]$, 80 nodes & 6534 (+413) & 4 distinct & $3.5\times10^{-5}$\\
+Scan $[95,102]$ only, 5 nodes, $\mu=5000$ & 950 (+24) & $10\pi^2$ & $2.1\times10^{-5}$\\
+Rayleigh, first 5 eigenvalues (reach $10\pi^2$) & 253 / 647 & 5 & $3\times10^{-2}$ / $1.3\times10^{-3}$\\
+\bottomrule
+\end{tabular}
+\caption{Cost (1 thread, 3$\times$128 network, 5000 points/epoch) on the unit square.}
+\end{table}

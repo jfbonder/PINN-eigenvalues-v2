@@ -78,3 +78,7 @@ harm_w10 s1 c=45.7 E= 47.200 res=8.477e-01 r2=8.516e-01 rho_var=46.3799 rho_res=
 harm_w10 s1 c=62.58 E= 61.080 res=2.362e+00 r2=2.565e+00 rho_var=62.6504 rho_res=62.5770 ep=3000 t=375s
 harm_w10 s1 c=62.58 E= 61.580 res=1.176e+00 r2=1.150e+00 rho_var=62.6506 rho_res=62.5787 ep=1630 t=191s
 harm_w10 s1 c=62.58 E= 62.080 res=4.613e-01 r2=4.607e-01 rho_var=62.6517 rho_res=62.5802 ep=3000 t=388s
+harm_w10 s1 c=62.58 E= 62.580 res=8.355e-02 r2=6.760e-02 rho_var=62.6526 rho_res=62.5800 ep=2535 t=316s
+harm_w10 s1 c=62.58 E= 63.080 res=3.429e-01 r2=3.410e-01 rho_var=62.6544 rho_res=62.5786 ep=489 t=64s
+harm_w10 s1 c=62.58 E= 63.580 res=1.242e+00 r2=1.181e+00 rho_var=62.6511 rho_res=62.5767 ep=773 t=100s
+harm_w10 s1 c=62.58 E= 64.080 res=2.394e+00 r2=2.378e+00 rho_var=62.6513 rho_res=62.5784 ep=999 t=128s

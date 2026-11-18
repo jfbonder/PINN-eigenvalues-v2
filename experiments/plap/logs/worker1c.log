@@ -1,2 +1,9 @@
 [ball25_coarse_P1] E= 24.0000 Lam=4.7124e+01 mass=0.8081 Lam_n=6.0850e+01 E_ls=21.0546 RQ=21.0397 core=0.00 ep=1500 t=277s
 [ball25_coarse_P1] E= 26.0000 Lam=5.1836e+01 mass=0.7962 Lam_n=6.8137e+01 E_ls=24.5159 RQ=24.5247 core=0.00 ep=1500 t=266s
+[ball25_coarse_P1] E= 28.0000 Lam=4.6873e+01 mass=0.8366 Lam_n=5.8062e+01 E_ls=35.2083 RQ=34.9303 core=0.00 ep=1500 t=268s
+[ball25_coarse_P1] E= 30.0000 Lam=2.9058e+01 mass=0.9114 Lam_n=3.2478e+01 E_ls=35.4223 RQ=35.2377 core=0.00 ep=1500 t=265s
+[ball25_coarse_P1] E= 32.0000 Lam=1.4337e+01 mass=0.9612 Lam_n=1.5034e+01 E_ls=35.4422 RQ=35.6551 core=0.03 ep=1500 t=266s
+[ball25_coarse_P1] E= 34.0000 Lam=4.1811e+00 mass=0.9841 Lam_n=4.2624e+00 E_ls=35.5809 RQ=35.5745 core=0.01 ep=1500 t=264s
+[ball25_coarse_P1] E= 36.0000 Lam=1.8253e+00 mass=0.9796 Lam_n=1.8711e+00 E_ls=35.6409 RQ=36.2231 core=0.01 ep=1500 t=275s
+[ball25_coarse_P1] E= 38.0000 Lam=6.6898e+00 mass=0.9685 Lam_n=6.9516e+00 E_ls=35.7261 RQ=35.8620 core=0.00 ep=1500 t=269s
+[ball25_coarse_P1] E= 40.0000 Lam=1.8468e+01 mass=0.9577 Lam_n=1.9451e+01 E_ls=35.8506 RQ=35.2426 core=0.02 ep=1500 t=269s
