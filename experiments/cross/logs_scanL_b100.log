@@ -1,0 +1,7 @@
+L b=100 E=  6.40 rho_res=7.9639 rho_var=6.9184 r=1.783 mass=0.942 bdry_rel=3.6e-02 res=2.817 t=245s
+L b=100 E=  7.40 rho_res=8.2876 rho_var=7.3594 r=1.069 mass=1.019 bdry_rel=2.3e-02 res=1.172 t=228s
+L b=100 E=  8.40 rho_res=8.9305 rho_var=8.4384 r=0.666 mass=1.000 bdry_rel=8.6e-03 res=0.402 t=228s
+L b=100 E=  9.40 rho_res=9.3051 rho_var=9.1152 r=0.360 mass=1.033 bdry_rel=4.0e-03 res=0.115 t=248s
+L b=100 E= 10.40 rho_res=9.7107 rho_var=9.8916 r=0.779 mass=1.042 bdry_rel=2.9e-03 res=0.588 t=250s
+L b=100 E= 11.40 rho_res=10.3349 rho_var=11.1548 r=1.131 mass=1.010 bdry_rel=8.9e-03 res=1.239 t=234s
+L b=100 E= 12.40 rho_res=10.8077 rho_var=12.0878 r=1.669 mass=1.002 bdry_rel=1.8e-02 res=2.757 t=235s

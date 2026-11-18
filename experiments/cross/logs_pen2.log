@@ -1,0 +1,2 @@
+L E=9.64 beta=10000_dec: rho_res=23.0731 rho_var=23.0344+-0.0669 r=19.280 mass=0.000 bdry_int_u2=1.47e-06 (rel 4.0e-02) wall=250s
+L E=9.64 beta=100_dec: rho_res=9.6055 rho_var=9.8109+-0.0344 r=0.676 mass=0.954 bdry_int_u2=7.15e-02 (rel 9.4e-03) wall=271s
