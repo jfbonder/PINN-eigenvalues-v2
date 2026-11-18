@@ -12,7 +12,7 @@ CORNERS_CROSS = [(sx * A, sy * A) for sx in (-1, 1) for sy in (-1, 1)]
 CORNERS_L = [(0.0, 0.0, 1.0, 1.0)]
 
 # ---------------------------------------------------------------- boundary factors
-def B_cross(x, eps=0.0, scale=True, power=0):
+def B_cross(x, eps=0.0, scale=True, power=0, bscale=1.0):
     """R-disjunction of the two rectangle functions: phi1=(1-x^2)(a^2-y^2), phi2=(a^2-x^2)(1-y^2);
     B = phi1+phi2+sqrt(phi1^2+phi2^2+eps^2).  eps>0 smooths the kink at the re-entrant corners."""
     X, Y = x[:, 0:1], x[:, 1:2]
@@ -23,9 +23,9 @@ def B_cross(x, eps=0.0, scale=True, power=0):
     B = big + sm
     if power:                         # B * (phi1^2+phi2^2)^(power/2): vanishes ~ r^(1+power) at the corners -> bounded Laplacian for power>=1
         B = B * (p1 ** 2 + p2 ** 2 + 1e-30) ** (power / 2) / (0.06 ** power)
-    return B / 0.25 if scale else B
+    return bscale * B / 0.25 if scale else bscale * B
 
-def B_L(x, eps=0.0, power=0):
+def B_L(x, eps=0.0, power=0, bscale=1.0):
     """L-shape [-1,1]^2 minus [0,1]^2: phi_sq=(1-x^2)(1-y^2) (square), phi_q=-(x*y)?? use R-conjunction of the square with
     the complement of the quadrant: psi = -max(x,0)... simple smooth choice: complement function g=(1-x)*(1... ) not smooth ->
     use R-conjunction  phi ^ psi = phi+psi-sqrt(phi^2+psi^2) with psi = x*? We use psi = -(x*y) smoothed (positive when xy<0)."""
