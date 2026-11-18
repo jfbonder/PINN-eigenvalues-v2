@@ -104,3 +104,6 @@ total wall 249.11407835199861
 [mucost_r2_rq_s2_noes] k=6 E=98.6182 exact=98.6960 relerr=7.89e-04 ep=3000 t=169s ov=3.75e-02
 total wall 811.8410558129999
 === 07:26:46 (a) mu offset seed1
+[mucost_off_mu30_s1] E=15.600 mu=30 res=1.208e+01 mass=0.704 r=4.143e+00 ep=690 t=25s
+[mucost_off_mu30_s1] E=18.100 mu=30 res=2.588e+00 mass=0.959 r=1.643e+00 ep=425 t=14s
+[mucost_off_mu30_s1] E=20.600 mu=30 res=7.508e-01 mass=1.001 r=8.662e-01 ep=919 t=31s
