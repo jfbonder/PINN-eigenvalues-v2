@@ -2,3 +2,6 @@
 [base_E2_premass] E= 67.000 loss_var=1.513e+03 Lam_strong=1.513e+03 mass=0.017 E_var=48.3782 E_strong=48.3782 core=0.03 t=191s
 [base_E2_premass] E= 69.000 loss_var=3.994e+02 Lam_strong=3.994e+02 mass=0.227 E_var=67.6865 E_strong=67.6865 core=0.20 t=192s
 [base_E2_premass] E= 71.000 loss_var=1.613e+03 Lam_strong=1.613e+03 mass=0.016 E_var=53.7283 E_strong=53.7283 core=0.03 t=195s
+[base_E2_premass] E= 73.000 loss_var=1.779e+02 Lam_strong=1.779e+02 mass=0.501 E_var=69.3942 E_strong=69.3942 core=0.28 t=193s
+[mixed_lam10_s1] E= 10.500 loss_var=1.947e+00 Lam_strong=1.085e+01 mass=0.991 E_var=11.3784 E_strong=11.8038 E_weak=11.5761 cons=8.41e-02 core=0.14 t=104s
+[mixed_lam10_s1] E= 11.500 loss_var=5.578e-01 Lam_strong=7.430e+00 mass=1.008 E_var=11.8620 E_strong=12.0126 E_weak=11.7985 cons=2.69e-02 core=0.14 t=103s

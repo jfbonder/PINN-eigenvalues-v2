@@ -6,3 +6,4 @@ L b=300 E= 10.40 rho_res=9.6112 rho_var=9.6644 r=0.909 mass=1.023 bdry_rel=1.5e-
 L b=300 E= 11.40 rho_res=9.9470 rho_var=10.3323 r=1.519 mass=1.002 bdry_rel=2.7e-03 res=2.309 t=222s
 L b=300 E= 12.40 rho_res=10.1670 rho_var=10.7554 r=2.294 mass=0.990 bdry_rel=4.5e-03 res=5.362 t=221s
 L b=300 E= 13.40 rho_res=14.7229 rho_var=14.2957 r=1.416 mass=0.991 bdry_rel=2.3e-03 res=2.084 t=226s
+L b=300 E= 14.40 rho_res=14.8409 rho_var=14.5023 r=0.526 mass=1.017 bdry_rel=1.2e-03 res=0.259 t=228s
