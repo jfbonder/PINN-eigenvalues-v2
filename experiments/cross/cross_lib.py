@@ -84,9 +84,52 @@ def mixture_weights(x, domain, corners, R, frac, area):
     where disc density(x) = sum_c 1[|x-c|<R] / (n_c * area_of(disc ∩ domain at c)) (approx: area of disc∩domain by MC, per corner)."""
     raise NotImplementedError
 
+# ---------------------------------------------------------------- singular enrichment (analytic Laplacian)
+import torch.nn as nn
+
+class Enriched(nn.Module):
+    """u = B(x) NN(x) + sum_c c_c chi(r_c) r_c^{2/3} sin(2 theta_c/3)   (c_c learnable, init 0).
+    Re-entrant corner c of angle 3pi/2 at (sx*a, sy*a); theta_c is measured clockwise from the boundary ray along +x'
+    in coordinates reflected so that the excluded quadrant is {dx'>0,dy'>0}.  The Laplacian of the singular part is analytic:
+    Delta(chi s) = s (chi'' + 7/3 chi'/r), bounded (no autograd cancellation of r^{-4/3} terms)."""
+    def __init__(self, B, corners, R=0.2, hidden=128, n_hidden=3, enrich=True, sym=False):
+        super().__init__()
+        self.core = pe.EigenFunctionNN(dim=2, boundary_fn=B, hidden_size=hidden, n_hidden=n_hidden)
+        self.corners = corners; self.R = R; self.enrich = enrich
+        self.c = nn.Parameter(torch.zeros(len(corners)))
+    def sing(self, x):
+        """returns (value, laplacian) of the singular part (no autograd needed)."""
+        val = torch.zeros(x.shape[0], 1); lap = torch.zeros(x.shape[0], 1)
+        for k, (cx, cy) in enumerate(self.corners):
+            sx, sy = (1.0 if cx > 0 else -1.0), (1.0 if cy > 0 else -1.0)
+            dx = sx * (x[:, 0:1] - cx); dy = sy * (x[:, 1:2] - cy)
+            r = torch.sqrt(dx ** 2 + dy ** 2 + 1e-14)
+            th = torch.remainder(-torch.atan2(dy, dx), 2 * math.pi)          # clockwise from +x' ray, in [0,2pi)
+            s = r ** (2.0 / 3) * torch.sin(2 * th / 3)
+            rho2 = (r / self.R) ** 2; on = (r < self.R).float()
+            chi = on * (1 - rho2) ** 2
+            chi1 = on * (-4 * r / self.R ** 2 * (1 - rho2))
+            chi2 = on * (-4 / self.R ** 2 * (1 - rho2) + 8 * r ** 2 / self.R ** 4)
+            val = val + self.c[k] * chi * s
+            lap = lap + self.c[k] * s * (chi2 + 7.0 / 3 * chi1 / r)
+        return val, lap
+    def u_res(self, x, E):
+        x = x.requires_grad_(True)
+        u = self.core(x); lap = pe._laplacian(u, x)
+        if self.enrich:
+            v, l = self.sing(x); u = u + v; lap = lap + l
+        return u, lap + E * u, lap
+    def forward(self, x):
+        u = self.core(x)
+        if self.enrich: u = u + self.sing(x)[0]
+        return u
+
+def make_enriched(B, corners, R=0.2, enrich=True):
+    return Enriched(B, corners, R=R, enrich=enrich)
+
 # ---------------------------------------------------------------- model / training
-def make_model(B, hidden=128, n_hidden=3):
-    return pe.EigenFunctionNN(dim=2, boundary_fn=B, hidden_size=hidden, n_hidden=n_hidden)
+def make_model(B, hidden=128, n_hidden=3, corners=None, enrich=False, R=0.2):
+    return Enriched(B, corners or [], R=R, hidden=hidden, n_hidden=n_hidden, enrich=enrich and bool(corners))
 
 def train(model, E, sampler, mu, n_samples=5000, n_epochs=2000, lr=1e-3, patience=300, tol=1e-5, lr_decay=None,
           fixed_sample=False, record=True, seed=None):
@@ -101,7 +144,9 @@ def train(model, E, sampler, mu, n_samples=5000, n_epochs=2000, lr=1e-3, patienc
     for ep in range(n_epochs):
         x = (x0 if fixed_sample else sampler(n_samples)).clone()
         opt.zero_grad()
-        loss, res, norm = pe.loss_fn(model, x, E, pe.V_zero, mu)
+        u, rs, _ = model.u_res(x, E)
+        res = (rs ** 2).mean(); norm = (u ** 2).mean() - 1.0
+        loss = res + mu * norm ** 2; res, norm = res.item(), norm.item() ** 2
         loss.backward(); opt.step()
         if sch: sch.step()
         l = loss.item()
@@ -116,8 +161,7 @@ def evaluate(model, sampler, E, n_chunks=20, chunk=10000, seed=777):
     st = torch.get_rng_state(); torch.manual_seed(seed)
     S = []
     for _ in range(n_chunks):
-        x = sampler(chunk).requires_grad_(True); u = model(x)
-        lap = pe._laplacian(u, x); res = lap + E * u
+        x = sampler(chunk); u, res, lap = model.u_res(x, E); u, res, lap = u.detach(), res.detach(), lap.detach()
         S.append([(u ** 2).mean().item(), (u * lap).mean().item(), (res ** 2).mean().item()])
     torch.set_rng_state(st)
     S = np.array(S); u2, ulu, r2 = S.T; m = S.mean(0)

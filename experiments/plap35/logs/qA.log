@@ -2,3 +2,8 @@
 [base_s0] E= 11.500 loss_var=2.423e+00 Lam_strong=2.423e+00 mass=0.983 E_var=12.0067 E_strong=12.0067 core=0.68 t=210s
 [base_s0] E= 12.500 loss_var=2.049e+00 Lam_strong=2.049e+00 mass=0.984 E_var=12.1083 E_strong=12.1083 core=0.81 t=213s
 [base_s0] E= 13.500 loss_var=2.805e+00 Lam_strong=2.805e+00 mass=0.991 E_var=12.3549 E_strong=12.3549 core=0.47 t=212s
+[base_s0] E= 14.500 loss_var=5.579e+00 Lam_strong=5.579e+00 mass=0.988 E_var=12.5637 E_strong=12.5637 core=0.24 t=191s
+[base_s1] E= 10.500 loss_var=5.434e+00 Lam_strong=5.434e+00 mass=0.984 E_var=11.7163 E_strong=11.7163 core=0.44 t=188s
+[base_s1] E= 11.500 loss_var=2.222e+00 Lam_strong=2.222e+00 mass=1.004 E_var=11.9782 E_strong=11.9782 core=0.67 t=194s
+[base_s1] E= 12.500 loss_var=1.669e+00 Lam_strong=1.669e+00 mass=1.004 E_var=12.1469 E_strong=12.1469 core=0.79 t=190s
+[base_s1] E= 13.500 loss_var=2.865e+00 Lam_strong=2.865e+00 mass=0.983 E_var=12.3476 E_strong=12.3476 core=0.46 t=200s
