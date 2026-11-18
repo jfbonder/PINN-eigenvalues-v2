@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1794998512.50613 "FBS-v4-short.tex" "FBS-v4-short.pdf" "FBS-v4-short" 1794998515.75599 0
+["pdflatex"] 1794998592.10092 "FBS-v4-short.tex" "FBS-v4-short.pdf" "FBS-v4-short" 1794998595.29122 0
   "/etc/texmf/web2c/texmf.cnf" 1794941976.19227 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/root/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx0800.600pk" 1794989981.97339 19852 482b2cfd7b4b635ce504262d50267e31 ""
   "/root/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk" 1794942020.1778 25396 f0917f6b7b4174098a94cede40a30ed4 ""
@@ -133,9 +133,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1794941978.14517 73908 b116809a00f4ed9447ea8febc7fdf7de ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1794941982 6830979 8e7fe224f9ef695d21df8332e82a86a1 ""
-  "FBS-v4-short.aux" 1794998515.62006 36832 0a897709204d236e54a9269e5579ecb0 "pdflatex"
-  "FBS-v4-short.out" 1794998515.62406 8539 1602053b17810327646c6da413c651e7 "pdflatex"
-  "FBS-v4-short.tex" 1794998509.06525 120422 77db7d64d0e2aec961f1fa37125fae4b ""
+  "FBS-v4-short.aux" 1794998595.16006 36760 f2570cf9c19dbfda89ea89883fcea362 "pdflatex"
+  "FBS-v4-short.out" 1794998595.16406 8353 aa395d09a406f3f2851ab401133ffa31 "pdflatex"
+  "FBS-v4-short.tex" 1794998588.79785 121253 d289ed33e2236a7fbcfe268468e7f080 ""
   "Loss.png" 1794998125.79081 28178 76efbd74969c67c8e3a369c4eae1f7c4 ""
   "NN-Tikz.png" 1794998125.79225 38562 85829d462ed55bcabe2c9ece1e797e35 ""
   "egen_p=2_n=2_V=harmonic_omega=1_disco_1.png" 1794998125.79361 57503 5f84a03e30ae5b28296b0be1a8794da4 ""

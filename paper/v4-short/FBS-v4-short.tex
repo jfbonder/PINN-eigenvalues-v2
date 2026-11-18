@@ -238,6 +238,24 @@ the predicted nodes for $\mu<D^2/2$ (Appendix~\ref{sec.mu}, Table~\ref{table.mu}
 scratch at a high value of $E$ is a different matter: it is unreliable, and high windows are reached
 by warm-start continuation from below (Appendix~\ref{sec.analysis}).
 
+\begin{table}[tbp]
+\centering\small
+\caption{Test of the rule $\mu\ge D^2$: window $[15,55]$ of the unit square ($D^2=219.2$; the value $\mu=219$ is $\approx D^2$), offset grid of 16 nodes, two seeds, reduced network. Spurious minima: interior local minima of the recorded residual more than $2.5$ away from an eigenvalue, seed 0 / seed 1. Collapsed: nodes with $\overline{u^2}<0.1$, observed / predicted by Proposition~\ref{prop.penalized}. $\hat E$: Rayleigh quotient near $5\pi^2=49.3480$ (seeds 0, 1).}
+\label{table.mu}
+\begin{tabular}{rrcccc}
+\toprule
+$\mu$ & $\mu/D^2$ & regime & spurious minima & collapsed & $\hat E$\\
+\midrule
+30 & 0.14 & (iv) & 3 / 1 ($E=28$--$41$) & 6/6 & 49.3482, 49.3477\\
+75 & 0.34 & (iv) & 1 / 1 ($E=33$--$36$) & 2/2 & 49.3487, 49.3476\\
+150 & 0.68 & (iii) & 1 / 1 ($E=35.6$) & 0/0 & 49.3473, 49.3478\\
+219 & $\approx1.0$ & (ii) & none & 0/0 & 49.3487, 49.3483\\
+300 & 1.4 & (ii) & none & 0/0 & 49.3479, 49.3481\\
+1000 & 4.6 & (ii) & none & 0/0 & 49.3475, 49.3475\\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{The algorithm}
 Fix a window $[E_*,E^*]$ and a uniform grid $E_*=E^1<\cdots<E^J=E^*$ of step $h$. For each $E^i$ the
 network is trained to minimize $\bar\Lambda(\cdot,E^i)$, initialized with the weights obtained at
@@ -367,6 +385,13 @@ $(1,3),(3,1)$ & 2 & $10\pi^2\approx 98.6960$ & 98.695973 & $7.2\times10^{-7}$ & 
 \end{tabular}
 \end{table}
 
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=.6\textwidth]{paper_sweep_curve.png}
+\caption{The scan of Table~\ref{table.1} (80 nodes on $[0,105]$, $\mu=500$). Left: recorded residual term and normalized loss $r^2$ (dotted lines: eigenvalues). Right: mean of $u^2$. After the re-initialization at $E=99.7$ the network collapses to $u\equiv0$: the recorded residual drops to $10^{-5}$ while $r^2$ jumps to $\approx10^3$.}
+\label{fig.collapse}
+\end{figure}
+
 The results are reproducible and the certificates are informative. On the window $[15,55]$ of the
 square (step 5, $\mu=450$), seeds 0, 1, 2 all gave local minima at $E=20$ and $E=50$ only, with refined
 values $19.7394$, $19.7397$, $19.7450$ for $2\pi^2$ and $49.3486$, $49.3485$, $49.3474$ for $5\pi^2$. Over
@@ -374,7 +399,7 @@ the 14 minima detected in our unit-square runs the Weinstein radius exceeded the
 factor $120$--$4300$ and the Kato--Temple bound by a factor $2.7$--$66$ (median $7.5$): both bounds held,
 and the Kato--Temple bound is the informative one. The only spurious zeros of the recorded curve were
 collapses to $u\equiv0$ after a re-initialization at $E=99.7$, immediately flagged by
-$\overline{u^2}\approx10^{-8}$ and $r=30$--$42$ (Appendix~\ref{sec.analysis}, Fig.~\ref{fig.collapse}).
+$\overline{u^2}\approx10^{-8}$ and $r=30$--$42$ (Fig.~\ref{fig.collapse}, Appendix~\ref{sec.analysis}).
 
 \subsection{A potential: comparison with finite elements}\label{sec.fem}
 For potentials no closed-form eigenvalues are available, and we compare with independent finite
@@ -389,7 +414,8 @@ eigenvalues ($17$ with multiplicity) in five clusters; the loss curve has exactl
 one per cluster, every FEM eigenvalue lies within $0.75$ of one of them, and the Rayleigh quotient is
 within $0.04\%$ of the nearest FEM eigenvalue. On windows centred at the FEM values, with 2--3 seeds,
 the seed means agree with FEM to within $0.1\%$ and single runs to within $0.25\%$ for the double-well,
-four-well and harmonic potentials (Table~\ref{table.fem}, Fig.~\ref{fig.fem}), although $\min\Lambda$
+four-well and harmonic potentials (Table~\ref{table.fem}; the four-well and harmonic potentials are
+defined in Appendix~\ref{sec.potentials}), although $\min\Lambda$
 is $0.06$--$1.05$ (i.e.\ $r=0.25$--$1$): the accuracy comes from the Rayleigh quotient. The loss curve
 has one minimum per cluster of close eigenvalues and the quotient returns a value inside the cluster;
 the number and multiplicities of the eigenvalues in a cluster cannot be read from the curve. For these
@@ -414,6 +440,77 @@ minimum at $E$ & $\hat E$ & FEM eigenvalues within $1.5$ & rel.\ diff.\ (\%)\\
 \end{tabular}
 \end{table}
 
+\begin{table}[tbp]
+\centering\footnotesize
+\caption{PINN versus finite elements (FEM) for the potentials of Appendix~\ref{sec.potentials}. FEM: extrapolated value $\pm$ estimated uncertainty (multiplicity); $^\dagger$: other FEM eigenvalues within $0.75$, i.e.\ a cluster that the scan does not resolve (the reference is then the cluster member nearest to the computed value). $\hat E$: Rayleigh quotient of the trained network for each seed. Rel.\ diff.: of the seed mean, and largest over single seeds.}
+\label{table.fem}
+\begin{tabular}{@{}lllccc@{}}
+\toprule
+example & FEM (mult.) & $\hat E$ per seed & \multicolumn{2}{c}{rel.\ diff.\ (\%)} & $\min\Lambda$\\
+ & & & mean & worst & \\
+\midrule
+double well, ball $\R^3$ & $9.5764\pm0.0005$ (1) & 9.5783, 9.5782 & $+0.019$ & 0.019 & 0.065\\
+ & $19.7522\pm0.003$ (1)$^\dagger$ & 19.7640, 19.7547 & $+0.036$ & 0.060 & 0.077\\
+ & $32.8735\pm0.02$ (2)$^\dagger$ & 32.9552, 32.8571 & $+0.099$ & 0.248 & 0.117\\
+ & $39.1924\pm0.01$ (1) & 39.1944, 39.1938 & $+0.004$ & 0.005 & 0.108\\
+\midrule
+four well, ball $\R^3$ & $9.8542\pm0.0005$ (1) & 9.8593, 9.8646, 9.8581 & $+0.066$ & 0.105 & 0.355\\
+ & $20.1801\pm0.003$ (2)$^\dagger$ & 20.1505, 20.1878, 20.1870 & $-0.025$ & 0.147 & 0.478\\
+ & $33.2104\pm0.01$ (2)$^\dagger$ & 33.2141, 33.2077, 33.2061 & $-0.003$ & 0.013 & 0.407\\
+ & $39.4573\pm0.01$ (1) & 39.4578, 39.4414, 39.4554 & $-0.015$ & 0.040 & 1.054\\
+\midrule
+harmonic $\omega=10$, disk & $14.2847$ (1) & 14.2899, 14.2904 & $+0.038$ & 0.040 & 0.174\\
+ & $29.1349$ (2) & 29.1357, 29.1353 & $+0.002$ & 0.003 & 0.056\\
+ & $45.0887$ (2) & 45.0892, 45.0892 & $+0.001$ & 0.001 & 0.065\\
+ & $62.5793$ (2) & 62.5792, 62.5800 & $+0.0005$ & 0.001 & 0.076\\
+\bottomrule
+\multicolumn{6}{@{}l}{FEM uncertainties for $\omega=10$ (two dimensions): $3\times10^{-7}$--$2\times10^{-5}$.}
+\end{tabular}
+\end{table}
+
+\subsection{Balls of \texorpdfstring{$\R^3$}{R3} and \texorpdfstring{$\R^4$}{R4}}
+In the unit ball $B^d$, $d=3,4$, the eigenvalues are known explicitly: for $m\in\N_0$, $n\in\N$,
+$E_{(m,n)}=j_{m+\frac12,n}^2$ with multiplicity $2m+1$ if $d=3$, and $E_{(m,n)}=j_{m+1,n}^2$ with
+multiplicity $(m+1)^2$ if $d=4$, where $j_{\nu,n}$ is the $n$-th positive zero of the Bessel function
+$J_\nu$. Fig.~\ref{loss3D.fig} shows full scans starting at $E=0$ ($\mu=100$ for $d=3$ and $\mu=200$ for
+$d=4$). To measure the accuracy we trained, for each of the first eigenvalues, on three nodes $E_k-0.9$,
+$E_k+0.1$, $E_k+1.1$ (fresh network at the first node, warm start at the other two, seed 0, settings of
+Table~\ref{table.settings}) and report the Rayleigh quotient at the node of smallest normalized loss
+(Table~\ref{table.2}). These windows were placed using the known eigenvalues: they test the accuracy of
+the computed values, not their detection. In $\R^3$ already the first (cold) node converged to the
+targeted eigenfunction ($|\hat E-E_k|\le0.01$, $r\approx1$). In $\R^4$ the quotient still follows the
+training value across the window ($14.507$, $14.712$, $14.963$ at $E=13.78$, $14.78$, $15.78$): with 2000
+epochs the network has not fully converged to an eigenfunction, and the quotient is reliable only at
+the node of smallest loss.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Eigenvalues of \eqref{eigen2} in the unit balls of $\R^3$ and $\R^4$ (three-node windows, seed 0). $\hat E$: Rayleigh quotient at the node of smallest normalized loss, with its Monte Carlo standard error in the last digits ($4\times10^5$ points); $r$: Weinstein radius. In $\R^4$ the quotient drifts with the node ($14.51$, $14.71$, $14.96$ for the first eigenvalue); the value at the node of smallest loss is given. The higher eigenvalues in the windows of Fig.~\ref{loss3D.fig} were not recomputed in this way and are shown only in that figure.}
+\label{table.2}
+\begin{tabular}{ccccccc}
+\toprule
+$d$ & $(m,n)$ & mult. & $E_{(m,n)}$ & $\hat E$ & rel.\ error & $r$\\
+\midrule
+3 & $(0,1)$ & 1 & $j_{1/2,1}^2\approx9.8696$ & 9.8757(4) & $6.2\times10^{-4}$ & 0.41\\
+3 & $(1,1)$ & 3 & $j_{3/2,1}^2\approx20.1907$ & 20.1912(4) & $2.2\times10^{-5}$ & 0.22\\
+3 & $(2,1)$ & 5 & $j_{5/2,1}^2\approx33.2175$ & 33.2178(4) & $9\times10^{-6}$ & 0.26\\
+3 & $(0,2)$ & 1 & $j_{1/2,2}^2\approx39.4784$ & 39.4789(6) & $1.3\times10^{-5}$ & 0.24\\
+\midrule
+4 & $(0,1)$ & 1 & $j_{1,1}^2\approx14.6820$ & 14.7122(5) & $2.1\times10^{-3}$ & 0.46\\
+4 & $(1,1)$ & 4 & $j_{2,1}^2\approx26.3746$ & 26.3980(10) & $8.9\times10^{-4}$ & 0.79\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=.4\columnwidth]{loss_n=3_V=0_p=2_mu=100_reseteo_cada_15_iteraciones.png}
+\includegraphics[width=.4\columnwidth]{loss_n=4_p=2_V=0_mu=200.png}
+\caption{The loss curve $\bar\Lambda(E)$ in the unit ball of $\R^3$ (left) and of $\R^4$ (right) compared with the exact curve.}
+\label{loss3D.fig}
+\end{figure}
+
+
 \subsection{Dimension ten}\label{sec.d10}
 The cost of an epoch grows only linearly with $d$ (about $60+50d$ ms per epoch for the $3\times128$
 network with 5000 points on one thread), whereas mesh-based methods become infeasible in high
@@ -429,13 +526,12 @@ $+1.0\%$); no Monte Carlo standard error was computed for this run. With $r\appr
 the Weinstein enclosure is weak, so this example shows feasibility rather than accuracy.
 
 \subsection{Other examples}
-Appendix~\ref{app.linear} contains: the unit balls of $\R^3$ and $\R^4$ (Table~\ref{table.2}, relative
-errors $9\times10^{-6}$ to $2.1\times10^{-3}$); the triangle with vertices $(0,0),(1,0),(0,1)$, with all
+Appendix~\ref{app.linear} contains: the triangle with vertices $(0,0),(1,0),(0,1)$, with all
 four eigenvalues in $[0,180]$ up to $17\pi^2$ (Table~\ref{table.4}, relative errors $5.4\times10^{-5}$ to
 $1.2\times10^{-3}$); the annulus, where the scan followed the radial branch and missed two eigenvalues;
 the harmonic potential in the disk ($\omega=1$ and $\omega=10$, where two eigenvalues $1.2$ apart are
-separated only with step $0.5$); the four-well potential; and the full FEM comparison
-(Table~\ref{table.fem}).
+separated only with step $0.5$); the four-well potential; and the details of the FEM comparison
+(Fig.~\ref{fig.fem}).
 
 % ===========================================================================
 \section{The \texorpdfstring{$p$}{p}-Laplacian}\label{sec.nolin}
@@ -510,6 +606,23 @@ $\int|\nabla u|^p/\int|u|^p$, so its error is in general of first order in the e
 eigenfunction (instead of second order for $p=2$).
 \end{remark}
 
+\begin{lemma}[Degeneracy at critical points]\label{lem.critical}
+Let $p>2$, $u\in C^2$ near $x_0$ and $\nabla u(x_0)=0$. Then $\Delta_pu(x_0)=0$; hence the residual
+of \eqref{p-eigen} at $x_0$ equals $E|u(x_0)|^{p-2}u(x_0)$, and an eigenfunction cannot be $C^2$ near
+a critical point where it does not vanish.
+\end{lemma}
+\begin{proof}
+For $p>2$, $\Phi(\xi)=|\xi|^{p-2}\xi$ is $C^1$ with $D\Phi(0)=0$, so $\Phi(\nabla u)$ is $C^1$ and
+\[
+\Delta_pu(x_0)=\operatorname{tr}\big(D\Phi(\nabla u(x_0))\,D^2u(x_0)\big)=0. \qedhere
+\]
+\end{proof}
+Our networks are smooth, so by Lemma~\ref{lem.critical} the pointwise residual of a trained network
+cannot vanish at its critical points (e.g.\ at the maximum of a first eigenfunction). This suggests,
+although it does not prove it for a finite network and a sampled loss, that the trained loss keeps a
+positive floor at the eigenvalues, growing with $p$ and with the size of the critical set; this is
+what we observe below.
+
 \emph{Numerical results.} We use the same network, $\mu=200$, and Adam with a cosine learning-rate
 decay from $10^{-3}$ to $10^{-5}$ over 1500 epochs at each $E$ (full settings in
 Appendix~\ref{app.plap}). Since exact eigenvalues are unknown for $p\ne2$, we compare with independent
@@ -557,6 +670,23 @@ $k$ & eigenfunction [reference] & $E_{\rm ref}$ & $E_{\rm PINN}$ (rel.\ diff.) &
 \caption{Loss curves $\bar\Lambda_p(E)$ (fresh sample, logarithmic scale): unit disk, $p=2.2$ (left), square $[0,2]^2$, $p=2.2$ (centre), unit ball of $\R^3$, $p=2.5$ (right). Dotted lines: reference eigenvalues. P1: learning-rate decay; P0: constant learning rate with early stopping.}
 \label{fig.plap}
 \end{figure}
+
+\begin{table}[tbp]
+\centering\small
+\caption{Seed dependence for $p=2.2$ (seeds 0, 1, 2; local three-node windows, $h=0.5$, settings of Table~\ref{tab.plap}). For the second eigenvalue of the square the close eigenvalues $15.1429$ (diagonal nodal line) and $15.2808$ (midline) lie in the same minimum of the loss curve; each seed converges to one of them, no mean is given, and the difference is measured to the nearer one.}
+\label{tab.plap.seeds}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccc}
+\toprule
+eigenvalue & $E_{\rm ref}$ & $E_{\rm PINN}$ (seeds 0, 1, 2) & mean & spread & max.\ rel.\ diff.\ (\%) & $E_{\rm curve}$ (seeds 0, 1, 2)\\
+\midrule
+disk $E_1$ & 6.5317 & 6.5320, 6.5329, 6.5285 & 6.5311 & 0.0044 & 0.05 & 6.54, 6.54, 6.54\\
+disk $E_2$ & 18.3929 & 18.4069, 18.3890, 18.3968 & 18.3976 & 0.0179 & 0.08 & 18.41, 18.45, 18.46\\
+square $E_1$ & 5.4950 & 5.4902, 5.4867, 5.4966 & 5.4912 & 0.0100 & 0.15 & 5.52, 5.49, 5.41\\
+square $E_2$ & 15.1429 / 15.2808 & 15.1440, 15.2467, 15.1396 & -- & -- & 0.22 & 15.16, 15.51, 15.42\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Table~\ref{tab.plap} and Fig.~\ref{fig.plap} show that the first and second eigenvalues agree with
 the references to within $0.1\%$ in the three domains. Beyond them, the same scan detects further
@@ -655,6 +785,7 @@ the eigenvalue slightly. A weak-form version of the loss is a natural direction 
 \appendix
 
 \section{Proofs}\label{app.proofs}
+This appendix contains the proof of existence of minimizers of \eqref{Lambda} and the proofs of all the propositions of Sections~\ref{sec.approach} and \ref{sec.nolin}.
 
 \subsection{Existence of minimizers}
 We show that the minimization problem leading to the loss curve $\Lambda(E)$ in \eqref{Lambda} admits
@@ -802,6 +933,7 @@ uniformly but the upper bound grows like $E_k^{2(p-1)/p}$.
 
 % ---------------------------------------------------------------------------
 \section{Implementation details}\label{sec.implementation}
+This appendix describes the network, the training protocol and the settings of every linear example, and the cost model behind Section~\ref{sec.cost}.
 
 \subsection{Network and boundary factor}
 We use a fully connected feed-forward multilayer perceptron with three hidden layers of 128 neurons
@@ -929,6 +1061,7 @@ derivatives make each epoch more expensive, and multiplicities and close cluster
 
 % ---------------------------------------------------------------------------
 \section{Further linear examples}\label{app.linear}
+This appendix collects the linear examples not discussed in Section~\ref{sec.examples} and the details of the finite element validation.
 
 \subsection{Disk and square}
 Fig.~\ref{func.fig} shows the first four computed eigenfunctions in the unit disk (scan of
@@ -970,48 +1103,6 @@ with the exact curve.}
 \caption{The first two computed eigenfunctions in the unit square (from a run with $\mu=150$).}
 \label{loss.lap.square.fig.2}
 \end{minipage}
-\end{figure}
-
-\subsection{Balls of \texorpdfstring{$\R^3$}{R3} and \texorpdfstring{$\R^4$}{R4}}
-In the unit ball $B^d$, $d=3,4$, the eigenvalues are known explicitly: for $m\in\N_0$, $n\in\N$,
-$E_{(m,n)}=j_{m+\frac12,n}^2$ with multiplicity $2m+1$ if $d=3$, and $E_{(m,n)}=j_{m+1,n}^2$ with
-multiplicity $(m+1)^2$ if $d=4$, where $j_{\nu,n}$ is the $n$-th positive zero of the Bessel function
-$J_\nu$. Fig.~\ref{loss3D.fig} shows full scans starting at $E=0$ ($\mu=100$ for $d=3$ and $\mu=200$ for
-$d=4$). To measure the accuracy we trained, for each of the first eigenvalues, on three nodes $E_k-0.9$,
-$E_k+0.1$, $E_k+1.1$ (fresh network at the first node, warm start at the other two, seed 0, settings of
-Table~\ref{table.settings}) and report the Rayleigh quotient at the node of smallest normalized loss
-(Table~\ref{table.2}). These windows were placed using the known eigenvalues: they test the accuracy of
-the computed values, not their detection. In $\R^3$ already the first (cold) node converged to the
-targeted eigenfunction ($|\hat E-E_k|\le0.01$, $r\approx1$). In $\R^4$ the quotient still follows the
-training value across the window ($14.507$, $14.712$, $14.963$ at $E=13.78$, $14.78$, $15.78$): with 2000
-epochs the network has not fully converged to an eigenfunction, and the quotient is reliable only at
-the node of smallest loss.
-
-\begin{table}[H]
-\centering\small
-\caption{Eigenvalues of \eqref{eigen2} in the unit balls of $\R^3$ and $\R^4$ (three-node windows, seed 0). $\hat E$: Rayleigh quotient at the node of smallest normalized loss, with its Monte Carlo standard error in the last digits ($4\times10^5$ points); $r$: Weinstein radius. In $\R^4$ the quotient drifts with the node ($14.51$, $14.71$, $14.96$ for the first eigenvalue); the value at the node of smallest loss is given. The higher eigenvalues in the windows of Fig.~\ref{loss3D.fig} were not recomputed in this way and are shown only in that figure.}
-\label{table.2}
-\begin{tabular}{ccccccc}
-\toprule
-$d$ & $(m,n)$ & mult. & $E_{(m,n)}$ & $\hat E$ & rel.\ error & $r$\\
-\midrule
-3 & $(0,1)$ & 1 & $j_{1/2,1}^2\approx9.8696$ & 9.8757(4) & $6.2\times10^{-4}$ & 0.41\\
-3 & $(1,1)$ & 3 & $j_{3/2,1}^2\approx20.1907$ & 20.1912(4) & $2.2\times10^{-5}$ & 0.22\\
-3 & $(2,1)$ & 5 & $j_{5/2,1}^2\approx33.2175$ & 33.2178(4) & $9\times10^{-6}$ & 0.26\\
-3 & $(0,2)$ & 1 & $j_{1/2,2}^2\approx39.4784$ & 39.4789(6) & $1.3\times10^{-5}$ & 0.24\\
-\midrule
-4 & $(0,1)$ & 1 & $j_{1,1}^2\approx14.6820$ & 14.7122(5) & $2.1\times10^{-3}$ & 0.46\\
-4 & $(1,1)$ & 4 & $j_{2,1}^2\approx26.3746$ & 26.3980(10) & $8.9\times10^{-4}$ & 0.79\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=.4\columnwidth]{loss_n=3_V=0_p=2_mu=100_reseteo_cada_15_iteraciones.png}
-\includegraphics[width=.4\columnwidth]{loss_n=4_p=2_V=0_mu=200.png}
-\caption{The loss curve $\bar\Lambda(E)$ in the unit ball of $\R^3$ (left) and of $\R^4$ (right) compared with the exact curve.}
-\label{loss3D.fig}
 \end{figure}
 
 \subsection{Triangle and annulus}
@@ -1133,36 +1224,9 @@ $0.5$), with the settings of Table~\ref{table.settings} and 2--3 seeds; the eige
 quotient of the network at the node of smallest normalized loss. \emph{The windows were centred at the
 finite element values}: this is a test of the accuracy of the loss curve at known eigenvalues, not a
 blind detection (the blind scan is Table~\ref{table.blind}). Table~\ref{table.fem} and Fig.~\ref{fig.fem}
-show the results. Since the reference values are themselves approximations, we speak of relative
+show the results (Table~\ref{table.fem} is in Section~\ref{sec.fem}). Since the reference values are themselves approximations, we speak of relative
 differences.
 
-\begin{table}[H]
-\centering\footnotesize
-\caption{PINN versus finite elements (FEM) for the potentials of Appendix~\ref{sec.potentials}. FEM: extrapolated value $\pm$ estimated uncertainty (multiplicity); $^\dagger$: other FEM eigenvalues within $0.75$, i.e.\ a cluster that the scan does not resolve (the reference is then the cluster member nearest to the computed value). $\hat E$: Rayleigh quotient of the trained network for each seed. Rel.\ diff.: of the seed mean, and largest over single seeds.}
-\label{table.fem}
-\begin{tabular}{@{}lllccc@{}}
-\toprule
-example & FEM (mult.) & $\hat E$ per seed & \multicolumn{2}{c}{rel.\ diff.\ (\%)} & $\min\Lambda$\\
- & & & mean & worst & \\
-\midrule
-double well, ball $\R^3$ & $9.5764\pm0.0005$ (1) & 9.5783, 9.5782 & $+0.019$ & 0.019 & 0.065\\
- & $19.7522\pm0.003$ (1)$^\dagger$ & 19.7640, 19.7547 & $+0.036$ & 0.060 & 0.077\\
- & $32.8735\pm0.02$ (2)$^\dagger$ & 32.9552, 32.8571 & $+0.099$ & 0.248 & 0.117\\
- & $39.1924\pm0.01$ (1) & 39.1944, 39.1938 & $+0.004$ & 0.005 & 0.108\\
-\midrule
-four well, ball $\R^3$ & $9.8542\pm0.0005$ (1) & 9.8593, 9.8646, 9.8581 & $+0.066$ & 0.105 & 0.355\\
- & $20.1801\pm0.003$ (2)$^\dagger$ & 20.1505, 20.1878, 20.1870 & $-0.025$ & 0.147 & 0.478\\
- & $33.2104\pm0.01$ (2)$^\dagger$ & 33.2141, 33.2077, 33.2061 & $-0.003$ & 0.013 & 0.407\\
- & $39.4573\pm0.01$ (1) & 39.4578, 39.4414, 39.4554 & $-0.015$ & 0.040 & 1.054\\
-\midrule
-harmonic $\omega=10$, disk & $14.2847$ (1) & 14.2899, 14.2904 & $+0.038$ & 0.040 & 0.174\\
- & $29.1349$ (2) & 29.1357, 29.1353 & $+0.002$ & 0.003 & 0.056\\
- & $45.0887$ (2) & 45.0892, 45.0892 & $+0.001$ & 0.001 & 0.065\\
- & $62.5793$ (2) & 62.5792, 62.5800 & $+0.0005$ & 0.001 & 0.076\\
-\bottomrule
-\multicolumn{6}{@{}l}{FEM uncertainties for $\omega=10$ (two dimensions): $3\times10^{-7}$--$2\times10^{-5}$.}
-\end{tabular}
-\end{table}
 
 \begin{figure}[H]
 \centering
@@ -1215,7 +1279,7 @@ periodic re-initialization) is discussed in Appendix~\ref{app.cold}.
 $\mu=1000$ it gave the same normalized loss values and Rayleigh quotients as the full network to within
 the training noise), warm start and two seeds. On the window $[15,55]$ of the unit square, which
 contains $2\pi^2$ and $5\pi^2$ (double), $D=14.8$ at the mid-gap $34.5$ and $D^2=219.2$, we used an offset
-grid $E=15.6,18.1,\dots,53.1$ (no node on an eigenvalue) and six values of $\mu$ (Table~\ref{table.mu}).
+grid $E=15.6,18.1,\dots,53.1$ (no node on an eigenvalue) and six values of $\mu$ (Table~\ref{table.mu}, Section~\ref{sec.approach}).
 The predicted effect is observed: for $\mu<D^2$ the recorded residual has a spurious interior minimum in
 the gap ($E\approx33$--$36$, next to the mid-gap) in all six runs, and for $\mu\ge D^2$ in none of the six
 runs; for $\mu<D^2/2$ the network collapses exactly at the predicted nodes. The eigenvalues themselves
@@ -1231,23 +1295,6 @@ produces a spurious zero at $E=42$); the relative error of the eigenvalue is at 
 $60\le\mu\le1000$ and $2.0\times10^{-4}$ for $\mu=10^4$, where the curve is distorted (stiff penalty). A
 single eigenvalue gives a single basin, so this window cannot distinguish $\mu=60$ from $\mu=113$.
 
-\begin{table}[H]
-\centering\small
-\caption{Test of the rule $\mu\ge D^2$: window $[15,55]$ of the unit square ($D^2=219.2$; the value $\mu=219$ is $\approx D^2$), offset grid of 16 nodes, two seeds, reduced network. Spurious minima: interior local minima of the recorded residual more than $2.5$ away from an eigenvalue, seed 0 / seed 1. Collapsed: nodes with $\overline{u^2}<0.1$, observed / predicted by Proposition~\ref{prop.penalized}. $\hat E$: Rayleigh quotient near $5\pi^2=49.3480$ (seeds 0, 1).}
-\label{table.mu}
-\begin{tabular}{rrcccc}
-\toprule
-$\mu$ & $\mu/D^2$ & regime & spurious minima & collapsed & $\hat E$\\
-\midrule
-30 & 0.14 & (iv) & 3 / 1 ($E=28$--$41$) & 6/6 & 49.3482, 49.3477\\
-75 & 0.34 & (iv) & 1 / 1 ($E=33$--$36$) & 2/2 & 49.3487, 49.3476\\
-150 & 0.68 & (iii) & 1 / 1 ($E=35.6$) & 0/0 & 49.3473, 49.3478\\
-219 & $\approx1.0$ & (ii) & none & 0/0 & 49.3487, 49.3483\\
-300 & 1.4 & (ii) & none & 0/0 & 49.3479, 49.3481\\
-1000 & 4.6 & (ii) & none & 0/0 & 49.3475, 49.3475\\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \begin{figure}[H]
 \centering
@@ -1258,6 +1305,7 @@ $\mu$ & $\mu/D^2$ & regime & spurious minima & collapsed & $\hat E$\\
 
 % ---------------------------------------------------------------------------
 \section{Stability measurements, cold start and refinement}\label{sec.analysis}
+This appendix reports the measurements behind Section~\ref{sec.stability}, the behaviour of cold starts, and the comparison of refinement estimators.
 
 \subsection{Error decomposition and interpretation}\label{app.stab}
 The error of the computed loss at the node $E^i$ splits as
@@ -1330,12 +1378,6 @@ and a large $r$, and are invisible in the residual term alone. The same happens 
 (Appendix~\ref{sec.mu}). We therefore record, at each node, the normalized loss $\Lambda(u,E)=r^2$, the
 mass $\overline{u^2}$ and the Rayleigh quotient, and discard nodes with $\overline{u^2}<\frac12$.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=.6\textwidth]{paper_sweep_curve.png}
-\caption{The scan of Table~\ref{table.1} (80 nodes on $[0,105]$, $\mu=500$). Left: recorded residual term and normalized loss $r^2$ (dotted lines: eigenvalues). Right: mean of $u^2$. After the re-initialization at $E=99.7$ the network collapses to $u\equiv0$: the recorded residual drops to $10^{-5}$ while $r^2$ jumps to $\approx10^3$.}
-\label{fig.collapse}
-\end{figure}
 
 \subsection{Cold start}\label{app.cold}
 When the network is trained from scratch at a level $E$, the residual of the initial network is of order
@@ -1389,6 +1431,7 @@ upward bias.
 
 % ---------------------------------------------------------------------------
 \section{The \texorpdfstring{$p$}{p}-Laplacian: details and convergence studies}\label{app.plap}
+This appendix gives the settings and reference computations of Section~\ref{sec.nolin}, the seed dependence, the convergence study, and the experiments on the range of $p$.
 
 \subsection{Settings}
 Network $3\times128$ $\tanh$ times $B(x)$, $N=5000$ fresh points per epoch, $\mu=200$, Adam with learning
@@ -1423,47 +1466,16 @@ which the double eigenvalue $5\pi^2/4$ of the Laplacian splits at $p=2.2$; $33.1
 strips.
 
 \subsection{Seeds}
-Table~\ref{tab.plap.seeds} repeats the first two eigenvalues of the disk and of the square with three
+Table~\ref{tab.plap.seeds} (Section~\ref{sec.nolin}) repeats the first two eigenvalues of the disk and of the square with three
 seeds (local three-node windows, $h=0.5$): the spread of $E_{\rm PINN}$ is $0.004$--$0.018$ and the largest
 relative difference $0.15\%$, whereas the vertex $E_{\rm curve}$ is much less reproducible (from $+0.49\%$
 to $-1.64\%$ for the first eigenvalue of the square). For the second eigenvalue of the square, seeds 0
 and 2 gave the diagonal mode and seed 1 the midline mode.
 
-\begin{table}[H]
-\centering\small
-\caption{Seed dependence for $p=2.2$ (seeds 0, 1, 2; local three-node windows, $h=0.5$, settings of Table~\ref{tab.plap}). For the second eigenvalue of the square the close eigenvalues $15.1429$ (diagonal nodal line) and $15.2808$ (midline) lie in the same minimum of the loss curve; each seed converges to one of them, no mean is given, and the difference is measured to the nearer one.}
-\label{tab.plap.seeds}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lcccccc}
-\toprule
-eigenvalue & $E_{\rm ref}$ & $E_{\rm PINN}$ (seeds 0, 1, 2) & mean & spread & max.\ rel.\ diff.\ (\%) & $E_{\rm curve}$ (seeds 0, 1, 2)\\
-\midrule
-disk $E_1$ & 6.5317 & 6.5320, 6.5329, 6.5285 & 6.5311 & 0.0044 & 0.05 & 6.54, 6.54, 6.54\\
-disk $E_2$ & 18.3929 & 18.4069, 18.3890, 18.3968 & 18.3976 & 0.0179 & 0.08 & 18.41, 18.45, 18.46\\
-square $E_1$ & 5.4950 & 5.4902, 5.4867, 5.4966 & 5.4912 & 0.0100 & 0.15 & 5.52, 5.49, 5.41\\
-square $E_2$ & 15.1429 / 15.2808 & 15.1440, 15.2467, 15.1396 & -- & -- & 0.22 & 15.16, 15.51, 15.42\\
-\bottomrule
-\end{tabular}
-\end{table}
 
-\subsection{Degeneracy at critical points and error sources}\label{app.conv}
+\subsection{Error sources}\label{app.conv}
+This section details the convergence study summarized in Section~\ref{sec.nolin}; the residual floor at critical points is explained by Lemma~\ref{lem.critical}.
 
-\begin{lemma}[Degeneracy at critical points]\label{lem.critical}
-Let $p>2$, $u\in C^2$ near $x_0$ and $\nabla u(x_0)=0$. Then $\Delta_pu(x_0)=0$; hence the residual
-of \eqref{p-eigen} at $x_0$ equals $E|u(x_0)|^{p-2}u(x_0)$, and an eigenfunction cannot be $C^2$ near
-a critical point where it does not vanish.
-\end{lemma}
-\begin{proof}
-For $p>2$, $\Phi(\xi)=|\xi|^{p-2}\xi$ is $C^1$ with $D\Phi(0)=0$, so $\Phi(\nabla u)$ is $C^1$ and
-\[
-\Delta_pu(x_0)=\operatorname{tr}\big(D\Phi(\nabla u(x_0))\,D^2u(x_0)\big)=0. \qedhere
-\]
-\end{proof}
-Our networks are smooth, so by Lemma~\ref{lem.critical} the pointwise residual of a trained network
-cannot vanish at its critical points (e.g.\ at the maximum of a first eigenfunction). This suggests,
-although it does not prove it for a finite network and a sampled loss, that the trained loss keeps a
-positive floor at the eigenvalues, growing with $p$ and with the size of the critical set; this is
-what we observe.
 
 Tables~\ref{tab.plap.conv} and \ref{tab.plap.conv2} vary one setting at a time for the first and second
 eigenvalues of the disk, $p=2.2$ (single seed except where stated). We identify the following error

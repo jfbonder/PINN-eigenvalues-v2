@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.17)  18 NOV 2026 10:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.17)  18 NOV 2026 10:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -487,145 +487,340 @@ Underfull \hbox (badness 1092) in paragraph at lines 183--183
 10 )$\T1/cmr/m/n/10 , as pre-dicted by
  []
 
-[2] [3 <./Loss.png> <./lossNN-lento.png>] [4] [5] [6]
-<plap_disk_curves.png, id=389, 578.16pt x 289.08pt>
-File: plap_disk_curves.png Graphic file (type png)
-<use plap_disk_curves.png>
-Package pdftex.def Info: plap_disk_curves.png  used on input line 554.
-(pdftex.def)             Requested size: 160.80624pt x 80.39929pt.
-<plap_square_curves.png, id=390, 578.16pt x 289.08pt>
-File: plap_square_curves.png Graphic file (type png)
-<use plap_square_curves.png>
-Package pdftex.def Info: plap_square_curves.png  used on input line 555.
-(pdftex.def)             Requested size: 160.80624pt x 80.39929pt.
-<plap_ball_curves.png, id=391, 578.16pt x 289.08pt>
-File: plap_ball_curves.png Graphic file (type png)
-<use plap_ball_curves.png>
-Package pdftex.def Info: plap_ball_curves.png  used on input line 556.
-(pdftex.def)             Requested size: 160.80624pt x 80.39929pt.
- [7 <./plap_disk_curves.png> <./plap_square_curves.png> <./plap_ball_curves.png
->] [8] [9] [10
-
-] [11]
-<NN-Tikz.png, id=465, 601.24625pt x 409.53pt>
-File: NN-Tikz.png Graphic file (type png)
-<use NN-Tikz.png>
-Package pdftex.def Info: NN-Tikz.png  used on input line 828.
-(pdftex.def)             Requested size: 173.1806pt x 117.96078pt.
-
-Underfull \vbox (badness 2103) has occurred while \output is active []
-
- [12 <./NN-Tikz.png>] [13]
-<eigen1-1.png, id=530, 402.5439pt x 331.7193pt>
-File: eigen1-1.png Graphic file (type png)
-<use eigen1-1.png>
-Package pdftex.def Info: eigen1-1.png  used on input line 946.
-(pdftex.def)             Requested size: 69.27072pt x 57.07991pt.
-<eigen1-2.png, id=531, 431.4519pt x 426.393pt>
-File: eigen1-2.png Graphic file (type png)
-<use eigen1-2.png>
-Package pdftex.def Info: eigen1-2.png  used on input line 946.
-(pdftex.def)             Requested size: 69.27072pt x 68.4585pt.
-<eigen2-1.png, id=532, 416.9979pt x 331.7193pt>
-File: eigen2-1.png Graphic file (type png)
-<use eigen2-1.png>
-Package pdftex.def Info: eigen2-1.png  used on input line 947.
-(pdftex.def)             Requested size: 69.27072pt x 55.10081pt.
-<eigen2-2.png, id=533, 428.5611pt x 426.393pt>
-File: eigen2-2.png Graphic file (type png)
-<use eigen2-2.png>
-Package pdftex.def Info: eigen2-2.png  used on input line 947.
-(pdftex.def)             Requested size: 69.27072pt x 68.92043pt.
-<eigen3-1.png, id=534, 416.9979pt x 331.7193pt>
-File: eigen3-1.png Graphic file (type png)
-<use eigen3-1.png>
-Package pdftex.def Info: eigen3-1.png  used on input line 948.
-(pdftex.def)             Requested size: 69.27072pt x 55.10081pt.
-<eigen3-2.png, id=535, 428.5611pt x 426.393pt>
-File: eigen3-2.png Graphic file (type png)
-<use eigen3-2.png>
-Package pdftex.def Info: eigen3-2.png  used on input line 948.
-(pdftex.def)             Requested size: 69.27072pt x 68.92043pt.
-<eigen4-1.png, id=536, 416.9979pt x 331.7193pt>
-File: eigen4-1.png Graphic file (type png)
-<use eigen4-1.png>
-Package pdftex.def Info: eigen4-1.png  used on input line 949.
-(pdftex.def)             Requested size: 69.27072pt x 55.10081pt.
-<eigen4-2.png, id=537, 429.2838pt x 426.393pt>
-File: eigen4-2.png Graphic file (type png)
-<use eigen4-2.png>
-Package pdftex.def Info: eigen4-2.png  used on input line 949.
-(pdftex.def)             Requested size: 69.27072pt x 68.80331pt.
-<loss_2d_cuadrado_entre_45_y_55_1er_autovalor.png, id=539, 505.89pt x 285.4665p
-t>
-File: loss_2d_cuadrado_entre_45_y_55_1er_autovalor.png Graphic file (type png)
-<use loss_2d_cuadrado_entre_45_y_55_1er_autovalor.png>
-Package pdftex.def Info: loss_2d_cuadrado_entre_45_y_55_1er_autovalor.png  used
- on input line 959.
-(pdftex.def)             Requested size: 197.91422pt x 111.67995pt.
-
-Underfull \hbox (badness 1077) in paragraph at lines 961--961
-\T1/cmr/m/sc/10 Figure 6.[]\T1/cmr/m/n/10 The loss curve
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 961--961
-\T1/cmr/m/n/10 to-gether with the ex-act
- []
-
-<n=2_p=2_v=0_mu=150_cuadrado_autof1.png, id=540, 422.0568pt x 357.0138pt>
-File: n=2_p=2_v=0_mu=150_cuadrado_autof1.png Graphic file (type png)
-<use n=2_p=2_v=0_mu=150_cuadrado_autof1.png>
-Package pdftex.def Info: n=2_p=2_v=0_mu=150_cuadrado_autof1.png  used on input 
-line 966.
-(pdftex.def)             Requested size: 66.50142pt x 56.25175pt.
-<n=2_p=2_v=0_mu=150_cuadrado_autof13d.png, id=541, 431.4519pt x 426.393pt>
-File: n=2_p=2_v=0_mu=150_cuadrado_autof13d.png Graphic file (type png)
-<use n=2_p=2_v=0_mu=150_cuadrado_autof13d.png>
-Package pdftex.def Info: n=2_p=2_v=0_mu=150_cuadrado_autof13d.png  used on inpu
-t line 967.
-(pdftex.def)             Requested size: 66.50142pt x 65.71938pt.
-<n=2_p=2_v=0_mu=150_cuadrado_autof2.png, id=542, 423.5022pt x 350.5095pt>
-File: n=2_p=2_v=0_mu=150_cuadrado_autof2.png Graphic file (type png)
-<use n=2_p=2_v=0_mu=150_cuadrado_autof2.png>
-Package pdftex.def Info: n=2_p=2_v=0_mu=150_cuadrado_autof2.png  used on input 
-line 968.
-(pdftex.def)             Requested size: 66.50142pt x 55.0344pt.
-<n=2_p=2_v=0_mu=150_cuadrado_autof23d.png, id=543, 428.5611pt x 426.393pt>
-File: n=2_p=2_v=0_mu=150_cuadrado_autof23d.png Graphic file (type png)
-<use n=2_p=2_v=0_mu=150_cuadrado_autof23d.png>
-Package pdftex.def Info: n=2_p=2_v=0_mu=150_cuadrado_autof23d.png  used on inpu
-t line 969.
-(pdftex.def)             Requested size: 66.50142pt x 66.16179pt.
-[14 <./eigen1-1.png> <./eigen1-2.png> <./eigen2-1.png> <./eigen2-2.png> <./eige
-n3-1.png> <./eigen3-2.png> <./eigen4-1.png> <./eigen4-2.png> <./loss_2d_cuadrad
-o_entre_45_y_55_1er_autovalor.png> <./n=2_p=2_v=0_mu=150_cuadrado_autof1.png> <
-./n=2_p=2_v=0_mu=150_cuadrado_autof13d.png> <./n=2_p=2_v=0_mu=150_cuadrado_auto
-f2.png> <./n=2_p=2_v=0_mu=150_cuadrado_autof23d.png>]
-<loss_n=3_V=0_p=2_mu=100_reseteo_cada_15_iteraciones.png, id=567, 497.9403pt x 
+[2] [3 <./Loss.png> <./lossNN-lento.png>] [4]
+<paper_sweep_curve.png, id=328, 794.97pt x 274.626pt>
+File: paper_sweep_curve.png Graphic file (type png)
+<use paper_sweep_curve.png>
+Package pdftex.def Info: paper_sweep_curve.png  used on input line 390.
+(pdftex.def)             Requested size: 296.87888pt x 102.56125pt.
+ [5] [6 <./paper_sweep_curve.png>]
+<loss_n=3_V=0_p=2_mu=100_reseteo_cada_15_iteraciones.png, id=364, 497.9403pt x 
 227.6505pt>
 File: loss_n=3_V=0_p=2_mu=100_reseteo_cada_15_iteraciones.png Graphic file (typ
 e png)
 <use loss_n=3_V=0_p=2_mu=100_reseteo_cada_15_iteraciones.png>
 Package pdftex.def Info: loss_n=3_V=0_p=2_mu=100_reseteo_cada_15_iteraciones.pn
-g  used on input line 1011.
+g  used on input line 507.
 (pdftex.def)             Requested size: 197.91422pt x 90.48195pt.
-<loss_n=4_p=2_V=0_mu=200.png, id=568, 502.2765pt x 268.1217pt>
+<loss_n=4_p=2_V=0_mu=200.png, id=365, 502.2765pt x 268.1217pt>
 File: loss_n=4_p=2_V=0_mu=200.png Graphic file (type png)
 <use loss_n=4_p=2_V=0_mu=200.png>
-Package pdftex.def Info: loss_n=4_p=2_V=0_mu=200.png  used on input line 1012.
+Package pdftex.def Info: loss_n=4_p=2_V=0_mu=200.png  used on input line 508.
 (pdftex.def)             Requested size: 197.91422pt x 105.64711pt.
-<loss_n=2_p=2_V=0_mu=15000_triangulo.png, id=576, 719.68875pt x 372.39125pt>
+[7 <./loss_n=3_V=0_p=2_mu=100_reseteo_cada_15_iteraciones.png> <./loss_n=4_p=2_
+V=0_mu=200.png>] [8]
+<plap_disk_curves.png, id=415, 578.16pt x 289.08pt>
+File: plap_disk_curves.png Graphic file (type png)
+<use plap_disk_curves.png>
+Package pdftex.def Info: plap_disk_curves.png  used on input line 667.
+(pdftex.def)             Requested size: 160.80624pt x 80.39929pt.
+<plap_square_curves.png, id=416, 578.16pt x 289.08pt>
+File: plap_square_curves.png Graphic file (type png)
+<use plap_square_curves.png>
+Package pdftex.def Info: plap_square_curves.png  used on input line 668.
+(pdftex.def)             Requested size: 160.80624pt x 80.39929pt.
+<plap_ball_curves.png, id=417, 578.16pt x 289.08pt>
+File: plap_ball_curves.png Graphic file (type png)
+<use plap_ball_curves.png>
+Package pdftex.def Info: plap_ball_curves.png  used on input line 669.
+(pdftex.def)             Requested size: 160.80624pt x 80.39929pt.
+ [9] [10 <./plap_disk_curves.png> <./plap_square_curves.png> <./plap_ball_curve
+s.png>] [11] [12
+
+] [13]
+<NN-Tikz.png, id=495, 601.24625pt x 409.53pt>
+File: NN-Tikz.png Graphic file (type png)
+<use NN-Tikz.png>
+Package pdftex.def Info: NN-Tikz.png  used on input line 960.
+(pdftex.def)             Requested size: 173.1806pt x 117.96078pt.
+ [14 <./NN-Tikz.png>] [15]
+<eigen1-1.png, id=559, 402.5439pt x 331.7193pt>
+File: eigen1-1.png Graphic file (type png)
+<use eigen1-1.png>
+Package pdftex.def Info: eigen1-1.png  used on input line 1079.
+(pdftex.def)             Requested size: 69.27072pt x 57.07991pt.
+<eigen1-2.png, id=560, 431.4519pt x 426.393pt>
+File: eigen1-2.png Graphic file (type png)
+<use eigen1-2.png>
+Package pdftex.def Info: eigen1-2.png  used on input line 1079.
+(pdftex.def)             Requested size: 69.27072pt x 68.4585pt.
+<eigen2-1.png, id=561, 416.9979pt x 331.7193pt>
+File: eigen2-1.png Graphic file (type png)
+<use eigen2-1.png>
+Package pdftex.def Info: eigen2-1.png  used on input line 1080.
+(pdftex.def)             Requested size: 69.27072pt x 55.10081pt.
+<eigen2-2.png, id=562, 428.5611pt x 426.393pt>
+File: eigen2-2.png Graphic file (type png)
+<use eigen2-2.png>
+Package pdftex.def Info: eigen2-2.png  used on input line 1080.
+(pdftex.def)             Requested size: 69.27072pt x 68.92043pt.
+<eigen3-1.png, id=563, 416.9979pt x 331.7193pt>
+File: eigen3-1.png Graphic file (type png)
+<use eigen3-1.png>
+Package pdftex.def Info: eigen3-1.png  used on input line 1081.
+(pdftex.def)             Requested size: 69.27072pt x 55.10081pt.
+<eigen3-2.png, id=564, 428.5611pt x 426.393pt>
+File: eigen3-2.png Graphic file (type png)
+<use eigen3-2.png>
+Package pdftex.def Info: eigen3-2.png  used on input line 1081.
+(pdftex.def)             Requested size: 69.27072pt x 68.92043pt.
+<eigen4-1.png, id=565, 416.9979pt x 331.7193pt>
+File: eigen4-1.png Graphic file (type png)
+<use eigen4-1.png>
+Package pdftex.def Info: eigen4-1.png  used on input line 1082.
+(pdftex.def)             Requested size: 69.27072pt x 55.10081pt.
+<eigen4-2.png, id=566, 429.2838pt x 426.393pt>
+File: eigen4-2.png Graphic file (type png)
+<use eigen4-2.png>
+Package pdftex.def Info: eigen4-2.png  used on input line 1082.
+(pdftex.def)             Requested size: 69.27072pt x 68.80331pt.
+<loss_2d_cuadrado_entre_45_y_55_1er_autovalor.png, id=568, 505.89pt x 285.4665p
+t>
+File: loss_2d_cuadrado_entre_45_y_55_1er_autovalor.png Graphic file (type png)
+<use loss_2d_cuadrado_entre_45_y_55_1er_autovalor.png>
+Package pdftex.def Info: loss_2d_cuadrado_entre_45_y_55_1er_autovalor.png  used
+ on input line 1092.
+(pdftex.def)             Requested size: 197.91422pt x 111.67995pt.
+
+Underfull \hbox (badness 1077) in paragraph at lines 1094--1094
+\T1/cmr/m/sc/10 Figure 8.[]\T1/cmr/m/n/10 The loss curve
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1094--1094
+\T1/cmr/m/n/10 to-gether with the ex-act
+ []
+
+<n=2_p=2_v=0_mu=150_cuadrado_autof1.png, id=569, 422.0568pt x 357.0138pt>
+File: n=2_p=2_v=0_mu=150_cuadrado_autof1.png Graphic file (type png)
+<use n=2_p=2_v=0_mu=150_cuadrado_autof1.png>
+Package pdftex.def Info: n=2_p=2_v=0_mu=150_cuadrado_autof1.png  used on input 
+line 1099.
+(pdftex.def)             Requested size: 66.50142pt x 56.25175pt.
+<n=2_p=2_v=0_mu=150_cuadrado_autof13d.png, id=570, 431.4519pt x 426.393pt>
+File: n=2_p=2_v=0_mu=150_cuadrado_autof13d.png Graphic file (type png)
+<use n=2_p=2_v=0_mu=150_cuadrado_autof13d.png>
+Package pdftex.def Info: n=2_p=2_v=0_mu=150_cuadrado_autof13d.png  used on inpu
+t line 1100.
+(pdftex.def)             Requested size: 66.50142pt x 65.71938pt.
+<n=2_p=2_v=0_mu=150_cuadrado_autof2.png, id=571, 423.5022pt x 350.5095pt>
+File: n=2_p=2_v=0_mu=150_cuadrado_autof2.png Graphic file (type png)
+<use n=2_p=2_v=0_mu=150_cuadrado_autof2.png>
+Package pdftex.def Info: n=2_p=2_v=0_mu=150_cuadrado_autof2.png  used on input 
+line 1101.
+(pdftex.def)             Requested size: 66.50142pt x 55.0344pt.
+<n=2_p=2_v=0_mu=150_cuadrado_autof23d.png, id=572, 428.5611pt x 426.393pt>
+File: n=2_p=2_v=0_mu=150_cuadrado_autof23d.png Graphic file (type png)
+<use n=2_p=2_v=0_mu=150_cuadrado_autof23d.png>
+Package pdftex.def Info: n=2_p=2_v=0_mu=150_cuadrado_autof23d.png  used on inpu
+t line 1102.
+(pdftex.def)             Requested size: 66.50142pt x 66.16179pt.
+[16 <./eigen1-1.png> <./eigen1-2.png> <./eigen2-1.png> <./eigen2-2.png> <./eige
+n3-1.png> <./eigen3-2.png> <./eigen4-1.png> <./eigen4-2.png> <./loss_2d_cuadrad
+o_entre_45_y_55_1er_autovalor.png> <./n=2_p=2_v=0_mu=150_cuadrado_autof1.png> <
+./n=2_p=2_v=0_mu=150_cuadrado_autof13d.png> <./n=2_p=2_v=0_mu=150_cuadrado_auto
+f2.png> <./n=2_p=2_v=0_mu=150_cuadrado_autof23d.png>]
+<loss_n=2_p=2_V=0_mu=15000_triangulo.png, id=600, 719.68875pt x 372.39125pt>
 File: loss_n=2_p=2_V=0_mu=15000_triangulo.png Graphic file (type png)
 <use loss_n=2_p=2_V=0_mu=15000_triangulo.png>
 Package pdftex.def Info: loss_n=2_p=2_V=0_mu=15000_triangulo.png  used on input
- line 1050.
+ line 1141.
 (pdftex.def)             Requested size: 197.91422pt x 102.40506pt.
-
-Underfull \hbox (badness 1077) in paragraph at lines 1051--1051
-\T1/cmr/m/sc/10 Figure 9.[]\T1/cmr/m/n/10 The loss curve
- []
-
-<eigen_p=2_n=2_V=0_triangulo_4.png, id=577, 402.5439pt x 331.7193pt>
+<eigen_p=2_n=2_V=0_triangulo_4.png, id=601, 402.5439pt x 331.7193pt>
 File: eigen_p=2_n=2_V=0_triangulo_4.png Graphic file (type png)
-<use eigen_p=2_n=2_V=0_triangulo_4.pn
+<use eigen_p=2_n=2_V=0_triangulo_4.png>
+Package pdftex.def Info: eigen_p=2_n=2_V=0_triangulo_4.png  used on input line 
+1147.
+(pdftex.def)             Requested size: 66.50142pt x 54.79712pt.
+<eigen_p=2_n=2_V=0_triangulo_4_3d.png, id=602, 427.8384pt x 426.393pt>
+File: eigen_p=2_n=2_V=0_triangulo_4_3d.png Graphic file (type png)
+<use eigen_p=2_n=2_V=0_triangulo_4_3d.png>
+Package pdftex.def Info: eigen_p=2_n=2_V=0_triangulo_4_3d.png  used on input li
+ne 1148.
+(pdftex.def)             Requested size: 66.50142pt x 66.2724pt.
+<eigen_p=2_n=2_V=0_triangulo_5.png, id=603, 396.0396pt x 331.7193pt>
+File: eigen_p=2_n=2_V=0_triangulo_5.png Graphic file (type png)
+<use eigen_p=2_n=2_V=0_triangulo_5.png>
+Package pdftex.def Info: eigen_p=2_n=2_V=0_triangulo_5.png  used on input line 
+1149.
+(pdftex.def)             Requested size: 66.50142pt x 55.69809pt.
+<eigen_p=2_n=2_V=0_triangulo_5_3d.png, id=604, 424.2249pt x 426.393pt>
+File: eigen_p=2_n=2_V=0_triangulo_5_3d.png Graphic file (type png)
+<use eigen_p=2_n=2_V=0_triangulo_5_3d.png>
+Package pdftex.def Info: eigen_p=2_n=2_V=0_triangulo_5_3d.png  used on input li
+ne 1150.
+(pdftex.def)             Requested size: 66.50142pt x 66.83844pt.
+<loss_n=2_p=2_V=0_annulus.png, id=606, 515.2851pt x 268.1217pt>
+File: loss_n=2_p=2_V=0_annulus.png Graphic file (type png)
+<use loss_n=2_p=2_V=0_annulus.png>
+Package pdftex.def Info: loss_n=2_p=2_V=0_annulus.png  used on input line 1158.
+
+(pdftex.def)             Requested size: 128.64348pt x 66.93616pt.
+<eigen1-annulus.png, id=607, 415.5525pt x 331.7193pt>
+File: eigen1-annulus.png Graphic file (type png)
+<use eigen1-annulus.png>
+Package pdftex.def Info: eigen1-annulus.png  used on input line 1159.
+(pdftex.def)             Requested size: 128.64348pt x 102.69019pt.
+<eigen1-3d-annulus.png, id=608, 427.8384pt x 426.393pt>
+File: eigen1-3d-annulus.png Graphic file (type png)
+<use eigen1-3d-annulus.png>
+Package pdftex.def Info: eigen1-3d-annulus.png  used on input line 1160.
+(pdftex.def)             Requested size: 128.64348pt x 128.20515pt.
+ [17 <./loss_n=2_p=2_V=0_mu=15000_triangulo.png> <./eigen_p=2_n=2_V=0_triangulo
+_4.png> <./eigen_p=2_n=2_V=0_triangulo_4_3d.png> <./eigen_p=2_n=2_V=0_triangulo
+_5.png> <./eigen_p=2_n=2_V=0_triangulo_5_3d.png> <./loss_n=2_p=2_V=0_annulus.pn
+g> <./eigen1-annulus.png> <./eigen1-3d-annulus.png>]
+<loss_p=2_n=2_V=harmonic_omega=1_disco.png, id=625, 592.2125pt x 471.7625pt>
+File: loss_p=2_n=2_V=harmonic_omega=1_disco.png Graphic file (type png)
+<use loss_p=2_n=2_V=harmonic_omega=1_disco.png>
+Package pdftex.def Info: loss_p=2_n=2_V=harmonic_omega=1_disco.png  used on inp
+ut line 1187.
+(pdftex.def)             Requested size: 128.64348pt x 102.47794pt.
+<egen_p=2_n=2_V=harmonic_omega=1_disco_1.png, id=626, 411.2163pt x 331.7193pt>
+File: egen_p=2_n=2_V=harmonic_omega=1_disco_1.png Graphic file (type png)
+<use egen_p=2_n=2_V=harmonic_omega=1_disco_1.png>
+Package pdftex.def Info: egen_p=2_n=2_V=harmonic_omega=1_disco_1.png  used on i
+nput line 1188.
+(pdftex.def)             Requested size: 128.64348pt x 103.77338pt.
+<egen_p=2_n=2_V=harmonic_omega=1_disco_1_3d.png, id=627, 430.7292pt x 426.393pt
+>
+File: egen_p=2_n=2_V=harmonic_omega=1_disco_1_3d.png Graphic file (type png)
+<use egen_p=2_n=2_V=harmonic_omega=1_disco_1_3d.png>
+Package pdftex.def Info: egen_p=2_n=2_V=harmonic_omega=1_disco_1_3d.png  used o
+n input line 1189.
+(pdftex.def)             Requested size: 128.64348pt x 127.34633pt.
+<loss_n=2_V=harmonic_p=2.png, id=629, 427.1157pt x 339.669pt>
+File: loss_n=2_V=harmonic_p=2.png Graphic file (type png)
+<use loss_n=2_V=harmonic_p=2.png>
+Package pdftex.def Info: loss_n=2_V=harmonic_p=2.png  used on input line 1196.
+(pdftex.def)             Requested size: 128.64348pt x 102.30574pt.
+<eigen_n=2_V=harmonic_p=2_1.png, id=630, 402.5439pt x 331.7193pt>
+File: eigen_n=2_V=harmonic_p=2_1.png Graphic file (type png)
+<use eigen_n=2_V=harmonic_p=2_1.png>
+Package pdftex.def Info: eigen_n=2_V=harmonic_p=2_1.png  used on input line 119
+7.
+(pdftex.def)             Requested size: 128.64348pt x 106.0106pt.
+<eigen_n=2_V=harmonic_p=2_1_3d.png, id=631, 427.8384pt x 426.393pt>
+File: eigen_n=2_V=harmonic_p=2_1_3d.png Graphic file (type png)
+<use eigen_n=2_V=harmonic_p=2_1_3d.png>
+Package pdftex.def Info: eigen_n=2_V=harmonic_p=2_1_3d.png  used on input line 
+1198.
+(pdftex.def)             Requested size: 128.64348pt x 128.20515pt.
+<well-1.png, id=634, 414.8298pt x 339.669pt>
+File: well-1.png Graphic file (type png)
+<use well-1.png>
+Package pdftex.def Info: well-1.png  used on input line 1205.
+(pdftex.def)             Requested size: 118.75305pt x 97.23685pt.
+<well-1-plot.png, id=635, 587.19376pt x 471.7625pt>
+File: well-1-plot.png Graphic file (type png)
+<use well-1-plot.png>
+Package pdftex.def Info: well-1-plot.png  used on input line 1206.
+(pdftex.def)             Requested size: 118.75305pt x 95.409pt.
+<well-2.png, id=636, 414.8298pt x 339.669pt>
+File: well-2.png Graphic file (type png)
+<use well-2.png>
+Package pdftex.def Info: well-2.png  used on input line 1207.
+(pdftex.def)             Requested size: 118.75305pt x 97.23685pt.
+<well-2-plot.png, id=637, 591.20876pt x 471.7625pt>
+File: well-2-plot.png Graphic file (type png)
+<use well-2-plot.png>
+Package pdftex.def Info: well-2-plot.png  used on input line 1208.
+(pdftex.def)             Requested size: 118.75305pt x 94.76114pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [18 <./loss_p=2_n=2_V=harmonic_omega=1_disco.png> <./egen_p=2_n=2_V=harmonic_o
+mega=1_disco_1.png> <./egen_p=2_n=2_V=harmonic_omega=1_disco_1_3d.png> <./loss_
+n=2_V=harmonic_p=2.png> <./eigen_n=2_V=harmonic_p=2_1.png> <./eigen_n=2_V=harmo
+nic_p=2_1_3d.png>]
+<pinn_vs_fem_double_well.png, id=653, 953.964pt x 224.037pt>
+File: pinn_vs_fem_double_well.png Graphic file (type png)
+<use pinn_vs_fem_double_well.png>
+Package pdftex.def Info: pinn_vs_fem_double_well.png  used on input line 1233.
+(pdftex.def)             Requested size: 306.7693pt x 72.0454pt.
+<pinn_vs_fem_four_well.png, id=654, 953.964pt x 224.037pt>
+File: pinn_vs_fem_four_well.png Graphic file (type png)
+<use pinn_vs_fem_four_well.png>
+Package pdftex.def Info: pinn_vs_fem_four_well.png  used on input line 1234.
+(pdftex.def)             Requested size: 306.7693pt x 72.0454pt.
+<pinn_vs_fem_harm_w10.png, id=655, 953.964pt x 224.037pt>
+File: pinn_vs_fem_harm_w10.png Graphic file (type png)
+<use pinn_vs_fem_harm_w10.png>
+Package pdftex.def Info: pinn_vs_fem_harm_w10.png  used on input line 1235.
+(pdftex.def)             Requested size: 306.7693pt x 72.0454pt.
+ [19 <./well-1.png> <./well-1-plot.png> <./well-2.png> <./well-2-plot.png> <./p
+inn_vs_fem_double_well.png> <./pinn_vs_fem_four_well.png> <./pinn_vs_fem_harm_w
+10.png>]
+<mu_loss_curves.png, id=679, 794.97pt x 614.295pt>
+File: mu_loss_curves.png Graphic file (type png)
+<use mu_loss_curves.png>
+Package pdftex.def Info: mu_loss_curves.png  used on input line 1301.
+(pdftex.def)             Requested size: 222.65538pt x 172.04828pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [20]
+[21 <./mu_loss_curves.png>] [22] [23] [24] [25]
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
+642.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+) [26
+
+] [27]
+(./FBS-v4-short.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+ ***********
+Package rerunfilecheck Info: File `FBS-v4-short.out' has not changed.
+(rerunfilecheck)             Checksum: AA395D09A406F3F2851AB401133FFA31;8353.
+ ) 
+Here is how much of TeX's memory you used:
+ 12102 strings out of 476106
+ 184394 string characters out of 5793932
+ 1953975 words of memory out of 5000000
+ 33639 multiletter control sequences out of 15000+600000
+ 574511 words of font info for 77 fonts, out of 8000000 for 9000
+ 220 hyphenation exceptions out of 8191
+ 75i,12n,79p,1016b,642s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ </root/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0800.600pk> </
+root/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti0800.600pk> </root/
+.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> </root/.texl
+ive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0900.600pk> </root/.texlive20
+23/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0700.600pk> </root/.texlive2023/te
+xmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.600pk> </root/.texlive2023/texmf-v
+ar/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk> </root/.texlive2023/texmf-var/fo
+nts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </root/.texlive2023/texmf-var/fonts/p
+k/ljfour/jknappen/ec/ecbx0800.600pk> </root/.texlive2023/texmf-var/fonts/pk/ljf
+our/jknappen/ec/eccc0800.600pk> </root/.texlive2023/texmf-var/fonts/pk/ljfour/j
+knappen/ec/ecrm0800.600pk> </root/.texlive2023/texmf-var/fonts/pk/ljfour/jknapp
+en/ec/ecbx1000.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+mi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on FBS-v4-short.pdf (27 pages, 3467336 bytes).
+PDF statistics:
+ 1522 PDF objects out of 1728 (max. 8388607)
+ 789 compressed objects within 8 object streams
+ 163 named destinations out of 1000 (max. 500000)
+ 565 words of extra memory for PDF output out of 10000 (max. 10000000)
+
