@@ -70,3 +70,20 @@ B = [   # worker 1
     J("square22_coarse_P0", "square2", 2.2, np.arange(3, 20.01, 1.0), P0),
 ]
 QUEUES = {0: A, 1: B}
+
+# ---------------- Round 2 (referee check items 9, 13): more seeds, E2 convergence row, node dependence ----------------
+GE2 = [18.0, 18.5, 19.0]
+R2 = []
+for s in (1, 2):
+    R2 += [J(f"r2_diskE2_s{s}", "disk", 2.2, GE2, P1, seed=s, epochs0=3000),
+           J(f"r2_sqE1_s{s}", "square2", 2.2, [5.0, 5.5, 6.0], P1, seed=s, epochs0=3000),
+           J(f"r2_sqE2_s{s}", "square2", 2.2, [14.75, 15.25, 15.75], P1, seed=s, epochs0=3000)]
+R2 += [J("r2_diskE2_w64d2", "disk", 2.2, GE2, P1, width=64, depth=2, epochs0=3000),
+       J("r2_diskE2_P0", "disk", 2.2, GE2, P0),
+       J("r2_diskE2_ep5000", "disk", 2.2, GE2, P1, epochs=5000)]
+for s in (1, 2):
+    R2 += [J(f"r2_disk_p3_s{s}", "disk", 3.0, [8.5, 9.25, 10.0, 10.75, 11.5], P1, seed=s),
+           J(f"r2_disk_p4_s{s}", "disk", 4.0, [13.0, 14.0, 15.0, 16.0, 17.0], P1, seed=s)]
+QUEUES[2] = R2
+# legacy loss near the published second value 19.44 of the disk (true E2 = 18.393), for item 13
+QUEUES[3] = [J("r2_disk22_legacyE2_P1", "disk", 2.2, [17.0, 18.0, 19.0, 20.0, 21.0], P1, legacy=True, mu=4000.0, epochs0=3000)]

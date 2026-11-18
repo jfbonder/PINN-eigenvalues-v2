@@ -1,0 +1,12 @@
+=== 04:40:19 (a) mu offset seed0 load 0.01
+[mucost_off_mu30_s0] E=15.600 mu=30 res=1.223e+01 mass=0.713 r=4.143e+00 ep=704 t=28s
+[mucost_off_mu30_s0] E=18.100 mu=30 res=2.569e+00 mass=0.951 r=1.643e+00 ep=474 t=16s
+[mucost_off_mu30_s0] E=20.600 mu=30 res=7.238e-01 mass=0.971 r=8.635e-01 ep=370 t=12s
+[mucost_off_mu30_s0] E=23.100 mu=30 res=9.216e+00 mass=0.814 r=3.364e+00 ep=361 t=12s
+[mucost_off_mu30_s0] E=25.600 mu=30 res=1.505e+01 mass=0.438 r=5.864e+00 ep=377 t=12s
+[mucost_off_mu30_s0] E=28.100 mu=30 res=3.488e-05 mass=0.000 r=3.481e+02 ep=2000 t=66s
+[mucost_off_mu30_s0] E=30.600 mu=30 res=4.050e-04 mass=0.000 r=1.274e+01 ep=730 t=24s
+[mucost_off_mu30_s0] E=33.100 mu=30 res=6.772e-06 mass=0.000 r=2.325e+02 ep=385 t=13s
+[mucost_off_mu30_s0] E=35.600 mu=30 res=6.224e-06 mass=0.000 r=1.481e+02 ep=302 t=10s
+[mucost_off_mu30_s0] E=38.100 mu=30 res=7.738e-06 mass=0.000 r=3.936e+02 ep=302 t=10s
+[mucost_off_mu30_s0] E=40.600 mu=30 res=7.608e-06 mass=0.000 r=8.752e+01 ep=302 t=10s
