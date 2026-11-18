@@ -1,0 +1,4 @@
+{'E1': 12.154646443660724, 'E_rad2': 280.35314673976853, 'spread': 3.34846816940626e-10}
+  halfdisk       p=3.5 n=  20 nodes=    651 lam_h=69.718679 (2s)
+  halfdisk       p=3.5 n=  40 nodes=   2501 lam_h=69.306932 (3s)
+  halfdisk       p=3.5 n=  80 nodes=   9801 lam_h=69.194203 (9s)
