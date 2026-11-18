@@ -310,7 +310,11 @@ base (lr const.\ + parada temprana) & 1.50, 1.23, 1.61 & $+0.30,\,+0.21,\,-0.08\
 Otras variantes (una semilla): $N=20000$, muestreo por importancia, $\mu=1000$ y pesado (b) dan lo mismo que la base
 (piso $1.2$--$2.2$, $E_{\rm PINN}(12.5)$ entre $-0.5\%$ y $+0.3\%$); 5000 épocas baja la loss a $0.68$ pero no cambia la
 dependencia del nodo. (b$'$) y la mixta con $\lambda=1000$ \textbf{fallan} (mínimo en el borde de la ventana,
-errores de 7--19\%). La mixta con $\lambda=10$ tiene loss $0.36$ pero $E_{\rm PINN}=12.30$ ($+1.2\%$).
+errores de 7--19\%). La mixta con $\lambda=10$ (3 semillas) tiene loss $0.33$--$0.38$ y el vértice de la parábola de la curva
+da $+0.14,\,+0.06,\,+0.22\%$, el mejor resultado de las variantes pedidas; pero su $E_{\rm PINN}$ en forma cerrada es
+peor ($+0.8$ a $+1.3\%$). En \emph{todas} las variantes $E_{\rm PINN}$ se corre $\approx0.17$ por unidad de $E$ (panel
+derecho de la figura anterior): a $p=3.5$ conviene leer el autovalor del mínimo de la curva estabilizada o del punto fijo
+$E^*$, no del cociente en un nodo.
 
 \paragraph{Fuentes de fluctuación} (base, $E=12.5$): ruido de muestreo de la misma red congelada
 $\pm0.53$ sobre un valor de 2.05 (lotes de 5000 puntos), del mismo orden que la diferencia entre semillas (1.67--2.17).
@@ -343,11 +347,23 @@ suave y global de $0.2\%$, sin estructura en el punto crítico. Que la autofunci
 loss tenga un piso de 2 muestra que la loss fuerte amplifica errores locales en el punto degenerado.
 
 \subsection{Segundo autovalor: no anda}
-Ventana $E=65,\dots,73$ (referencia 69.16), redes entrenadas desde cero (3000 épocas): tanto la base como la mixta
-\textbf{colapsan} (masa $\int|u|^p$ entre 0.003 y 0.06) y los cocientes no tienen sentido (base: 31--63; mixta: 15).
-Para $p=3.5$ el término de normalización $\mu(\int|u|^p-1)^2$ compite con un residuo que escala como $E^2$ (aquí
-$\sim 5000$) y la solución trivial gana. Está corriendo una variante que primero fija la masa (500 épocas sólo con
-normalización) y después entrena el residuo.
+Ventana $E=65,\dots,73$ (referencia 69.16), redes entrenadas desde cero (3000 épocas en cada nodo):
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+corrida & masa $\int|u|^p$ en $E=65,67,69,71,73$ & loss & $E_{\rm PINN}$\\
+\midrule
+base & 0.007--0.06 & 880--2300 & 31--63\\
+base, fijando primero la masa (500 épocas) & 0.006, 0.017, 0.23, 0.016, \textbf{0.50} & 2400, 1500, 400, 1600, \textbf{178} & 27, 48, 68, 54, \textbf{69.39}\\
+mixta (con o sin fijar la masa) & 0.003--0.005 & $\approx3000$ & 14--15\\
+\bottomrule
+\end{tabular}
+\end{center}
+Casi todo colapsa a $u\approx0$: el término de normalización $\mu(\int|u|^p-1)^2$ compite con un residuo que, para una red
+sin entrenar, es del orden de miles, y la solución trivial gana. Sólo el nodo $73$ con la masa fijada primero forma una
+autofunción a medias (masa 0.5) con $E_{\rm PINN}=69.39$ ($+0.3\%$ respecto de 69.16): es un indicio, no un resultado.
+Probablemente hace falta llegar por continuación en $E$ desde abajo (como en el caso lineal) o cambiar la normalización
+o la escala inicial; no se probó.
 
 %==========================================================
 \section{Conclusiones}
@@ -358,6 +374,9 @@ Imponiendo el borde en la loss el método funciona: curva suave, tres autovalore
 $-2\%$. El sesgo de $E_1$ es consistente con la condición débil y la singularidad de la esquina.
 \item \textbf{Cruz:} sigue sin funcionar; necesita algo más (más entrenamiento, $\beta$ progresivo, o la forma débil de la
 ecuación).
+\item \textbf{$p=3.5$, ``oscilación'':} la loss de la base fluctúa por varianza del Monte Carlo concentrada en el centro
+(la misma red congelada da $2.05\pm0.53$ entre lotes de 5000 puntos), no por el optimizador; los nodos vecinos difieren
+menos que ese ruido, de ahí la curva errática en grillas finas.
 \item \textbf{$p=3.5$:} la dificultad es la degeneración del operador en el máximo. El método base detecta $E_1$
 ($\pm1$--$2\%$ según el nodo). Darle a la red la entrada $|x|^{p/(p-1)}$, que es el perfil local exacto, resuelve casi todo
 para $E_1$ ($\le0.3\%$ con el punto fijo, tres semillas). Requiere conocer dónde está el punto crítico (aquí, el centro por

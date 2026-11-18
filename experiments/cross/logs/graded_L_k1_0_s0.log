@@ -1,2 +1,4 @@
 k1 0 s0 E= 9.20 rho_res=9.4176 rho_var=9.2945 r=0.502 mass=1.005 bdry=2.0e-03 corner=0.42 t=127s
 k1 0 s0 E= 9.30 rho_res=9.4900 rho_var=9.4311 r=0.485 mass=0.998 bdry=1.7e-03 corner=0.46 t=125s
+k1 0 s0 E= 9.40 rho_res=9.5450 rho_var=9.5369 r=0.459 mass=0.997 bdry=1.5e-03 corner=0.49 t=124s
+k1 0 s0 E= 9.50 rho_res=9.5189 rho_var=9.4802 r=0.412 mass=0.986 bdry=1.4e-03 corner=0.56 t=130s

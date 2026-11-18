@@ -17,3 +17,5 @@
 [mixed_E2_premass] E= 67.000 loss_var=2.827e+03 Lam_strong=3.152e+03 mass=0.004 E_var=15.2159 E_strong=10.1900 E_weak=17.2454 cons=2.93e+00 core=0.16 t=103s
 [mixed_E2_premass] E= 69.000 loss_var=3.032e+03 Lam_strong=3.405e+03 mass=0.004 E_var=15.1852 E_strong=10.0655 E_weak=18.0978 cons=3.13e+00 core=0.15 t=107s
 [mixed_E2_premass] E= 71.000 loss_var=3.229e+03 Lam_strong=3.606e+03 mass=0.003 E_var=15.4440 E_strong=10.0981 E_weak=17.8118 cons=3.35e+00 core=0.15 t=117s
+[mixed_E2_premass] E= 73.000 loss_var=3.421e+03 Lam_strong=3.852e+03 mass=0.003 E_var=15.4305 E_strong=10.0546 E_weak=18.4423 cons=3.45e+00 core=0.15 t=107s
+QUEUE DONE

@@ -1,2 +1,4 @@
 k1 U s0 E= 9.20 rho_res=9.5066 rho_var=9.4694 r=0.663 mass=1.006 bdry=2.5e-03 corner=0.16 t=126s
 k1 U s0 E= 9.30 rho_res=9.5560 rho_var=9.5562 r=0.605 mass=1.003 bdry=2.0e-03 corner=0.16 t=130s
+k1 U s0 E= 9.40 rho_res=9.5356 rho_var=9.5093 r=0.534 mass=1.024 bdry=1.8e-03 corner=0.18 t=125s
+k1 U s0 E= 9.50 rho_res=9.6312 rho_var=9.6949 r=0.508 mass=1.005 bdry=1.5e-03 corner=0.18 t=133s
