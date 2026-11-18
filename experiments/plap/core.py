@@ -60,7 +60,8 @@ def evaluate(model, job, E, n_eval=40000, chunk=5000, seed=None):
         if p == 2.0:
             Lu = pe._laplacian(u, x)
         else:
-            A = gn ** (p - 2) * g
+            eps = float(job.get("eps", 0.0))
+            A = (gn ** (p - 2) if eps == 0.0 else (g.pow(2).sum(1, keepdim=True) + eps ** 2) ** ((p - 2) / 2)) * g
             Lu = sum(torch.autograd.grad(A[:, i].sum(), x, retain_graph=True)[0][:, i:i + 1]
                      for i in range(x.shape[1]))
         u = u.detach(); Lu = Lu.detach(); gn = gn.detach()
@@ -84,6 +85,30 @@ def evaluate(model, job, E, n_eval=40000, chunk=5000, seed=None):
     return dict(Lam=Lam, mass=mass, Lam_n=Lam / mass ** hom, E_ls=E_ls, Lam_ls=Lam_ls / mass ** hom,
                 RQ=m["gp"] / m["up"], core_frac=(res2[idx].sum() / res2.sum()).item(),
                 res_max=res2.max().item() ** 0.5, mean_u2=m["u2"])
+
+
+def train_one_reg(model, E_val, sampler, n_samples, n_epochs, lr, mu, p, eps, vol, lr_scheduler=None):
+    """Same as pe.train_one (Adam, fresh batch per epoch, no early stopping) for the REGULARISED operator
+    div((|grad u|^2 + eps^2)^{(p-2)/2} grad u) + E|u|^{p-2}u, penalty mu(int|u|^p - 1)^2."""
+    t0 = time.perf_counter()
+    opt = torch.optim.Adam(model.parameters(), lr=lr)
+    sch = lr_scheduler(opt) if lr_scheduler is not None else None
+    for _ in range(n_epochs):
+        x = sampler(n_samples).requires_grad_(True)
+        opt.zero_grad()
+        u = model(x)
+        (g,) = torch.autograd.grad(u, x, torch.ones_like(u), create_graph=True)
+        A = (g.pow(2).sum(1, keepdim=True) + eps ** 2) ** ((p - 2.0) / 2.0) * g
+        div = sum(torch.autograd.grad(A[:, i].sum(), x, create_graph=True)[0][:, i:i + 1] for i in range(x.shape[1]))
+        pw = u.abs().clamp_min(1e-12) ** (p - 2.0) * u
+        res = vol * ((div + E_val * pw) ** 2).mean()
+        nrm = (vol * (u.abs() ** p).mean() - 1.0) ** 2
+        loss = res + mu * nrm
+        loss.backward(); opt.step()
+        if sch is not None:
+            sch.step()
+    return res.item(), nrm.item(), dict(wall_time=time.perf_counter() - t0, epochs_run=n_epochs, total_loss=loss.item(),
+                                        best_loss=float("nan"))
 
 
 def _lr_sched(job):
@@ -128,7 +153,11 @@ def run_job(job, verbose=True):
         epochs = job["epochs"] if (i % reset_every != 0 or "epochs0" not in job) else job["epochs0"]
         if i == 0 and "epochs0" in job:
             epochs = job["epochs0"]
-        res, nrm, info = pe.train_one(model, E, D["sampler"], pe.V_zero, n_samples=job.get("N", 5000),
+        if job.get("eps"):
+            res, nrm, info = train_one_reg(model, E, D["sampler"], job.get("N", 5000), epochs, job.get("lr", 1e-3), mu, p,
+                                           float(job["eps"]), vol, _lr_sched(dict(job, epochs=epochs)))
+        else:
+          res, nrm, info = pe.train_one(model, E, D["sampler"], pe.V_zero, n_samples=job.get("N", 5000),
                                       n_epochs=epochs, lr=job.get("lr", 1e-3), mu=mu, p=p,
                                       patience=job.get("patience", 300), tol=job.get("tol", 1e-5),
                                       lr_scheduler=_lr_sched(dict(job, epochs=epochs)),
