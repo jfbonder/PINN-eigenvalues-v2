@@ -17,7 +17,7 @@ def one(name, ref, i=None):
     E, L, r, d = c
     ev, i, _ = vertex3(E, L, i)
     return dict(name=name, seed=d["config"].get("seed", 0), E_node=float(E[i]), E_ls=r[i]["E_ls"], E_vertex=ev, Lam=float(L[i]),
-                core=r[i]["core_frac"], E_ls_nodes=[x["E_ls"] for x in r], nodes=E.tolist(), Lam_nodes=L.tolist(),
+                core=r[i]["core_frac"], mass_nodes=[x["mass"] for x in r], E_ls_nodes=[x["E_ls"] for x in r], nodes=E.tolist(), Lam_nodes=L.tolist(),
                 wall=sum(x["wall_time"] for x in r), ref=ref)
 
 
@@ -90,15 +90,19 @@ tex.append(f"2.2 & {refs['p2.2_d2']['E1']:.4f} & " + ", ".join(f"{x['E_ls']:.4f}
            + (lambda v, r: f"{min(v):.3f}--{max(v):.3f} (${pc((min(v)-r)/r)}$ to ${pc((max(v)-r)/r)}$)")([e for x in out.get('disk E1', []) for e in x['E_ls_nodes'][-3:]] or [0], refs['p2.2_d2']['E1']) + r" \\")
 for p, names in [(3.0, ["disk_p3", "r2_disk_p3_s1", "r2_disk_p3_s2"]), (4.0, ["disk_p4", "r2_disk_p4_s1", "r2_disk_p4_s2"])]:
     ref = refs[f"p{p}_d2"]["E1"]; rows = [x for x in (one(n, ref) for n in names) if x and len(x["nodes"]) == 5]
-    allc = []
+    allc = []; ncoll = 0
     for x in rows:
-        cen = x["E_ls_nodes"][1:4]; allc += cen
+        coll = [x["nodes"][j] for j in range(5) if x["mass_nodes"][j] < 0.5]
+        ncoll += len(coll)
+        cen = [x["E_ls_nodes"][j] for j in range(1, 4) if x["mass_nodes"][j] >= 0.5]; allc += cen
+        x["collapsed_nodes"] = coll
         md.append(f"| {p} | {x['seed']} | {ref:.4f} | {x['nodes']} | " + ", ".join(f"{v:.2f}" for v in x["Lam_nodes"]) + " | " + ", ".join(f"{v:.3f}" for v in x["E_ls_nodes"])
-                  + f" | {x['E_node']} | {x['E_ls']:.4f} ({pc((x['E_ls']-ref)/ref)}) | {x['E_vertex']:.3f} ({pc((x['E_vertex']-ref)/ref)}) | {min(cen):.3f}–{max(cen):.3f} ({pc((min(cen)-ref)/ref)} to {pc((max(cen)-ref)/ref)}) |")
+                  + f" | {x['E_node']} | {x['E_ls']:.4f} ({pc((x['E_ls']-ref)/ref)}) | {x['E_vertex']:.3f} ({pc((x['E_vertex']-ref)/ref)}) | {min(cen):.3f}–{max(cen):.3f} ({pc((min(cen)-ref)/ref)} to {pc((max(cen)-ref)/ref)})" + (f"; COLLAPSED to u=0 at E={coll}" if coll else "") + " |")
     if rows:
         mx = max(abs(x["E_ls"] - ref) / ref for x in rows)
         md.append(f"| {p} | all | | | | | | max abs err {100*mx:.2f} % | | {min(allc):.3f}–{max(allc):.3f} ({pc((min(allc)-ref)/ref)} to {pc((max(allc)-ref)/ref)}) |")
-        tex.append(f"{p:g} & {ref:.4f} & " + ", ".join(f"{x['E_ls']:.3f}" for x in rows) + f" & {100*mx:.2f} & {min(allc):.2f}--{max(allc):.2f} (${pc((min(allc)-ref)/ref)}$ to ${pc((max(allc)-ref)/ref)}$)" + r" \\")
+        tex.append(f"{p:g} & {ref:.4f} & " + ", ".join(f"{x['E_ls']:.3f}" for x in rows) + f" & {100*mx:.2f} & {min(allc):.2f}--{max(allc):.2f} (${pc((min(allc)-ref)/ref)}$ to ${pc((max(allc)-ref)/ref)}$)"
+                   + (f"; {ncoll} of {5*len(rows)} trainings collapsed to $u\\equiv0$" if ncoll else "") + r" \\")
     out[f"p{p}"] = rows
 tex += [r"\bottomrule", r"\end{tabular}",
         r"\caption{First eigenvalue of the $p$-Laplacian in the unit disk for $p=2.2,3,4$: three seeds, and dependence of $E_{\rm PINN}$ on the node $E$ at which the network was trained "
