@@ -56,7 +56,8 @@ the detection is stable under training and sampling errors, and every computed e
 a posteriori Weinstein and Kato--Temple enclosure. For the $p$-Laplacian the zeros of the loss curve
 are exactly the eigenvalues and the curve lies below a parabola at each of them. Experiments in
 dimensions two to four agree with exact values and with independent finite element and shooting
-computations, including $p$-Laplacian eigenvalues beyond the second. The method does not resolve
+computations, including $p$-Laplacian eigenvalues beyond the second, and a test in dimension ten,
+where mesh-based methods are not practical, recovers the first two eigenvalues. The method does not resolve
 multiplicities and, for the lowest eigenvalues of linear problems, it is more expensive than
 Rayleigh-quotient methods with deflation.
 
@@ -1433,7 +1434,8 @@ $\mu\ge D^2$ along warm-started scans, confirmed on a window with two eigenvalue
 stable under training and sampling errors whenever the measured error level is small compared with
 the squared gaps, which holds at all nodes except collapsed or branch-switched ones, and these are
 visible in the network; each eigenvalue comes with an a posteriori enclosure. The method was
-validated against exact values and independent finite element computations in dimensions two to four,
+validated against exact values and independent finite element computations in dimensions two to four
+(and tested in dimension ten, where the cost per epoch grows only linearly with the dimension),
 with several seeds (seed means within $0.1\%$ and single runs within $0.25\%$ of the finite element
 values for the potentials). For the $p$-Laplacian the zeros of the loss curve are exactly the
 eigenvalues and the curve lies below a parabola at each of them; the first and second eigenvalues
@@ -1447,7 +1449,7 @@ the error level; eigenvalues can be missed when the warm-started network stays o
 (annulus, harmonic potential with $\omega=10$); training from scratch at a high value of $E$ is
 unreliable, so high windows are reached by continuation or by repeated restarts; for the lowest
 eigenvalues of linear problems a Rayleigh-quotient PINN with deflation is cheaper, and finite elements
-are much cheaper and more accurate in the dimensions considered here; no bound on the training error
+are much cheaper and more accurate in dimensions two and three; no bound on the training error
 is proved; and for the $p$-Laplacian there is no a posteriori certificate, the accuracy degrades for
 $p\ge4$, and for $p<2$ the strong form requires a regularization of the operator, which changes the
 eigenvalue slightly. A weak-form (variational) version
