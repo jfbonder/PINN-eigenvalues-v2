@@ -24,4 +24,5 @@ for E in Es:
     ev = P.evaluate(m, samp, bs, tot, E)
     ev.pop("chunk_r"); data["records"].append(dict(E=E, wall=w, hist_every10=[H[i] for i in range(0, len(H), 10)], final_loss=H[-1], **ev))
     json.dump(data, open(path, "w")); torch.save(m.state_dict(), RES / "cross_models" / f"{name}_last.pt")
+    if a.tag: torch.save(m.state_dict(), RES / "cross_models" / f"{name}_E{E:g}.pt")
     print(f"{a.domain} b={a.beta:g} E={E:6.2f} rho_res={ev['rho_res']:.4f} rho_var={ev['rho_var']:.4f} r={ev['r']:.3f} mass={ev['mass']:.3f} bdry_rel={ev['bdry_rel']:.1e} res={H[-1][1]:.3f} t={w:.0f}s", flush=True)
