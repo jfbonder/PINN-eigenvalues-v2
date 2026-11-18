@@ -22,6 +22,16 @@ def vertex(E, L, i):
     i = min(max(i, 1), len(E) - 2); c = np.polyfit(E[i-1:i+2], L[i-1:i+2], 2); return -c[1] / (2 * c[0])
 
 
+def fixed_point(E, Ev, ok=None):
+    """Self-consistent value: E* with E_PINN(E*) = E*, by linear interpolation between the two nodes where E_PINN(E) - E changes sign."""
+    E = np.asarray(E, float); f = np.asarray(Ev, float) - E
+    for i in range(len(E) - 1):
+        if ok is not None and not (ok[i] and ok[i + 1]): continue
+        if f[i] > 0 >= f[i + 1]:
+            return float(E[i] + f[i] * (E[i + 1] - E[i]) / (f[i] - f[i + 1]))
+    return float("nan")
+
+
 DESC = {"base_s0": "baseline (strong form), P1, seed 0", "base_s1": "baseline, seed 1", "base_s2": "baseline, seed 2",
         "base_P0_s0": "baseline, P0 (const lr + early stop), seed 0", "base_P0_s1": "baseline, P0, seed 1", "base_P0_s2": "baseline, P0, seed 2",
         "base_P0c_s0": "baseline, constant lr, 1500 epochs", "base_N20000": "(c) N = 20000", "base_imp": "(c) importance sampling (50 % in r<0.3)",
@@ -36,8 +46,8 @@ S = dict(E1=E1, E2_halfdisk=E2, rows=[]); md = []
 md.append(f"References: E1 = {E1:.5f} (radial shooting; P1-FEM {R['disk']['extrap']:.5f}); half disk (1 nodal diameter) {E2:.4f}; "
           f"quarter disk {R['sector_pi/2']['extrap']:.3f}; radial 2nd {R['shoot']['E_rad2']:.2f}.\n")
 md.append("### Table 1: 5-node window (E = 10.5 … 14.5, h = 1; N20000/ep5000: 3 nodes 11.5–13.5).  loss = variant functional on a fresh sample of 40000\n")
-md.append("| variant | loss at nodes | grid min | 3-pt vertex (err %) | E_PINN at node 12.5 (err %) | E_PINN over nodes 11.5–13.5 (err %) | core frac @12.5 | MC std of loss @12.5 (batches of 5000) | collapsed nodes | wall min |")
-md.append("|---|---|---|---|---|---|---|---|---|---|")
+md.append("| variant | loss at nodes | grid min | 3-pt vertex (err %) | E_PINN at node 12.5 (err %) | E_PINN over nodes 11.5–13.5 (err %) | core frac @12.5 | MC std of loss @12.5 (batches of 5000) | collapsed nodes | wall min | self-consistent E* (err %) |")
+md.append("|---|---|---|---|---|---|---|---|---|---|---|")
 for n, dsc in DESC.items():
     d = load(n)
     if d is None or len(d["records"]) < 3: continue
@@ -50,24 +60,26 @@ for n, dsc in DESC.items():
                E_var_nodes=[x["E_var"] for x in r], E_strong_nodes=[x["E_strong"] for x in r], core=r[j]["core_frac"], mc_std=r[j]["mc_std_var"],
                Lam_strong=[x["Lam_strong"] for x in r], collapsed=[x["E"] for x in r if x["collapsed"]], wall_min=d["total_wall_s"] / 60,
                E_weak=[x.get("E_weak") for x in r])
+    row["fp"] = fixed_point(E, row["E_var_nodes"], ok)
     S["rows"].append(row)
     md.append(f"| {dsc} | " + ", ".join(f"{a:.2f}" if a < 1e3 else f"{a:.0e}" for a in L) + f" | {E[i]} | {v:.3f} ({pc(v)}) | {r[j]['E_var']:.3f} ({pc(r[j]['E_var'])}) | "
-              f"{min(cen):.2f}–{max(cen):.2f} ({pc(min(cen))} to {pc(max(cen))}) | {r[j]['core_frac']:.2f} | {r[j]['mc_std_var']:.3f} | {row['collapsed'] or '–'} | {row['wall_min']:.0f} |")
+              f"{min(cen):.2f}–{max(cen):.2f} ({pc(min(cen))} to {pc(max(cen))}) | {r[j]['core_frac']:.2f} | {r[j]['mc_std_var']:.3f} | {row['collapsed'] or '–'} | {row['wall_min']:.0f} | {row['fp']:.3f} ({pc(row['fp'])}) |")
 
 # seed statistics
 def grp(names, key):
     v = [x[key] for x in S["rows"] if x["name"] in names]; return v
-md.append("\n### Table 2: three-seed summary (node 12.5)\n\n| variant | loss(12.5) per seed | E_PINN(12.5) per seed | err % | 3-pt vertex per seed | err % |\n|---|---|---|---|---|---|")
+md.append("\n### Table 2: three-seed summary (node 12.5)\n\n| variant | loss(12.5) per seed | E_PINN(12.5) per seed | err % | 3-pt vertex per seed | err % | self-consistent E* per seed | err % |\n|---|---|---|---|---|---|---|---|")
 for lab, names in [("baseline P1", ["base_s0", "base_s1", "base_s2"]), ("baseline P0", ["base_P0_s0", "base_P0_s1", "base_P0_s2"]),
                    ("(a) mixed lam=100", ["mixed_s0", "mixed_s1", "mixed_s2"]), ("(a) mixed lam=10", ["mixed_lam10", "mixed_lam10_s1", "mixed_lam10_s2"]),
                    ("(e) singular feature", ["feat0_s0", "feat0_s1", "feat0_s2"])]:
     rows = [x for x in S["rows"] if x["name"] in names]
     if not rows: continue
     md.append(f"| {lab} | " + ", ".join(f"{x['loss'][x['E'].index(12.5)]:.3f}" for x in rows) + " | " + ", ".join(f"{x['E_var_125']:.3f}" for x in rows) + " | "
-              + ", ".join(pc(x['E_var_125']) for x in rows) + " | " + ", ".join(f"{x['vertex']:.3f}" for x in rows) + " | " + ", ".join(pc(x['vertex']) for x in rows) + " |")
+              + ", ".join(pc(x['E_var_125']) for x in rows) + " | " + ", ".join(f"{x['vertex']:.3f}" for x in rows) + " | " + ", ".join(pc(x['vertex']) for x in rows) + " | "
+              + ", ".join(f"{x['fp']:.3f}" for x in rows) + " | " + ", ".join(pc(x['fp']) for x in rows) + " |")
 
 # fine curves
-md.append("\n### Table 3: fine scans (h = 0.25, E = 11 … 14, warm start, seed 0)\n\n| variant | loss at the 13 nodes | argmin (err %) | nodes within 25 % of the minimum | E_PINN at argmin (err %) | MC std @argmin |\n|---|---|---|---|---|---|")
+md.append("\n### Table 3: fine scans (h = 0.25, E = 11 … 14, warm start, seed 0)\n\n| variant | loss at the 13 nodes | argmin (err %) | nodes within 25 % of the minimum | E_PINN at argmin (err %) | MC std @argmin | self-consistent E* (err %) |\n|---|---|---|---|---|---|---|")
 fine = {}
 for n, lab in [("base_fine_P0", "baseline P0"), ("base_fine_P1", "baseline P1"), ("mixed_fine_P1", "(a) mixed lam=100 P1"), ("feat0_fine", "(e) singular feature P1")]:
     d = load(n)
@@ -76,7 +88,7 @@ for n, lab in [("base_fine_P0", "baseline P0"), ("base_fine_P1", "baseline P1"),
     flat = E[L < 1.25 * L[i]]
     fine[n] = (E, L, np.array([x["mc_std_var"] for x in r]), lab, r)
     S["fine_" + n] = dict(E=E.tolist(), loss=L.tolist(), argmin=float(E[i]), flat=[float(flat.min()), float(flat.max())], E_var=[x["E_var"] for x in r])
-    md.append(f"| {lab} | " + ", ".join(f"{a:.2f}" for a in L) + f" | {E[i]} ({pc(E[i])}) | {flat.min()}–{flat.max()} | {r[i]['E_var']:.3f} ({pc(r[i]['E_var'])}) | {r[i]['mc_std_var']:.3f} |")
+    md.append(f"| {lab} | " + ", ".join(f"{a:.2f}" for a in L) + f" | {E[i]} ({pc(E[i])}) | {flat.min()}–{flat.max()} | {r[i]['E_var']:.3f} ({pc(r[i]['E_var'])}) | {r[i]['mc_std_var']:.3f} | {fixed_point(E, [x['E_var'] for x in r]):.3f} ({pc(fixed_point(E, [x['E_var'] for x in r]))}) |")
 
 # E2
 md.append(f"\n### Table 4: second eigenvalue window (reference {E2:.3f}, nodes from scratch)\n\n| run | nodes | loss | mass | E_PINN |\n|---|---|---|---|---|")
