@@ -2,3 +2,7 @@ L b=300 E=  6.40 rho_res=8.7730 rho_var=8.2163 r=2.625 mass=0.942 bdry_rel=1.2e-
 L b=300 E=  7.40 rho_res=8.8695 rho_var=8.3256 r=1.641 mass=1.009 bdry_rel=8.7e-03 res=2.725 t=229s
 L b=300 E=  8.40 rho_res=9.2521 rho_var=9.0015 r=1.024 mass=0.991 bdry_rel=3.6e-03 res=1.021 t=243s
 L b=300 E=  9.40 rho_res=9.4399 rho_var=9.3405 r=0.510 mass=1.016 bdry_rel=2.1e-03 res=0.264 t=236s
+L b=300 E= 10.40 rho_res=9.6112 rho_var=9.6644 r=0.909 mass=1.023 bdry_rel=1.5e-03 res=0.925 t=236s
+L b=300 E= 11.40 rho_res=9.9470 rho_var=10.3323 r=1.519 mass=1.002 bdry_rel=2.7e-03 res=2.309 t=222s
+L b=300 E= 12.40 rho_res=10.1670 rho_var=10.7554 r=2.294 mass=0.990 bdry_rel=4.5e-03 res=5.362 t=221s
+L b=300 E= 13.40 rho_res=14.7229 rho_var=14.2957 r=1.416 mass=0.991 bdry_rel=2.3e-03 res=2.084 t=226s

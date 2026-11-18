@@ -301,6 +301,31 @@ $\pm0.53$ sobre un valor de 2.05 (lotes de 5000 puntos), del mismo orden que la 
 En la mixta el ruido baja a $\pm0.008$ y con la entrada singular a $\pm0.03$. Es decir: la oscilación de la base es ruido
 Monte Carlo del centro, no inestabilidad del optimizador.
 
+\subsection{Autofunción: PINN contra shooting}
+\begin{figure}[H]\centering
+\includegraphics[width=\textwidth]{fig/p35_eigfun.png}
+\caption{Primera autofunción, $p=3.5$. Arriba: método base; abajo: entrada singular. Redes entrenadas en el nodo $E=12.5$
+(semilla 0); referencia: perfil radial de shooting, $u(x)=v(z_1|x|)$. Ambas normalizadas con $\|u\|_p=1$ y el mismo signo.
+Izquierda: la red a lo largo de 8 rayos (azul) y shooting (negro). Centro: media angular de la diferencia en función de $r$.
+Derecha: diferencia en el disco (notar las escalas distintas).}
+\end{figure}
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+variante & error $L^2$ rel. & error $L^p$ rel. & error máx.\ / máx $u$ & $u(0)$ (shooting 1.4013)\\
+\midrule
+base & 0.15\% & 0.22\% & 1.1\% & 1.386\\
+entrada singular & 0.22\% & 0.21\% & 0.23\% & 1.402\\
+\bottomrule
+\end{tabular}
+\end{center}
+Las dos autofunciones son excelentes en norma ($\approx0.2\%$). La diferencia está en \emph{dónde} está el error:
+en la base se concentra en un entorno de radio $\approx0.1$ del centro, donde la red ``achata'' el máximo ($u(0)$ un 1.1\%
+bajo), justamente el punto donde $\nabla u=0$ y el operador degenera; ese error localizado es el que produce el piso de la
+loss (el residuo $\Delta_pu$ es muy sensible a él). Con la entrada singular el error del centro desaparece y queda un error
+suave y global de $0.2\%$, sin estructura en el punto crítico. Que la autofunción base sea buena en $L^2$ y aun así la
+loss tenga un piso de 2 muestra que la loss fuerte amplifica errores locales en el punto degenerado.
+
 \subsection{Segundo autovalor: no anda}
 Ventana $E=65,\dots,73$ (referencia 69.16), redes entrenadas desde cero (3000 épocas): tanto la base como la mixta
 \textbf{colapsan} (masa $\int|u|^p$ entre 0.003 y 0.06) y los cocientes no tienen sentido (base: 31--63; mixta: 15).
