@@ -179,15 +179,31 @@ $\sum(\Delta u+Eu)^2$ está a distancia $<0.2$ de la esquina (3\% del área).}
 
 \subsection{Autofunciones: PINN contra FEM}
 \begin{figure}[H]\centering
-\includegraphics[width=\textwidth]{fig/L_eigfun_1.png}
-\caption{Primera autofunción. Izquierda: red entrenada en el nodo $E=9.4$ ($\beta=300$, mínimo del barrido).
-Centro: FEM $P_2$ ($E_1=9.6404$). Derecha: diferencia. Ambas normalizadas a norma $L^2$ unitaria y con el mismo signo.}
+\includegraphics[width=0.92\textwidth]{fig/L_eigfun_1_2_3.png}
+\caption{Autofunciones $u_1,u_2,u_3$. Izquierda: redes del barrido con $\beta=300$ en los nodos del mínimo
+($E=9.4,15.4,19.4$). Centro: FEM $P_2$. Derecha: diferencia (escalas distintas en cada fila). Normalizadas en $L^2$, mismo signo.}
 \end{figure}
-Error $L^2$ relativo: $2.2\%$. El error máximo puntual es el $21\%$ del máximo de $u$ y está \emph{en la esquina
-reentrante}: el 54\% de $\|u_{\rm PINN}-u_{\rm FEM}\|^2$ está a distancia $<0.2$ del origen (3\% del área). Ahí la red no
-reproduce el comportamiento $r^{2/3}$ y además no se anula (condición de borde débil): es exactamente lo que baja $E_1$
-un 2\%. Lejos de la esquina la diferencia es menor al 2\% puntual. (Las figuras de $u_2$ y $u_3$ se agregan cuando el
-barrido llegue a esos nodos.)
+\begin{center}
+\begin{tabular}{cccccc}
+\toprule
+$k$ & nodo & FEM & error $L^2$ rel. & error máx.\ / máx $|u|$ & fracción del error a $<0.2$ de la esquina\\
+\midrule
+1 & 9.4 & 9.6404 & 2.2\% & 21\% & 54\%\\
+2 & 15.4 & 15.1984 & 0.6\% & 3.8\% & 41\%\\
+3 & 19.4 & 19.7424 & 4.1\% & 5.4\% & 0.4\%\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item $u_1$: el error está en la esquina reentrante (la red no reproduce $r^{2/3}$ y no se anula allí, por la condición débil);
+es lo que baja $E_1$ un 2\%.
+\item $u_2$: casi exacta (0.6\%); el poco error que hay también está en la esquina.
+\item $u_3$: es la autofunción suave $\sin(\pi x)\sin(\pi y)$ (en la L, $E_3=2\pi^2=19.7392$ exactamente; no tiene parte
+singular). El error no está en la esquina: la diferencia tiene la forma de $-u_2$, es decir, la red es $u_3$ con una
+contaminación de $\approx4\%$ de $u_2$. Es la histéresis del arranque en caliente: la red viene de $u_2$, el nodo $19.4$
+está a $0.34$ de $E_3$ y 2000 épocas no alcanzaron para eliminar la componente vieja. Aun así el cociente da $19.595$
+($-0.7\%$), porque el cociente de Rayleigh es cuadráticamente insensible a errores en la autofunción.
+\end{itemize}
 
 \subsection{La cruz ($a=1/4$)}
 FEM: $E_1=26.1149$, $E_{2,3}=48.1357$ (doble), $E_4=52.2307$, $E_5=59.0313$. Con Dirichlet fuerte colapsa a $u\equiv0$ en

@@ -27,3 +27,8 @@
 [feat0_fine] E= 12.500 loss_var=1.591e-01 Lam_strong=1.591e-01 mass=1.007 E_var=12.2207 E_strong=12.2207 core=0.18 t=192s
 [feat0_fine] E= 12.750 loss_var=4.221e-01 Lam_strong=4.221e-01 mass=0.989 E_var=12.2393 E_strong=12.2393 core=0.11 t=201s
 [feat0_fine] E= 13.000 loss_var=6.857e-01 Lam_strong=6.857e-01 mass=0.984 E_var=12.3321 E_strong=12.3321 core=0.06 t=203s
+[feat0_fine] E= 13.250 loss_var=1.093e+00 Lam_strong=1.093e+00 mass=0.981 E_var=12.3343 E_strong=12.3343 core=0.10 t=206s
+[feat0_fine] E= 13.500 loss_var=1.612e+00 Lam_strong=1.612e+00 mass=0.990 E_var=12.4158 E_strong=12.4158 core=0.08 t=196s
+[feat0_fine] E= 13.750 loss_var=2.233e+00 Lam_strong=2.233e+00 mass=1.009 E_var=12.4352 E_strong=12.4352 core=0.10 t=192s
+[feat0_fine] E= 14.000 loss_var=3.011e+00 Lam_strong=3.011e+00 mass=0.991 E_var=12.5217 E_strong=12.5217 core=0.08 t=187s
+QUEUE DONE
