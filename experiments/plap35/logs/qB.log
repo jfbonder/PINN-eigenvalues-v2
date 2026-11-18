@@ -29,3 +29,4 @@
 [wdown_k0.3] E= 13.500 loss_var=2.052e+00 Lam_strong=2.893e+00 mass=0.993 E_var=12.3928 E_strong=12.3375 core=0.34 t=208s
 [wdown_k0.3] E= 14.500 loss_var=5.086e+00 Lam_strong=5.730e+00 mass=0.991 E_var=12.5646 E_strong=12.5376 core=0.22 t=235s
 [wdiv_k0.3] E= 10.500 loss_var=2.055e+01 Lam_strong=1.644e+01 mass=0.961 E_var=9.0081 E_strong=11.7988 core=0.82 t=211s
+[wdiv_k0.3] E= 11.500 loss_var=2.042e+01 Lam_strong=9.971e+00 mass=0.967 E_var=9.4725 E_strong=12.0306 core=0.89 t=227s
